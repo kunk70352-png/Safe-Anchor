@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="1_tex"]
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
+[ext_resource type="PackedScene" path="res://src/anchor/lava_zone.tscn" id="3_21ren"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
@@ -25,3 +26,6 @@ tile_set = SubResource("TileSet_ts")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=851786700]
 collision_layer = 16
+
+[node name="LavaZone" parent="." unique_id=1861782277 instance=ExtResource("3_21ren")]
+position = Vector2(107, 97)

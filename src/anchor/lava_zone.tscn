@@ -1,17 +1,15 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=2 format=3]
 
-[sub_resource type="RectangleShape2D" id="rect_body"]
-size = Vector2(200, 200)
-
-[sub_resource type="RectangleShape2D" id="rect_area"]
-size = Vector2(200, 200)
+[ext_resource type="Script" path="res://src/anchor/lava_zone.gd" id="1_script"]
 
 [node name="LavaZone" type="StaticBody2D"]
 collision_layer = 32
+script = ExtResource("1_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("rect_body")
 
 [node name="AnchorDetector" type="Area2D" parent="."]
 collision_layer = 16
 collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnchorDetector"]
