@@ -22,6 +22,8 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 
 func _ready() -> void:
 	add_to_group("player")
+	if not anchor_data:
+		anchor_data = load("res://resources/default_anchor.tres")
 
 
 func _physics_process(delta: float) -> void:
