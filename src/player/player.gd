@@ -12,7 +12,7 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 
 # ---- 参数 ----
 @export var move_speed: float = 200.0
-@export var anchor_radius: float = 160.0
+@export var anchor_data: AnchorData
 @export var min_throw: float = 80.0
 @export var max_throw: float = 350.0
 @export var charge_speed: float = 0.8
@@ -64,7 +64,7 @@ func _throw_anchor() -> void:
 	var anchor_scene := preload("res://src/anchor/anchor.tscn")
 	var anchor: Anchor = anchor_scene.instantiate()
 	anchor.global_position = landing_pos
-	anchor.attraction_radius = anchor_radius
+	anchor.attraction_radius = anchor_data.attraction_radius
 	anchor.picked_up.connect(_on_anchor_picked_up)
 	get_tree().get_first_node_in_group("world").get_node("Anchors").add_child(anchor)
 	has_anchor = false
@@ -114,8 +114,8 @@ func _draw() -> void:
 		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), line_color, 2.0)
 
 	# 落点范围圈
-	draw_circle(target, anchor_radius, Color(0.2, 0.5, 1.0, 0.12))
-	draw_arc(target, anchor_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
+	draw_circle(target, anchor_data.attraction_radius, Color(0.2, 0.5, 1.0, 0.12))
+	draw_arc(target, anchor_data.attraction_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
 
 	# 蓄力条
 	var bar_w := 40.0

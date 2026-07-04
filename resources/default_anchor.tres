@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AnchorData" format=3 uid="uid://cad1"]
+
+[ext_resource type="Script" path="res://resources/anchor_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+anchor_name = "默认锚点"
+attraction_radius = 160.0

@@ -39,7 +39,8 @@ func setup_level(level_data: LevelData) -> void:
 	# 玩家初始位置在安全屋旁边
 	player.global_position = level_data.safe_house_position + Vector2(60, 0)
 	player.has_anchor = true
-	player.anchor_radius = level_data.anchor_attraction_radius
+	if player.anchor_data:
+		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 
 	_setup_navigation()
 	_spawn_refugees_deferred.call_deferred(level_data)
