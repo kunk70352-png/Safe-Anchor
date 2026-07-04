@@ -4,8 +4,8 @@
 
 [node name="Type2Anchor" type="Node2D" groups=["attraction_sources"]]
 script = ExtResource("1_script")
-attraction_radius = 350.0
-shrink_speed = 3.0
+attraction_radius = 250.0
+shrink_speed = 2.0
 min_radius = 30.0
 speed_modifier = 0.0
 repel = false

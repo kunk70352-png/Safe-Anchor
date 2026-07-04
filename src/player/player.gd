@@ -5,6 +5,7 @@ extends CharacterBody2D
 enum PlayerState { IDLE, CHARGING }
 var state: PlayerState = PlayerState.IDLE
 var _held_anchor: PackedScene = preload("res://src/anchor/anchor_type1.tscn")
+var _held_anchor_radius: float = 180.0
 var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT
@@ -58,10 +59,10 @@ func _throw_anchor() -> void:
 
 	var anchor: Anchor = _held_anchor.instantiate()
 	anchor.global_position = landing_pos
-	anchor.attraction_radius = anchor_data.attraction_radius
 	anchor.picked_up.connect(_on_anchor_picked_up)
 	get_tree().get_first_node_in_group("world").get_node("Anchors").add_child(anchor)
 	_held_anchor = null
+	_held_anchor_radius = 0.0
 
 
 func _check_pickup() -> void:
@@ -74,6 +75,7 @@ func _check_pickup() -> void:
 			if not a.picked_up.is_connected(_on_anchor_picked_up):
 				a.picked_up.connect(_on_anchor_picked_up)
 			_held_anchor = load(a.scene_file_path)
+			_held_anchor_radius = float(a.get("attraction_radius"))
 			a.pick_up()
 			break
 
@@ -102,8 +104,8 @@ func _draw() -> void:
 		var t1 := float(i + 1) / steps
 		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), line_color, 2.0)
 
-	draw_circle(target, anchor_data.attraction_radius, Color(0.2, 0.5, 1.0, 0.12))
-	draw_arc(target, anchor_data.attraction_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
+	draw_circle(target, _held_anchor_radius, Color(0.2, 0.5, 1.0, 0.12))
+	draw_arc(target, _held_anchor_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
 
 	var bar_w := 40.0
 	var bar_h := 4.0

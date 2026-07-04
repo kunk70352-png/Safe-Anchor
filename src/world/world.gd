@@ -46,6 +46,7 @@ func setup_level(level_data: LevelData) -> void:
 	# 玩家初始位置在安全屋旁边
 	player.global_position = level_data.safe_house_position + Vector2(60, 0)
 	player._held_anchor = TYPE1_ANCHOR
+	player._held_anchor_radius = 180.0
 	if player.anchor_data:
 		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 
