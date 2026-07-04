@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://cl1"]
+
+[ext_resource type="Script" path="res://resources/levels/level_data.gd" id="1_leveldata"]
+
+[resource]
+script = ExtResource("1_leveldata")
+level_number = 1
+level_name = "First Rescue"
+target_rescued = 3
+time_limit = 45.0
+refugee_count = 5
+refugee_wander_speed = 50.0
+refugee_seek_speed = 90.0
+refugee_wander_interval = 2.5
+refugee_spawn_positions = Array[Vector2]([Vector2(200, 360), Vector2(300, 500), Vector2(400, 200), Vector2(500, 550), Vector2(600, 180)])
+anchor_limit = 4
+anchor_attraction_radius = 160.0
+safe_house_position = Vector2(640, 360)
+safe_house_attraction_radius = 200.0
+anchor_type = "default"
+difficulty_modifier = 1.0
+tile_map_scene = PackedStringArray([])
