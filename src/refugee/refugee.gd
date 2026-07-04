@@ -85,8 +85,8 @@ func _update_state() -> void:
 	# 防止多锚点间抖动：新锚点必须明显更近才切换
 	var should_switch := best != _current_attractor
 	if should_switch and _current_attractor != null:
-		var cur_d := _current_attractor.global_position.distance_to(sh)
-		var new_d := best.global_position.distance_to(sh)
+		var cur_d := _current_attractor.global_position.distance_to(sh.global_position)
+		var new_d := best.global_position.distance_to(sh.global_position)
 		should_switch = new_d < cur_d - 20.0
 
 	if should_switch:
