@@ -27,7 +27,7 @@ func _create_buttons() -> void:
 	for i in _levels.size():
 		var ld := _levels[i]
 		var btn := Button.new()
-		btn.text = "第%d关: %s\n目标: %d人 | 时间: %ds" % [ld.level_number, ld.level_name, ld.target_rescued, int(ld.time_limit)]
+		btn.text = "第%d关: %s\n目标: %d人" % [ld.level_number, ld.level_name, ld.target_rescued]
 		btn.custom_minimum_size = Vector2(300, 55)
 		btn.pressed.connect(_on_level_pressed.bind(i))
 		list.add_child(btn)
