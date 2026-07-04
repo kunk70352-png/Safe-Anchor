@@ -27,6 +27,13 @@ func _ready() -> void:
 	if not anchor_data:
 		anchor_data = load("res://resources/default_anchor.tres")
 
+	# 动态添加碰撞体
+	var col_shape := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = 16.0
+	col_shape.shape = circle
+	add_child(col_shape)
+
 
 func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -59,6 +66,11 @@ func _throw_anchor() -> void:
 	var dist := min_throw + charge_power * (max_throw - min_throw)
 	var landing_pos := global_position + throw_dir * dist
 	landing_pos = landing_pos.clamp(Vector2(40, 40), Vector2(1880, 1040))
+
+	# 落点在岩浆内 → 取消投掷
+	for zone in get_tree().get_nodes_in_group("lava_zones"):
+		if zone.has_method("contains_point") and zone.contains_point(landing_pos):
+			return
 
 	var anchor: Anchor = _held_anchor.instantiate()
 	anchor.global_position = landing_pos

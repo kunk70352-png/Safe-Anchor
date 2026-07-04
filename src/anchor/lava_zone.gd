@@ -12,7 +12,13 @@ extends StaticBody2D
 
 
 func _ready() -> void:
+	add_to_group("lava_zones")
 	_update_shape()
+
+
+func contains_point(point: Vector2) -> bool:
+	var rect := Rect2(global_position, zone_size)
+	return rect.has_point(point)
 
 
 func _update_shape() -> void:
