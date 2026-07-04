@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwrld1"]
+
+[ext_resource type="Script" path="res://src/world/world.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://csh1" path="res://src/safe_house/safe_house.tscn" id="2_safehouse"]
+
+[node name="World" type="Node2D" groups=["world"]]
+script = ExtResource("1_script")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+[node name="SafeHouse" parent="." instance=ExtResource("2_safehouse")]
+position = Vector2(640, 360)
+
+[node name="Refugees" type="Node2D" parent="."]
+
+[node name="Anchors" type="Node2D" parent="."]
+
+[node name="LevelTimer" type="Timer" parent="."]
+one_shot = true
