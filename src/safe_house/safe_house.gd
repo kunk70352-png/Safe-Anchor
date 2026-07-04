@@ -10,6 +10,8 @@ extends Node2D
 		_update_range_scale()
 ## 救援触发半径（像素）
 @export var rescue_radius: float = 30.0
+## 范围贴图中圆的真实直径（像素），用于校准显示
+@export var range_tex_diameter: float = 720.0
 
 @onready var rescue_area: Area2D = $"RescueArea"
 @onready var rescue_collision: CollisionShape2D = $"RescueArea/CollisionShape2D"
@@ -32,7 +34,7 @@ func _on_body_entered_rescue(body: Node2D) -> void:
 func _get_range_scale() -> float:
 	if not range_sprite or not range_sprite.texture:
 		return 1.0
-	var tex_size := range_sprite.texture.get_size().x  # 720
+	var tex_size := range_tex_diameter
 	return (attraction_radius * 2.0) / tex_size
 
 

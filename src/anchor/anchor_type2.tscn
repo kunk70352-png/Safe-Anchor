@@ -9,14 +9,13 @@ atlas = ExtResource("2_5jlfe")
 
 [node name="Type2Anchor" type="Node2D" unique_id=1898443445 groups=["attraction_sources"]]
 script = ExtResource("1_script")
-attraction_radius = 250.0
+attraction_radius = 200.0
 anchor_color = Color(0.2, 0.8, 0.2, 1)
 shrink_speed = 6.0
 min_radius = 30.0
 
-[node name="RangeSprite" type="Sprite2D" parent="."]
+[node name="RangeSprite" type="Sprite2D" parent="." unique_id=298788023]
 texture = ExtResource("3_range_tex")
-modulate = Color(1, 1, 1, 1.0)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1338869613]
 texture = SubResource("AtlasTexture_cyqww")

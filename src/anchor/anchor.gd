@@ -23,6 +23,8 @@ signal picked_up()
 @export var speed_modifier: float = 0.0
 ## 驱赶模式（推开难民而非吸引）
 @export var repel: bool = false
+## 范围贴图中圆的真实直径（像素），用于校准显示
+@export var range_tex_diameter: float = 128.0
 
 var _pulse_time: float = 0.0
 var initial_radius: float = 0.0
@@ -78,7 +80,7 @@ func pick_up() -> void:
 func _get_range_scale() -> float:
 	if not range_sprite or not range_sprite.texture:
 		return 1.0
-	var tex_size := range_sprite.texture.get_size().x  # 128
+	var tex_size := range_tex_diameter
 	return (attraction_radius * 2.0) / tex_size
 
 
