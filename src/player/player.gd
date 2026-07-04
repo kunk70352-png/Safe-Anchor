@@ -82,6 +82,7 @@ func _check_pickup() -> void:
 	for anchor in anchors.get_children():
 		if global_position.distance_to(anchor.global_position) < pickup_dist:
 			anchor.pick_up()
+			has_anchor = true
 			break
 
 
