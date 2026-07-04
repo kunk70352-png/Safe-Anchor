@@ -48,6 +48,7 @@ func _connect_signals() -> void:
 
 
 func _show_level_select() -> void:
+	title_screen.visible = false
 	level_select.visible = true
 	hud.visible = false
 	victory_screen.visible = false
@@ -62,8 +63,9 @@ func _on_level_selected(index: int) -> void:
 func _start_current_level() -> void:
 	if _current_level_index >= _levels.size():
 		return
-	hud.visible = true
+	title_screen.visible = false
 	level_select.visible = false
+	hud.visible = true
 	victory_screen.visible = false
 	defeat_screen.visible = false
 	var level_data := _levels[_current_level_index]
