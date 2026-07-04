@@ -8,13 +8,6 @@ const TYPE1_ANCHOR := preload("res://src/anchor/anchor_type1.tscn")
 const TYPE2_ANCHOR := preload("res://src/anchor/anchor_type2.tscn")
 const TYPE3_ANCHOR := preload("res://src/anchor/anchor_type3.tscn")
 
-## 地图随机生成初始锚点数量
-@export var type1_count: int = 2
-## 地图随机生成大型锚点数量
-@export var type2_count: int = 1
-## 地图随机生成驱赶锚点数量
-@export var type3_count: int = 1
-
 # ---- 节点引用 ----
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion2D
 @onready var safe_house: SafeHouse = $SafeHouse
@@ -54,7 +47,7 @@ func setup_level(level_data: LevelData) -> void:
 		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 
 	_setup_navigation()
-	_spawn_random_anchors()
+	_spawn_level_anchors(level_data)
 	_spawn_refugees_deferred.call_deferred(level_data)
 
 	GameManager.start_level(level_data)
@@ -116,20 +109,20 @@ func _setup_navigation() -> void:
 	navigation_region.navigation_polygon = nav_poly
 
 
-# ---- 随机锚点 ----
+# ---- 关卡锚点 ----
 
-func _spawn_random_anchors() -> void:
-	for i in range(type1_count):
+func _spawn_level_anchors(ld: LevelData) -> void:
+	for pos in ld.type1_positions:
 		var a := TYPE1_ANCHOR.instantiate()
-		a.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		a.global_position = pos
 		anchors_container.add_child(a)
-	for i in range(type2_count):
+	for pos in ld.type2_positions:
 		var a := TYPE2_ANCHOR.instantiate()
-		a.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		a.global_position = pos
 		anchors_container.add_child(a)
-	for i in range(type3_count):
+	for pos in ld.type3_positions:
 		var a := TYPE3_ANCHOR.instantiate()
-		a.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		a.global_position = pos
 		anchors_container.add_child(a)
 
 

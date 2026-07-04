@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1_leveldata")
 level_number = 2
-level_name = "Scattered Flock"
-target_rescued = 3
+level_name = "分散的羊群"
+target_rescued = 4
 time_limit = 60.0
 refugee_count = 5
 refugee_wander_speed = 55.0
@@ -17,6 +17,6 @@ anchor_limit = 3
 anchor_attraction_radius = 150.0
 safe_house_position = Vector2(960, 540)
 safe_house_attraction_radius = 200.0
-anchor_type = "default"
-difficulty_modifier = 1.0
-tile_map_scene = PackedStringArray()
+type1_positions = Array[Vector2]([Vector2(350, 400), Vector2(600, 540)])
+type2_positions = Array[Vector2]([Vector2(400, 700)])
+type3_positions = Array[Vector2]([Vector2(1500, 540), Vector2(1500, 200)])

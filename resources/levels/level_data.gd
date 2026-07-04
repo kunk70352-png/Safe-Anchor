@@ -28,9 +28,9 @@ extends Resource
 @export var safe_house_position: Vector2 = Vector2(960, 540)
 ## 安全屋吸引半径
 @export var safe_house_attraction_radius: float = 200.0
-## 锚点类型（扩展用）
-@export var anchor_type: String = "default"
-## 全局难度倍率
-@export var difficulty_modifier: float = 1.0
-## 自定义地图场景（扩展用）
-@export var tile_map_scene: PackedStringArray = []
+## 预置初始锚点位置
+@export var type1_positions: Array[Vector2] = []
+## 预置大型锚点位置
+@export var type2_positions: Array[Vector2] = []
+## 预置驱赶锚点位置
+@export var type3_positions: Array[Vector2] = []

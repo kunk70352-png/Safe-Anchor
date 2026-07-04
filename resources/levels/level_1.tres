@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_leveldata")
 level_number = 1
-level_name = "First Rescue"
+level_name = "初次救援"
 target_rescued = 3
 time_limit = 60.0
 refugee_count = 4
@@ -17,6 +17,6 @@ anchor_limit = 3
 anchor_attraction_radius = 160.0
 safe_house_position = Vector2(960, 540)
 safe_house_attraction_radius = 180.0
-anchor_type = "default"
-difficulty_modifier = 1.0
-tile_map_scene = PackedStringArray()
+type1_positions = Array[Vector2]([Vector2(500, 400), Vector2(600, 540)])
+type2_positions = Array[Vector2]([Vector2(700, 700)])
+type3_positions = Array[Vector2]([Vector2(1200, 300)])
