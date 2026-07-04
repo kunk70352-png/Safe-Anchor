@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://can1"]
+
+[ext_resource type="Script" path="res://src/anchor/anchor.gd" id="1_script"]
+
+[node name="Anchor" type="Node2D" groups=["attraction_sources"]]
+script = ExtResource("1_script")
+attraction_radius = 150.0
+lifetime = 15.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = true
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
