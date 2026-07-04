@@ -30,14 +30,6 @@ func _ready() -> void:
 	if not anchor_data:
 		anchor_data = load("res://resources/default_anchor.tres")
 
-	# 动态添加碰撞体
-	var col_shape := CollisionShape2D.new()
-	var circle := CircleShape2D.new()
-	circle.radius = 16.0
-	col_shape.shape = circle
-	add_child(col_shape)
-
-
 func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	velocity = input_dir * move_speed

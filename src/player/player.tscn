@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://dvfu31usei4vf" path="res://src/player/player.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://ca1hxk8uj2nu2" path="res://assets/sprites/ss_character_walking.png" id="2_rxibo"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lj4qh"]
+size = Vector2(25, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_mf2ua"]
 atlas = ExtResource("2_rxibo")
 region = Rect2(0, 0, 64, 64)
@@ -85,6 +88,10 @@ animations = [{
 collision_layer = 8
 collision_mask = 32
 script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1136712645]
+position = Vector2(-0.5, 8)
+shape = SubResource("RectangleShape2D_lj4qh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=187867651]
 scale = Vector2(0.99218756, 0.99218756)

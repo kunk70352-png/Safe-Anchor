@@ -8,6 +8,11 @@ const TYPE1_ANCHOR := preload("res://src/anchor/anchor_type1.tscn")
 const TYPE2_ANCHOR := preload("res://src/anchor/anchor_type2.tscn")
 const TYPE3_ANCHOR := preload("res://src/anchor/anchor_type3.tscn")
 
+const LAVA_ZONE_SCENE := preload("res://src/anchor/lava_zone.tscn")
+const MAP_WIDTH := 1920.0
+const MAP_HEIGHT := 1080.0
+const LAVA_BORDER := 75.0
+
 # ---- 节点引用 ----
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion2D
 @onready var safe_house: SafeHouse = $SafeHouse
@@ -21,6 +26,7 @@ var _level_data: LevelData = null
 
 func _ready() -> void:
 	add_to_group("world")
+	_setup_border_lava()
 
 
 func _physics_process(_delta: float) -> void:
@@ -192,6 +198,30 @@ func _load_tile_map(level_data: LevelData) -> void:
 			add_child(map)
 			move_child(map, 0)  # 放到最底层
 
+
+# ---- 边缘岩浆 ----
+
+func _setup_border_lava() -> void:
+	# 上边
+	var top := LAVA_ZONE_SCENE.instantiate()
+	top.zone_size = Vector2(MAP_WIDTH, LAVA_BORDER)
+	top.global_position = Vector2(MAP_WIDTH / 2, LAVA_BORDER / 2)
+	add_child(top)
+	# 下边
+	var bottom := LAVA_ZONE_SCENE.instantiate()
+	bottom.zone_size = Vector2(MAP_WIDTH, 95.0)
+	bottom.global_position = Vector2(MAP_WIDTH / 2, MAP_HEIGHT - 47.5)
+	add_child(bottom)
+	# 左边
+	var left := LAVA_ZONE_SCENE.instantiate()
+	left.zone_size = Vector2(LAVA_BORDER, MAP_HEIGHT)
+	left.global_position = Vector2(LAVA_BORDER / 2, MAP_HEIGHT / 2)
+	add_child(left)
+	# 右边
+	var right := LAVA_ZONE_SCENE.instantiate()
+	right.zone_size = Vector2(LAVA_BORDER, MAP_HEIGHT)
+	right.global_position = Vector2(MAP_WIDTH - LAVA_BORDER / 2, MAP_HEIGHT / 2)
+	add_child(right)
 
 # ---- 清理 ----
 
