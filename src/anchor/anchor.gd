@@ -30,8 +30,26 @@ func _ready() -> void:
 	initial_radius = attraction_radius
 	_spawn_pos = global_position
 	_pulse_time = randf() * TAU
-	if has_node("DangerDetector"):
-		$DangerDetector.area_entered.connect(_on_danger_entered)
+
+	# 确保 DangerDetector 存在（检测危险区和岩浆区）
+	var detector: Area2D = $DangerDetector if has_node("DangerDetector") else null
+	if detector:
+		if not detector.area_entered.is_connected(_on_danger_entered):
+			detector.area_entered.connect(_on_danger_entered)
+	else:
+		detector = Area2D.new()
+		detector.name = "DangerDetector"
+		detector.collision_layer = 1
+		detector.collision_mask = 16  # 检测 danger 层
+		detector.monitoring = true
+		detector.monitorable = true
+		var collision_shape := CollisionShape2D.new()
+		var circle := CircleShape2D.new()
+		circle.radius = 16.0
+		collision_shape.shape = circle
+		detector.add_child(collision_shape)
+		detector.area_entered.connect(_on_danger_entered)
+		add_child(detector)
 
 
 func _on_danger_entered(_area: Area2D) -> void:
