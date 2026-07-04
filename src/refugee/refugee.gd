@@ -248,3 +248,18 @@ func rescue() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN)
 	tween.tween_callback(self.queue_free)
+
+
+## 进入危险区死亡，关卡失败
+func die() -> void:
+	if state == State.RESCUED:
+		return
+	state = State.RESCUED
+	var stats := {
+		"level": GameManager.current_level_data.level_number if GameManager.current_level_data else 0,
+		"level_name": GameManager.current_level_data.level_name if GameManager.current_level_data else "",
+	}
+	GameManager.level_failed.emit(stats)
+	var tween := create_tween()
+	tween.tween_property(self, "modulate", Color.RED, 0.3)
+	tween.tween_callback(self.queue_free)
