@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 			elif _held_anchor == null:
 				state = PlayerState.IDLE
 
-		_update_animation()
+	_update_animation()
 	queue_redraw()
 
 
