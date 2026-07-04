@@ -114,7 +114,10 @@ func _find_best_target() -> Node2D:
 		# 超出范围 — 跳过
 		if dist_to_me > radius:
 			continue
-		# 选离安全屋最近的（引导难民向安全屋方向前进）
+		# 安全屋始终优先：只要在范围内，直接前往
+		if source is SafeHouse:
+			return source
+		# 选离安全屋最近的锚点（引导难民向安全屋方向前进）
 		var dist_to_sh := source.global_position.distance_to(sh_pos)
 		if dist_to_sh < best_sh_dist:
 			best_sh_dist = dist_to_sh
