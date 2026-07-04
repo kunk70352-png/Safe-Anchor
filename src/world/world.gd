@@ -48,12 +48,17 @@ func setup_level(level_data: LevelData) -> void:
 	# Set up navigation polygon (full play area)
 	_setup_navigation()
 
-	# Spawn refugees
-	for spawn_pos in level_data.refugee_spawn_positions:
-		_spawn_refugee(spawn_pos, level_data)
+	# Spawn refugees (deferred until nav map is baked)
+	_spawn_refugees_deferred.call_deferred(level_data)
 
 	# Update GameManager
 	GameManager.start_level(level_data)
+
+func _spawn_refugees_deferred(level_data: LevelData) -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	for spawn_pos in level_data.refugee_spawn_positions:
+		_spawn_refugee(spawn_pos, level_data)
 
 
 ## Returns all active attraction sources (SafeHouse + all placed Anchors)
