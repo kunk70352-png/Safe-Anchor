@@ -65,7 +65,7 @@ func _update_state() -> void:
 		# Navigate THROUGH the attractor toward safe house, not TO its center
 		var sh_pos := _get_safe_house_pos()
 		var dir_to_sh := best.global_position.direction_to(sh_pos)
-		var offset := best.attraction_radius * 0.7
+		var offset: float = float(best.get("attraction_radius")) * 0.7
 		navigation_agent.target_position = best.global_position + dir_to_sh * offset
 	else:
 		if state != State.WANDERING:
@@ -93,7 +93,7 @@ func _find_best_target() -> Node2D:
 			continue
 
 		var dist_to_me := global_position.distance_to(source.global_position)
-		var radius: float = source.attraction_radius
+		var radius: float = float(source.get("attraction_radius"))
 
 		# Out of range — skip
 		if dist_to_me > radius:
