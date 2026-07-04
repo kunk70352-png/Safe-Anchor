@@ -17,15 +17,11 @@ const MIN_THROW: float = 80.0
 const MAX_THROW: float = 350.0
 const CHARGE_SPEED: float = 2.5
 const CURVE_HEIGHT: float = 40.0
-
-# ---- 节点 ----
-@onready var pickup_area: Area2D = $PickupArea
-@onready var sprite: Sprite2D = $Sprite2D
+const PICKUP_DIST: float = 30.0
 
 
 func _ready() -> void:
 	add_to_group("player")
-	pickup_area.body_entered.connect(_on_pickup_body_entered)
 
 
 func _physics_process(delta: float) -> void:
@@ -35,6 +31,10 @@ func _physics_process(delta: float) -> void:
 		last_move_dir = input_dir
 	velocity = input_dir * move_speed
 	move_and_slide()
+
+	# 拾取检测
+	if not has_anchor:
+		_check_pickup()
 
 	# 蓄力
 	match state:
@@ -71,11 +71,15 @@ func _throw_anchor() -> void:
 
 # ---- 拾取 ----
 
-func _on_pickup_body_entered(body: Node2D) -> void:
-	if has_anchor:
+func _check_pickup() -> void:
+	var world := get_tree().get_first_node_in_group("world")
+	if not world:
 		return
-	if body is Anchor:
-		body.pick_up()
+	var anchors := world.get_node("Anchors")
+	for anchor in anchors.get_children():
+		if global_position.distance_to(anchor.global_position) < PICKUP_DIST:
+			anchor.pick_up()
+			break
 
 
 func _on_anchor_picked_up() -> void:
@@ -90,30 +94,26 @@ func _draw() -> void:
 
 	var dist := MIN_THROW + charge_power * (MAX_THROW - MIN_THROW)
 	var target := last_move_dir * dist
-	var mid := target * 0.5 + Vector2.UP * CURVE_HEIGHT  # 贝塞尔控制点（向上拱起）
+	var mid := target * 0.5 + Vector2.UP * CURVE_HEIGHT
 
-	# 抛物线轨迹
+	# 抛物线
 	var color := Color(1.0, 0.8, 0.2, 0.7)
 	var steps := 20
 	for i in range(steps):
 		var t0 := float(i) / steps
 		var t1 := float(i + 1) / steps
-		var p0 := _bezier(Vector2.ZERO, mid, target, t0)
-		var p1 := _bezier(Vector2.ZERO, mid, target, t1)
-		draw_line(p0, p1, color, 2.0)
+		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), color, 2.0)
 
 	# 落点范围圈
 	draw_circle(target, anchor_radius, Color(0.2, 0.5, 1.0, 0.12))
 	draw_arc(target, anchor_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
 
-	# 蓄力条（玩家下方）
+	# 蓄力条
 	var bar_width := 40.0
-	var bar_height := 4.0
+	var bar_h := 4.0
 	var bar_y := 20.0
-	var bg_rect := Rect2(-bar_width / 2, bar_y, bar_width, bar_height)
-	draw_rect(bg_rect, Color(0.2, 0.2, 0.2, 0.8))
-	var fill_rect := Rect2(-bar_width / 2, bar_y, bar_width * charge_power, bar_height)
-	draw_rect(fill_rect, Color(1.0, 0.8, 0.2, 1.0))
+	draw_rect(Rect2(-bar_width / 2, bar_y, bar_width, bar_h), Color(0.2, 0.2, 0.2, 0.8))
+	draw_rect(Rect2(-bar_width / 2, bar_y, bar_width * charge_power, bar_h), Color(1.0, 0.8, 0.2, 1.0))
 
 
 func _bezier(a: Vector2, b: Vector2, c: Vector2, t: float) -> Vector2:
