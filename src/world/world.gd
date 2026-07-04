@@ -72,6 +72,11 @@ func get_attraction_sources() -> Array[Node2D]:
 	return sources
 
 
+## Returns the safe house global position for distance calculations
+func get_safe_house_position() -> Vector2:
+	return safe_house.global_position if is_instance_valid(safe_house) else Vector2.ZERO
+
+
 # ---- Input Handling ----
 
 func _unhandled_input(event: InputEvent) -> void:

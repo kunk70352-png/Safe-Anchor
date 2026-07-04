@@ -41,16 +41,13 @@ func _ready() -> void:
 	# Defer first path query until nav map is synchronized
 	_setup_navigation.call_deferred()
 
-	# Bobbing animation auto-plays from scene
-
 
 func _setup_navigation() -> void:
-	# Wait one physics frame for navigation map to sync
 	await get_tree().physics_frame
 	_pick_new_wander_target()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if state == State.RESCUED:
 		return
 
@@ -61,12 +58,15 @@ func _physics_process(delta: float) -> void:
 # ---- State Management ----
 
 func _update_state() -> void:
-	# Find nearest attraction source within range
-	var nearest := _find_nearest_attractor()
-	if nearest != null:
+	var best := _find_best_target()
+	if best != null:
 		state = State.SEEKING
-		_current_attractor = nearest
-		navigation_agent.target_position = nearest.global_position
+		_current_attractor = best
+		# Navigate THROUGH the attractor toward safe house, not TO its center
+		var sh_pos := _get_safe_house_pos()
+		var dir_to_sh := best.global_position.direction_to(sh_pos)
+		var offset := best.attraction_radius * 0.7
+		navigation_agent.target_position = best.global_position + dir_to_sh * offset
 	else:
 		if state != State.WANDERING:
 			state = State.WANDERING
@@ -74,7 +74,8 @@ func _update_state() -> void:
 			_pick_new_wander_target()
 
 
-func _find_nearest_attractor() -> Node2D:
+## Returns the attractor closest to the safe house (within range of this refugee)
+func _find_best_target() -> Node2D:
 	var world := get_tree().get_first_node_in_group("world") as Node2D
 	if world == null or not world.has_method("get_attraction_sources"):
 		return null
@@ -83,32 +84,39 @@ func _find_nearest_attractor() -> Node2D:
 	if sources.is_empty():
 		return null
 
-	var nearest: Node2D = null
-	var nearest_dist: float = INF
+	var sh_pos := _get_safe_house_pos()
+	var best: Node2D = null
+	var best_sh_dist: float = INF
 
 	for source in sources:
 		if not is_instance_valid(source):
 			continue
-		var dist := global_position.distance_to(source.global_position)
-		# Get the attraction radius from the source
-		var radius: float = 0.0
-		if source.has_method("get_attraction_radius"):
-			radius = source.get_attraction_radius()
-		elif source.get("attraction_radius") != null:
-			radius = source.attraction_radius
-		else:
+
+		var dist_to_me := global_position.distance_to(source.global_position)
+		var radius: float = source.attraction_radius
+
+		# Out of range — skip
+		if dist_to_me > radius:
 			continue
 
-		# Skip if we're at this source already (prevents getting stuck)
-		# Always allow SafeHouse so rescue still triggers
-		if dist < 8.0 and not (source is SafeHouse):
+		# Already at this anchor — skip it (but never skip SafeHouse)
+		if dist_to_me < 8.0 and not (source is SafeHouse):
 			continue
 
-		if dist <= radius and dist < nearest_dist:
-			nearest = source
-			nearest_dist = dist
+		# Pick the source closest to the safe house
+		var dist_to_sh := source.global_position.distance_to(sh_pos)
+		if dist_to_sh < best_sh_dist:
+			best_sh_dist = dist_to_sh
+			best = source
 
-	return nearest
+	return best
+
+
+func _get_safe_house_pos() -> Vector2:
+	var world := get_tree().get_first_node_in_group("world") as Node2D
+	if world and world.has_method("get_safe_house_position"):
+		return world.get_safe_house_position()
+	return Vector2.ZERO
 
 
 # ---- Movement ----
@@ -135,11 +143,6 @@ func _process_wandering() -> void:
 
 func _process_seeking() -> void:
 	if navigation_agent.is_navigation_finished():
-		# Reached the attractor — check if it's the safe house
-		if _current_attractor and _current_attractor is SafeHouse:
-			# Close enough to rescue? The SafeHouse rescue Area2D handles this.
-			# But also check directly as a fallback
-			pass
 		return
 
 	var next_pos := navigation_agent.get_next_path_position()
@@ -172,11 +175,8 @@ func rescue() -> void:
 func _draw() -> void:
 	# Placeholder visual: colored circle with direction indicator
 	var radius := 8.0
-	# Body
 	draw_circle(Vector2.ZERO, radius, _color)
-	# Direction dot
 	if velocity.length() > 10.0:
 		var forward := velocity.normalized() * (radius - 2.0)
 		draw_circle(forward, 2.5, Color.WHITE)
-	# Outline
 	draw_arc(Vector2.ZERO, radius, 0, TAU, 16, _color.darkened(0.3), 1.0)
