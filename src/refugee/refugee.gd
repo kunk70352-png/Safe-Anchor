@@ -1,29 +1,23 @@
 ## 难民 — AI 控制角色，被锚点/安全屋吸引前随机徘徊。
-## 使用 NavigationAgent2D 寻路，实现三状态状态机。
 class_name Refugee
 extends CharacterBody2D
 
-# ---- 状态机 ----
 enum State { WANDERING, SEEKING, RESCUED }
 
-# ---- 导出属性 ----
 @export var wander_speed: float = 60.0
 @export var seek_speed: float = 100.0
 @export var wander_interval: float = 2.0
 @export var wander_origin: Vector2
 
-# ---- 内部状态 ----
 var state: State = State.WANDERING
 var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer: float = 0.0
 var _current_attractor: Node2D = null
 
-# ---- 节点引用 ----
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-# 视觉颜色（每个难民随机生成，便于区分）
 var _color: Color = Color.WHITE
 
 
@@ -48,13 +42,10 @@ func _physics_process(_delta: float) -> void:
 	_process_movement()
 
 
-# ---- 状态管理 ----
-
 func _update_state() -> void:
 	var best := _find_best_target()
 
 	if best == null:
-		# 范围内无吸引源 — 每帧都重新选徘徊目标，确保持续移动
 		state = State.WANDERING
 		_current_attractor = null
 		if navigation_agent.is_navigation_finished():
@@ -62,37 +53,41 @@ func _update_state() -> void:
 		return
 
 	if best is SafeHouse:
-		# 安全屋在范围内 — 直接导航
-		state = State.SEEKING
-		_current_attractor = best
-		navigation_agent.target_position = best.global_position
+		_navigate_to(best)
 		return
 
-	# 是锚点
+	# 是锚点 — 检查是否与安全屋范围重叠
+	var sh := _get_safe_house_node()
+	if sh:
+		var anchor_r: float = float(best.get("attraction_radius"))
+		var sh_r := _get_safe_house_radius()
+		if best.global_position.distance_to(sh.global_position) <= anchor_r + sh_r:
+			# 锚点范围与安全屋重叠 → 直接去安全屋
+			_navigate_to(sh)
+			return
+
 	if best != _current_attractor:
-		# 新的/更好的锚点 — 导航到锚点中心
-		state = State.SEEKING
-		_current_attractor = best
-		navigation_agent.target_position = best.global_position
+		_navigate_to(best)
 	elif navigation_agent.is_navigation_finished():
-		# 已到达当前锚点 — 在其范围内随机走动
 		_wander_near_anchor(best)
 
 
-## 在锚点范围内随机走动：选一个偏离锚点中心、偏向安全屋反方向的随机点
+func _navigate_to(target: Node2D) -> void:
+	state = State.SEEKING
+	_current_attractor = target
+	navigation_agent.target_position = target.global_position
+
+
 func _wander_near_anchor(anchor: Node2D) -> void:
 	state = State.WANDERING
 	var radius: float = float(anchor.get("attraction_radius"))
 	var sh_pos := _get_safe_house_pos()
-	# 锚点指向安全屋反方向（留在锚点后方，不越过锚点）
 	var base_dir := (anchor.global_position - sh_pos).normalized()
-	# 180度弧内随机方向 + 锚点半径30%-80%的随机距离
 	var angle := randf_range(-PI * 0.5, PI * 0.5)
 	var dist := randf_range(radius * 0.3, radius * 0.8)
 	navigation_agent.target_position = anchor.global_position + base_dir.rotated(angle) * dist
 
 
-## 返回范围内离安全屋最近的吸引源
 func _find_best_target() -> Node2D:
 	var world := get_tree().get_first_node_in_group("world") as Node2D
 	if world == null or not world.has_method("get_attraction_sources"):
@@ -111,13 +106,10 @@ func _find_best_target() -> Node2D:
 			continue
 		var dist_to_me := global_position.distance_to(source.global_position)
 		var radius: float = float(source.get("attraction_radius"))
-		# 超出范围 — 跳过
 		if dist_to_me > radius:
 			continue
-		# 安全屋始终优先：只要在范围内，直接前往
 		if source is SafeHouse:
 			return source
-		# 选离安全屋最近的锚点（引导难民向安全屋方向前进）
 		var dist_to_sh := source.global_position.distance_to(sh_pos)
 		if dist_to_sh < best_sh_dist:
 			best_sh_dist = dist_to_sh
@@ -133,7 +125,19 @@ func _get_safe_house_pos() -> Vector2:
 	return Vector2.ZERO
 
 
-# ---- 移动 ----
+func _get_safe_house_radius() -> float:
+	var world := get_tree().get_first_node_in_group("world") as Node2D
+	if world and world.has_method("get_safe_house_radius"):
+		return world.get_safe_house_radius()
+	return 200.0
+
+
+func _get_safe_house_node() -> Node2D:
+	var world := get_tree().get_first_node_in_group("world") as Node2D
+	if world and world.has_method("get_safe_house_node"):
+		return world.get_safe_house_node()
+	return null
+
 
 func _process_movement() -> void:
 	if navigation_agent.is_navigation_finished():
@@ -150,9 +154,6 @@ func _pick_new_wander_target() -> void:
 	navigation_agent.target_position = wander_origin + Vector2.RIGHT.rotated(angle) * dist
 
 
-# ---- 救援 ----
-
-## 由 SafeHouse 在难民进入救援区域时调用
 func rescue() -> void:
 	if state == State.RESCUED:
 		return
@@ -164,9 +165,8 @@ func rescue() -> void:
 
 
 func _draw() -> void:
-	var radius := 8.0
-	draw_circle(Vector2.ZERO, radius, _color)
+	var r := 8.0
+	draw_circle(Vector2.ZERO, r, _color)
 	if velocity.length() > 10.0:
-		var forward := velocity.normalized() * (radius - 2.0)
-		draw_circle(forward, 2.5, Color.WHITE)
-	draw_arc(Vector2.ZERO, radius, 0, TAU, 16, _color.darkened(0.3), 1.0)
+		draw_circle(velocity.normalized() * (r - 2.0), 2.5, Color.WHITE)
+	draw_arc(Vector2.ZERO, r, 0, TAU, 16, _color.darkened(0.3), 1.0)

@@ -68,6 +68,14 @@ func get_safe_house_position() -> Vector2:
 	return safe_house.global_position if is_instance_valid(safe_house) else Vector2.ZERO
 
 
+func get_safe_house_radius() -> float:
+	return safe_house.attraction_radius if is_instance_valid(safe_house) else 200.0
+
+
+func get_safe_house_node() -> Node2D:
+	return safe_house if is_instance_valid(safe_house) else null
+
+
 # ---- 难民生成 ----
 
 func _spawn_refugee(spawn_pos: Vector2, level_data: LevelData) -> void:
