@@ -1,13 +1,14 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://rikgcy42ut82"]
 
 [ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="1_tex"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
 0:0/size_in_atlas = Vector2i(120, 67)
+0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_ts"]
 sources/0 = SubResource("TileSetAtlasSource_src")
 
-[node name="TileMapLayer" type="TileMapLayer"]
+[node name="TileMapLayer" type="TileMapLayer" unique_id=514325112]
 tile_set = SubResource("TileSet_ts")

@@ -71,7 +71,8 @@ animations = [{
 }]
 
 [node name="Refugee" type="CharacterBody2D" unique_id=2046455397 groups=["refugees"]]
-collision_mask = 0
+collision_layer = 1
+collision_mask = 1
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=904754058]
