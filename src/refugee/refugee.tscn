@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cref1"]
 
 [ext_resource type="Script" uid="uid://cuyqd3j8lx1f4" path="res://src/refugee/refugee.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bm43ab76ppl71" path="res://assets/sprites/npc_2/ss_2_walking.png" id="2_mlmom"]
+[ext_resource type="Texture2D" uid="uid://cbgxaqp3y14nt" path="res://assets/sprites/ss_2_walking_new.png" id="2_mlmom"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_refugee"]
 radius = 8.0
@@ -34,6 +34,10 @@ region = Rect2(240, 0, 48, 48)
 atlas = ExtResource("2_mlmom")
 region = Rect2(288, 0, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_u16y8"]
+atlas = ExtResource("2_mlmom")
+region = Rect2(336, 0, 48, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_cyqww"]
 animations = [{
 "frames": [{
@@ -57,10 +61,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_omffh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u16y8")
 }],
 "loop": 1,
 "name": &"default",
-"speed": 7.0
+"speed": 8.0
 }]
 
 [node name="Refugee" type="CharacterBody2D" unique_id=2046455397 groups=["refugees"]]
@@ -75,6 +82,8 @@ shape = SubResource("CircleShape2D_refugee")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=18848035]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=325307371]
-scale = Vector2(0.5625, 0.5625)
+position = Vector2(-4.7683716e-07, -4.7683716e-07)
+scale = Vector2(0.8020833, 0.8645833)
 sprite_frames = SubResource("SpriteFrames_cyqww")
-frame_progress = 0.86484116
+autoplay = "default"
+frame_progress = 0.8805481
