@@ -7,6 +7,9 @@ var state: PlayerState = PlayerState.IDLE
 var _held_anchor: PackedScene = null
 var _held_anchor_radius: float = 0.0
 var _held_anchor_color: Color = Color.WHITE
+var _held_anchor_icon_tex: Texture2D = null
+var _held_anchor_range_tex: Texture2D = null
+var _held_anchor_range_tex_diameter: float = 128.0
 var charge_time: float = 0.0
 var charge_power: float = 0.0
 
@@ -79,6 +82,8 @@ func _throw_anchor() -> void:
 	get_tree().get_first_node_in_group("world").get_node("Anchors").add_child(anchor)
 	_held_anchor = null
 	_held_anchor_radius = 0.0
+	_held_anchor_icon_tex = null
+	_held_anchor_range_tex = null
 
 
 func _check_pickup() -> void:
@@ -93,6 +98,20 @@ func _check_pickup() -> void:
 			_held_anchor = load(a.scene_file_path)
 			_held_anchor_radius = float(a.get("initial_radius")) if a.get("initial_radius") != null else float(a.get("attraction_radius"))
 			_held_anchor_color = a.get("anchor_color") if a.get("anchor_color") != null else Color(0.2, 0.5, 1.0, 1.0)
+
+			# 提取锚点本体贴图
+			var icon_sprite := a.get_node("Sprite2D")
+			if icon_sprite and icon_sprite.texture:
+				_held_anchor_icon_tex = icon_sprite.texture
+
+			# 提取范围贴图及校准参数
+			var range_sprite := a.get_node("RangeSprite")
+			if range_sprite and range_sprite.texture:
+				_held_anchor_range_tex = range_sprite.texture
+			var diameter = a.get("range_tex_diameter")
+			if diameter != null:
+				_held_anchor_range_tex_diameter = float(diameter)
+
 			a.pick_up()
 			break
 
@@ -118,32 +137,53 @@ func _update_animation() -> void:
 		sprite.flip_h = velocity.x < 0
 
 
+# ---- 绘制 ----
+
 func _draw() -> void:
-	if state != PlayerState.CHARGING or _held_anchor == null:
+	if _held_anchor == null:
 		return
 
-	var mouse_pos := get_global_mouse_position()
-	var throw_dir := (mouse_pos - global_position).normalized()
-	var dist := min_throw + charge_power * (max_throw - min_throw)
-	var target := throw_dir * dist
-	var mid := target * 0.5 + Vector2.UP * curve_height
+	match state:
+		PlayerState.IDLE:
+			# 头顶锚点贴图
+			if _held_anchor_icon_tex:
+				var tex_size := _held_anchor_icon_tex.get_size()
+				draw_texture(_held_anchor_icon_tex, Vector2(-tex_size.x / 2, -28 - tex_size.y))
 
-	var line_color := Color(1.0, 0.8, 0.2, 0.7)
-	var steps := 20
-	for i in range(steps):
-		var t0 := float(i) / steps
-		var t1 := float(i + 1) / steps
-		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), line_color, 2.0)
+		PlayerState.CHARGING:
+			# 蓄力条
+			var bar_w := 40.0
+			var bar_h := 4.0
+			var bar_y := 22.0
+			draw_rect(Rect2(-bar_w / 2, bar_y, bar_w, bar_h), Color(0.2, 0.2, 0.2, 0.8))
+			draw_rect(Rect2(-bar_w / 2, bar_y, bar_w * charge_power, bar_h), Color(1.0, 0.8, 0.2, 1.0))
 
-	var c := _held_anchor_color
-	draw_circle(target, _held_anchor_radius, Color(c.r, c.g, c.b, 0.12))
-	draw_arc(target, _held_anchor_radius, 0, TAU, 32, Color(c.r, c.g, c.b, 0.4), 1.5)
+			# 抛物线轨迹
+			var mouse_pos := get_global_mouse_position()
+			var throw_dir := (mouse_pos - global_position).normalized()
+			var dist := min_throw + charge_power * (max_throw - min_throw)
+			var target := throw_dir * dist
+			var mid := target * 0.5 + Vector2.UP * curve_height
 
-	var bar_w := 40.0
-	var bar_h := 4.0
-	var bar_y := 22.0
-	draw_rect(Rect2(-bar_w / 2, bar_y, bar_w, bar_h), Color(0.2, 0.2, 0.2, 0.8))
-	draw_rect(Rect2(-bar_w / 2, bar_y, bar_w * charge_power, bar_h), Color(1.0, 0.8, 0.2, 1.0))
+			var line_color := Color(1.0, 0.8, 0.2, 0.7)
+			var steps := 20
+			for i in range(steps):
+				var t0 := float(i) / steps
+				var t1 := float(i + 1) / steps
+				draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), line_color, 2.0)
+
+			# 落点锚点贴图
+			if _held_anchor_icon_tex:
+				var icon_size := _held_anchor_icon_tex.get_size()
+				draw_texture(_held_anchor_icon_tex, target - icon_size * 0.5)
+
+			# 落点范围贴图
+			if _held_anchor_range_tex:
+				var tex_size := _held_anchor_range_tex.get_size()
+				var scale := (_held_anchor_radius * 2.0) / _held_anchor_range_tex_diameter
+				var draw_size := tex_size * scale
+				var c := _held_anchor_color
+				draw_texture_rect(_held_anchor_range_tex, Rect2(target - draw_size * 0.5, draw_size), false, Color(c.r, c.g, c.b, 0.4))
 
 
 func _bezier(a: Vector2, b: Vector2, c: Vector2, t: float) -> Vector2:
