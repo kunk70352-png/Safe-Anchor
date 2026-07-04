@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://csh1"]
 
 [ext_resource type="Script" uid="uid://cuk637syyuwa8" path="res://src/safe_house/safe_house.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://cpsubjynjp07" path="res://assets/sprites/IMG_8958.PNG" id="2_amkok"]
+[ext_resource type="Texture2D" uid="uid://dpqcc64m280rp" path="res://assets/sprites/safe_2.png" id="2_amkok"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cyqww"]
 atlas = ExtResource("2_amkok")
@@ -19,7 +19,6 @@ texture = SubResource("AtlasTexture_cyqww")
 
 [node name="RescueArea" type="Area2D" parent="." unique_id=1946746722]
 collision_layer = 4
-collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RescueArea" unique_id=49272945]
 shape = SubResource("CircleShape2D_rescue")

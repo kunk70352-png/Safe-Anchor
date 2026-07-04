@@ -82,7 +82,7 @@ func _update_state() -> void:
 	if best != _current_attractor:
 		_navigate_to(best)
 	elif navigation_agent.is_navigation_finished():
-		_wander_near_anchor(best)
+		_advance_to_next_anchor(best)
 
 
 func _navigate_to(target: Node2D) -> void:
@@ -92,15 +92,31 @@ func _navigate_to(target: Node2D) -> void:
 	navigation_agent.target_position = target.global_position
 
 
-func _wander_near_anchor(anchor: Node2D) -> void:
+func _advance_to_next_anchor(current: Node2D) -> void:
+	var world := get_tree().get_first_node_in_group("world") as Node2D
+	if world == null or not world.has_method("get_attraction_sources"):
+		return
+
+	var cur_radius: float = float(current.get("attraction_radius"))
+	var sources: Array[Node2D] = world.get_attraction_sources()
+
+	for source in sources:
+		if source == current or not is_instance_valid(source):
+			continue
+		if source is SafeHouse:
+			continue
+		var src_radius: float = float(source.get("attraction_radius"))
+		var dist_between := current.global_position.distance_to(source.global_position)
+		if dist_between <= cur_radius + src_radius:
+			_navigate_to(source)
+			return
+
+	# 无重叠锚点 — 在范围内缓慢徘徊
 	state = State.WANDERING
-	var radius: float = float(anchor.get("attraction_radius"))
-	var sh_pos := _get_safe_house_pos()
-	var base_dir := (anchor.global_position - sh_pos).normalized()
 	var angle := randf_range(-PI * anchor_wander_angle, PI * anchor_wander_angle)
-	var dist := randf_range(radius * anchor_wander_min, radius * anchor_wander_max)
+	var dist := randf_range(cur_radius * anchor_wander_min, cur_radius * anchor_wander_max)
+	navigation_agent.target_position = current.global_position + Vector2.RIGHT.rotated(angle) * dist
 	_speed_mult = anchor_slow_mult
-	navigation_agent.target_position = anchor.global_position + base_dir.rotated(angle) * dist
 
 
 func _find_best_target() -> Node2D:

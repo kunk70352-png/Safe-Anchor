@@ -1,12 +1,17 @@
 [gd_scene format=3 uid="uid://catype2"]
 
-[ext_resource type="Script" path="res://src/anchor/anchor.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bncb6svstlsvf" path="res://src/anchor/anchor.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cl5k4onvu75mv" path="res://assets/sprites/anchor_green.png" id="2_5jlfe"]
 
-[node name="Type2Anchor" type="Node2D" groups=["attraction_sources"]]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyqww"]
+atlas = ExtResource("2_5jlfe")
+
+[node name="Type2Anchor" type="Node2D" unique_id=1898443445 groups=["attraction_sources"]]
 script = ExtResource("1_script")
 attraction_radius = 250.0
+anchor_color = Color(0.2, 0.8, 0.2, 1)
 shrink_speed = 6.0
 min_radius = 30.0
-speed_modifier = 0.0
-repel = false
-anchor_color = Color(0.2, 0.8, 0.2, 1.0)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1338869613]
+texture = SubResource("AtlasTexture_cyqww")
