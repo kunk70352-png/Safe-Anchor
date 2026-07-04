@@ -117,7 +117,7 @@ func find_next_anchor_to_safehouse(from_anchor: Node2D) -> Variant:
 		parent[i] = -1
 
 	while not queue.is_empty():
-		var v := queue.pop_front()
+		var v: int = queue.pop_front()
 		if v == sh_idx:
 			# 回溯路径，返回第一步
 			var step := sh_idx
