@@ -20,6 +20,25 @@ func _ready() -> void:
 	_show_title()
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_skip"):
+		_debug_complete_level()
+
+
+func _debug_complete_level() -> void:
+	if not GameManager.is_level_active:
+		return
+	var stats := {
+		"level": GameManager.current_level_data.level_number,
+		"level_name": GameManager.current_level_data.level_name,
+		"time_elapsed": 0.0,
+		"time_limit": GameManager.current_level_data.time_limit,
+		"rescued": GameManager.current_level_data.target_rescued,
+		"target": GameManager.current_level_data.target_rescued,
+	}
+	GameManager.level_completed.emit(stats)
+
+
 func _show_title() -> void:
 	title_screen.visible = true
 	level_select.visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://ccomp"]
+[gd_scene format=3 uid="uid://ccomp"]
 
 [ext_resource type="Script" path="res://src/ui/completion_screen.gd" id="1_script"]
 
