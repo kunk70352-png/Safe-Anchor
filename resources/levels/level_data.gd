@@ -30,6 +30,8 @@ extends Resource
 @export var safe_house_attraction_radius: float = 200.0
 ## 关卡地图场景路径
 @export var tile_map_path: String = ""
+## 冰面关卡（NPC不主动徘徊）
+@export var is_ice_level: bool = false
 ## 预置初始锚点位置
 @export var type1_positions: Array[Vector2] = []
 ## 预置大型锚点位置

@@ -18,6 +18,10 @@ sources/0 = SubResource("TileSetAtlasSource_src")
 sources/2 = SubResource("TileSetAtlasSource_21ren")
 
 [node name="TileMapLayer" type="TileMapLayer" unique_id=764285675]
-position = Vector2(8, 0)
-tile_map_data = PackedByteArray(0, 0, 59, 0, 33, 0, 2, 0, 0, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray(0, 0, 60, 0, 33, 0, 2, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ts")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1458562847]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=851786700]
+collision_layer = 16

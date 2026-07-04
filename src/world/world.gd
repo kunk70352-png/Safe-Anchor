@@ -144,6 +144,7 @@ func _spawn_refugee(spawn_pos: Vector2, level_data: LevelData) -> void:
 	refugee.seek_speed = level_data.refugee_seek_speed
 	refugee.wander_interval = level_data.refugee_wander_interval
 	refugee.wander_range = level_data.wander_range
+	refugee.on_ice = level_data.is_ice_level
 	refugees_container.add_child(refugee)
 
 
