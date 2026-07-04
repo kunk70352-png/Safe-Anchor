@@ -32,7 +32,8 @@ var _speed_mult: float = 1.0
 var _speed_boost: float = 1.0
 var _range_boost: float = 0.0
 var _repel_dir: Vector2 = Vector2.ZERO
-var _repel_timer: float = 0.0
+var _repel_strength: float = 0.0
+var _nav_stuck_timer: float = 0.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -155,6 +156,7 @@ func _find_best_target() -> Node2D:
 func _apply_anchor_effects() -> void:
 	var total_speed_mod: float = 0.0
 	_range_boost = 0.0
+	var has_repel := false
 	_repel_dir = Vector2.ZERO
 	var world := get_tree().get_first_node_in_group("world") as Node2D
 	if world == null or not world.has_method("get_attraction_sources"):
@@ -167,13 +169,17 @@ func _apply_anchor_effects() -> void:
 		if dist <= radius:
 			if source.get("repel") == true:
 				_repel_dir += (global_position - source.global_position).normalized()
-				_repel_timer = 0.6
+				has_repel = true
 			else:
 				var sm: float = source.get("speed_modifier") if source.get("speed_modifier") != null else 0.0
 				total_speed_mod += sm
 			if source.get("repel") != true and float(source.get("attraction_radius")) > 200:
 				_range_boost = maxf(_range_boost, 60.0)
 	_speed_boost = maxf(1.0 + total_speed_mod, 0.1)
+	if has_repel:
+		_repel_strength = 1.0
+	else:
+		_repel_strength = maxf(_repel_strength - get_physics_process_delta_time() * 0.5, 0.0)
 
 
 func _get_safe_house_pos() -> Vector2:
@@ -198,14 +204,13 @@ func _get_safe_house_node() -> Node2D:
 
 
 func _process_movement() -> void:
-	if _repel_timer > 0.0:
-		_repel_timer -= get_physics_process_delta_time()
+	if _repel_strength > 0.0:
 		var sh_pos := _get_safe_house_pos()
 		var flee_target := global_position + _repel_dir * 300.0
 		if sh_pos.distance_to(flee_target) > sh_pos.distance_to(global_position):
 			navigation_agent.target_position = flee_target
 		var next_pos := navigation_agent.get_next_path_position()
-		velocity = global_position.direction_to(next_pos) * seek_speed * 1.3
+		velocity = global_position.direction_to(next_pos) * seek_speed * 1.3 * _repel_strength
 		move_and_slide()
 		return
 	if navigation_agent.is_navigation_finished():
@@ -219,6 +224,23 @@ func _process_movement() -> void:
 			var c := get_slide_collision(i)
 			if c:
 				velocity = velocity.bounce(c.get_normal())
+
+
+	# 卡墙检测：漫游3秒/寻路5秒未到达则重选目标
+	if state == State.WANDERING or state == State.SEEKING:
+		var limit := 3.0 if state == State.WANDERING else 5.0
+		if navigation_agent.is_navigation_finished():
+			_nav_stuck_timer = 0.0
+			if state == State.WANDERING:
+				_pick_new_wander_target()
+		else:
+			_nav_stuck_timer += get_physics_process_delta_time()
+			if _nav_stuck_timer > limit:
+				_nav_stuck_timer = 0.0
+				if state == State.SEEKING:
+					state = State.WANDERING
+					_current_attractor = null
+				_pick_new_wander_target()
 
 
 func _update_animation() -> void:
