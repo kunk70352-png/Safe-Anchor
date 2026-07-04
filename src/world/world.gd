@@ -43,7 +43,7 @@ func setup_level(level_data: LevelData) -> void:
 
 	# 玩家初始位置在安全屋旁边
 	player.global_position = level_data.safe_house_position + Vector2(60, 0)
-	player.has_anchor = true
+	player._held_anchor = preload("res://src/anchor/anchor.tscn")
 	if player.anchor_data:
 		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 

@@ -20,8 +20,9 @@ func _process(_delta: float) -> void:
 	# 实时更新锚点持有状态
 	var player := get_tree().get_first_node_in_group("player") as Player
 	if player:
-		anchors_label.text = "锚点: %s" % ("持有" if player.has_anchor else "已投出")
-		anchors_label.modulate = Color.GREEN if player.has_anchor else Color.ORANGE
+		var carrying := player._held_anchor != null
+		anchors_label.text = "锚点: %s" % ("持有" if carrying else "已投出")
+		anchors_label.modulate = Color.GREEN if carrying else Color.ORANGE
 
 
 # ---- 信号处理 ----
