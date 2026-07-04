@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/world/world.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://csh1" path="res://src/safe_house/safe_house.tscn" id="2_safehouse"]
+[ext_resource type="PackedScene" uid="uid://cplyr1" path="res://src/player/player.tscn" id="3_player"]
 
 [node name="World" type="Node2D" groups=["world"]]
 script = ExtResource("1_script")
@@ -13,9 +14,9 @@ script = ExtResource("1_script")
 [node name="SafeHouse" parent="." instance=ExtResource("2_safehouse")]
 position = Vector2(640, 360)
 
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(700, 360)
+
 [node name="Refugees" type="Node2D" parent="."]
 
 [node name="Anchors" type="Node2D" parent="."]
-
-[node name="LevelTimer" type="Timer" parent="."]
-one_shot = true

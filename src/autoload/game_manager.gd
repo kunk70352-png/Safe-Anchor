@@ -42,9 +42,6 @@ var rescued_count: int = 0:
 ## 倒计时剩余秒数
 var time_remaining: float = 0.0
 
-## 玩家已放置锚点数量（上限为 anchor_limit）
-var anchors_placed: int = 0
-
 ## 关卡是否正在进行中
 var is_level_active: bool = false
 
@@ -57,7 +54,6 @@ func start_level(level_data: LevelData) -> void:
 	current_level_data = level_data
 	rescued_count = 0
 	time_remaining = level_data.time_limit
-	anchors_placed = 0
 	is_level_active = true
 	level_started.emit(level_data)
 
@@ -69,23 +65,6 @@ func register_rescue() -> void:
 	rescued_count += 1
 	if check_win_condition():
 		_complete_level()
-
-
-## 尝试放置锚点。成功返回 true。
-func try_place_anchor() -> bool:
-	if not is_level_active:
-		return false
-	if anchors_placed >= current_level_data.anchor_limit:
-		return false
-	anchors_placed += 1
-	anchor_placed.emit(anchors_placed, current_level_data.anchor_limit)
-	return true
-
-
-## 移除锚点（锚点过期时调用）
-func remove_anchor() -> void:
-	anchors_placed = maxi(anchors_placed - 1, 0)
-	anchor_placed.emit(anchors_placed, current_level_data.anchor_limit)
 
 
 ## 检查是否满足胜利条件

@@ -5,11 +5,6 @@
 [node name="Anchor" type="Node2D" groups=["attraction_sources"]]
 script = ExtResource("1_script")
 attraction_radius = 150.0
-lifetime = 15.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
-
-[node name="LifetimeTimer" type="Timer" parent="."]
-wait_time = 15.0
-one_shot = true
