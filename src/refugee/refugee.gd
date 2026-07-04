@@ -137,10 +137,11 @@ func _apply_anchor_effects() -> void:
 		var dist := global_position.distance_to(source.global_position)
 		var radius: float = float(source.get("attraction_radius"))
 		if dist <= radius:
-			var sm: float = source.get("speed_modifier") if source.get("speed_modifier") != null else 0.0
-			total_speed_mod += sm
 			if source.get("repel") == true:
 				_repel_dir += (global_position - source.global_position).normalized()
+			else:
+				var sm: float = source.get("speed_modifier") if source.get("speed_modifier") != null else 0.0
+				total_speed_mod += sm
 			if source.get("repel") != true and float(source.get("attraction_radius")) > 200:
 				_range_boost = maxf(_range_boost, 60.0)
 	_speed_boost = maxf(1.0 + total_speed_mod, 0.1)
@@ -169,9 +170,8 @@ func _get_safe_house_node() -> Node2D:
 
 func _process_movement() -> void:
 	if state == State.SEEKING and _repel_dir != Vector2.ZERO:
-		# 驱赶优先：朝远离锚点方向移动
-		var speed := seek_speed * _speed_boost
-		velocity = _repel_dir * speed
+		# 驱赶优先：快速逃离锚点
+		velocity = _repel_dir * seek_speed * 1.5
 		move_and_slide()
 		return
 	if navigation_agent.is_navigation_finished():
