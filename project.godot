@@ -65,6 +65,7 @@ debug_skip={
 2d_physics/layer_2="attraction"
 2d_physics/layer_3="rescue"
 2d_physics/layer_4="player"
+2d_physics/layer_5="danger"
 
 [physics]
 

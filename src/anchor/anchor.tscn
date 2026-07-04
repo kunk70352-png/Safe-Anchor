@@ -1,7 +1,10 @@
-[gd_scene format=3 uid="uid://can1"]
+[gd_scene load_steps=3 format=3 uid="uid://can1"]
 
 [ext_resource type="Script" uid="uid://bncb6svstlsvf" path="res://src/anchor/anchor.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://c0wcfm2kbaah" path="res://assets/sprites/anchor.png" id="2_dnpk4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_danger"]
+radius = 16.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_amkok"]
 atlas = ExtResource("2_dnpk4")
@@ -13,3 +16,9 @@ script = ExtResource("1_script")
 position = Vector2(1.0000038, 3.8146973e-06)
 scale = Vector2(0.4921875, 0.4921875)
 texture = SubResource("AtlasTexture_amkok")
+
+[node name="DangerDetector" type="Area2D" parent="."]
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DangerDetector"]
+shape = SubResource("CircleShape2D_danger")

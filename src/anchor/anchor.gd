@@ -22,12 +22,21 @@ signal picked_up()
 
 var _pulse_time: float = 0.0
 var initial_radius: float = 0.0
+var _spawn_pos: Vector2
 
 
 func _ready() -> void:
 	add_to_group("attraction_sources")
 	initial_radius = attraction_radius
+	_spawn_pos = global_position
 	_pulse_time = randf() * TAU
+	if has_node("DangerDetector"):
+		$DangerDetector.area_entered.connect(_on_danger_entered)
+
+
+func _on_danger_entered(_area: Area2D) -> void:
+	global_position = _spawn_pos
+	attraction_radius = initial_radius
 
 
 func _process(delta: float) -> void:
