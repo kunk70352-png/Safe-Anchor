@@ -1,10 +1,10 @@
-## 标题界面 — 游戏启动时显示，包含开始、退出和游戏介绍。
+## 标题界面 — 开始游戏、退出、世界观介绍。
 extends Control
 
 
 func _ready() -> void:
-	$Panel/VBoxContainer/StartButton.pressed.connect(_on_start)
-	$Panel/VBoxContainer/QuitButton.pressed.connect(_on_quit)
+	%StartButton.pressed.connect(_on_start)
+	%QuitButton.pressed.connect(_on_quit)
 
 
 func _on_start() -> void:
