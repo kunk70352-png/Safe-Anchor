@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://csh1"]
 
 [ext_resource type="Script" uid="uid://cuk637syyuwa8" path="res://src/safe_house/safe_house.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bvdk4ldsq4dwa" path="res://assets/sprites/safe_3.png" id="2_amkok"]
+[ext_resource type="Texture2D" uid="uid://6t3q60wt4y28" path="res://assets/sprites/safe.png" id="2_amkok"]
+[ext_resource type="Texture2D" uid="uid://vxa7okrpe10g" path="res://assets/sprites/safe_range.png" id="3_range_tex"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rescue"]
 radius = 30.0
@@ -9,9 +10,13 @@ radius = 30.0
 [node name="SafeHouse" type="Node2D" unique_id=2050229555 groups=["attraction_sources"]]
 script = ExtResource("1_script")
 
+[node name="RangeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_range_tex")
+modulate = Color(1, 1, 1, 1.0)
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1456938847]
 position = Vector2(1.1920929e-07, 0)
-scale = Vector2(0.18194446, 0.16874999)
+scale = Vector2(0.182, 0.169)
 texture = ExtResource("2_amkok")
 
 [node name="RescueArea" type="Area2D" parent="." unique_id=1946746722]
