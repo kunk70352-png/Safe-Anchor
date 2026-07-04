@@ -1,29 +1,29 @@
-## Refugee — AI-controlled character that wanders until attracted by an anchor/safe house.
-## Uses NavigationAgent2D for pathfinding. Implements a 3-state machine.
+## Refugee — AI 控制角色，被锚点/安全屋吸引前随机徘徊。
+## 使用 NavigationAgent2D 寻路，实现三状态状态机。
 class_name Refugee
 extends CharacterBody2D
 
-# ---- State Machine ----
+# ---- 状态机 ----
 enum State { WANDERING, SEEKING, RESCUED }
 
-# ---- Exported Properties ----
+# ---- 导出属性 ----
 @export var wander_speed: float = 60.0
 @export var seek_speed: float = 100.0
 @export var wander_interval: float = 2.0
 @export var wander_origin: Vector2
 
-# ---- Internal State ----
+# ---- 内部状态 ----
 var state: State = State.WANDERING
 var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer: float = 0.0
 var _current_attractor: Node2D = null
 
-# ---- Nodes ----
+# ---- 节点引用 ----
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-# Visual color (randomized per refugee for visual variety)
+# 视觉颜色（每个难民随机生成，便于区分）
 var _color: Color = Color.WHITE
 
 
@@ -48,12 +48,12 @@ func _physics_process(_delta: float) -> void:
 	_process_movement()
 
 
-# ---- State Management ----
+# ---- 状态管理 ----
 
 func _update_state() -> void:
 	var best := _find_best_target()
 	if best == null:
-		# No attractor in range — free roam
+		# 范围内无吸引源 — 自由徘徊
 		if state != State.WANDERING:
 			state = State.WANDERING
 			_current_attractor = null
@@ -61,40 +61,39 @@ func _update_state() -> void:
 		return
 
 	if best is SafeHouse:
-		# Safe house in range — navigate directly
+		# 安全屋在范围内 — 直接导航
 		state = State.SEEKING
 		_current_attractor = best
 		navigation_agent.target_position = best.global_position
 		return
 
-	# It's an anchor
+	# 是锚点
 	if best != _current_attractor:
-		# New/better anchor — navigate to it
+		# 新的/更好的锚点 — 导航过去
 		state = State.SEEKING
 		_current_attractor = best
 		navigation_agent.target_position = best.global_position
 	elif navigation_agent.is_navigation_finished():
-		# Reached current anchor — wander freely within its range
+		# 已到达当前锚点，无更好的 — 在范围内自由走动
 		_wander_near(best)
 
 
-## Pick a random point within the anchor's range (biased toward safe house)
+## 在锚点范围内选一个随机点（偏向安全屋反方向，确保持续在范围内）
 func _wander_near(anchor: Node2D) -> void:
 	state = State.WANDERING
 	var radius: float = float(anchor.get("attraction_radius"))
 	var sh_pos := _get_safe_house_pos()
-	# Direction from safe house TO anchor (we want to stay between anchor and SH)
+	# 从安全屋指向锚点的方向（我们希望留在锚点后方，不越过锚点）
 	var away_from_sh := (anchor.global_position - sh_pos).normalized()
-	# Pick random point in the half-circle AWAY from safe house (anchor's back side)
-	# This keeps the refugee within the anchor's range without pushing past it
+	# 在锚点后方半圆内随机选点
 	var angle := randf_range(-PI * 0.6, PI * 0.6)
 	var dist := randf_range(radius * 0.2, radius * 0.8)
 	_wander_target = anchor.global_position + away_from_sh.rotated(angle) * dist
 	navigation_agent.target_position = _wander_target
-	_wander_timer = 0.5  # Short wander before re-checking
+	_wander_timer = 0.5  # 短暂徘徊后重新检查
 
 
-## Returns the attractor closest to safe house within range
+## 返回范围内离安全屋最近的吸引源
 func _find_best_target() -> Node2D:
 	var world := get_tree().get_first_node_in_group("world") as Node2D
 	if world == null or not world.has_method("get_attraction_sources"):
@@ -115,10 +114,10 @@ func _find_best_target() -> Node2D:
 		var radius: float = float(source.get("attraction_radius"))
 		if dist_to_me > radius:
 			continue
-		# Skip if already at this anchor (but not SafeHouse)
+		# 已在锚点位置则跳过（但不跳过安全屋）
 		if dist_to_me < 8.0 and not (source is SafeHouse):
 			continue
-		# Pick closest to safe house
+		# 选离安全屋最近的（引导难民前进）
 		var dist_to_sh := source.global_position.distance_to(sh_pos)
 		if dist_to_sh < best_sh_dist:
 			best_sh_dist = dist_to_sh
@@ -134,7 +133,7 @@ func _get_safe_house_pos() -> Vector2:
 	return Vector2.ZERO
 
 
-# ---- Movement ----
+# ---- 移动 ----
 
 func _process_movement() -> void:
 	if navigation_agent.is_navigation_finished():
@@ -153,13 +152,15 @@ func _pick_new_wander_target() -> void:
 	_wander_timer = wander_interval
 
 
-# ---- Rescue ----
+# ---- 救援 ----
 
+## 由 SafeHouse 在难民进入救援区域时调用
 func rescue() -> void:
 	if state == State.RESCUED:
 		return
 	state = State.RESCUED
 	GameManager.register_rescue()
+	# 视觉反馈：缩小消失
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN)
 	tween.tween_callback(self.queue_free)

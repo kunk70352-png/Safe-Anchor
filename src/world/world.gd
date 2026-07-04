@@ -1,23 +1,20 @@
-## World — Manages the game world: navigation, tile map, safe house, refugees, and anchors.
-## Acts as the mediator between SafeHouse, Anchor, and Refugee nodes.
-## Handles player input for anchor placement.
+## World — 管理游戏世界：导航、地图、安全屋、难民和锚点。
+## 充当 SafeHouse、Anchor、Refugee 节点之间的中介者。
+## 处理玩家放置锚点的输入。
 extends Node2D
 
-# ---- Signals ----
-# (Timer updates flow through GameManager.time_updated)
-
-# ---- Preloaded Scenes ----
+# ---- 预加载场景 ----
 const REFUGEE_SCENE := preload("res://src/refugee/refugee.tscn")
 const ANCHOR_SCENE := preload("res://src/anchor/anchor.tscn")
 
-# ---- Nodes ----
+# ---- 节点引用 ----
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion2D
 @onready var safe_house: SafeHouse = $SafeHouse
 @onready var refugees_container: Node2D = $Refugees
 @onready var anchors_container: Node2D = $Anchors
 @onready var level_timer: Timer = $LevelTimer
 
-# ---- State ----
+# ---- 状态 ----
 var _level_data: LevelData = null
 var _time_elapsed: float = 0.0
 
@@ -32,27 +29,28 @@ func _physics_process(delta: float) -> void:
 	GameManager.tick_timer(delta)
 
 
-# ---- Public API ----
+# ---- 公开 API ----
 
-## Set up the world from a LevelData resource
+## 根据 LevelData 资源设置世界
 func setup_level(level_data: LevelData) -> void:
 	_level_data = level_data
 
-	# Clear previous state
+	# 清除上一关的残留
 	_clear_containers()
 
-	# Position and configure safe house
+	# 定位并配置安全屋
 	safe_house.position = level_data.safe_house_position
 	safe_house.attraction_radius = level_data.safe_house_attraction_radius
 
-	# Set up navigation polygon (full play area)
+	# 设置导航多边形（覆盖整个游戏区域）
 	_setup_navigation()
 
-	# Spawn refugees (deferred until nav map is baked)
+	# 延迟生成难民（等导航网格烘焙完成）
 	_spawn_refugees_deferred.call_deferred(level_data)
 
-	# Update GameManager
+	# 通知 GameManager
 	GameManager.start_level(level_data)
+
 
 func _spawn_refugees_deferred(level_data: LevelData) -> void:
 	await get_tree().physics_frame
@@ -61,7 +59,7 @@ func _spawn_refugees_deferred(level_data: LevelData) -> void:
 		_spawn_refugee(spawn_pos, level_data)
 
 
-## Returns all active attraction sources (SafeHouse + all placed Anchors)
+## 返回所有活跃的吸引源（安全屋 + 所有已放置的锚点）
 func get_attraction_sources() -> Array[Node2D]:
 	var sources: Array[Node2D] = []
 	if is_instance_valid(safe_house):
@@ -72,12 +70,12 @@ func get_attraction_sources() -> Array[Node2D]:
 	return sources
 
 
-## Returns the safe house global position for distance calculations
+## 返回安全屋全局坐标，供距离计算使用
 func get_safe_house_position() -> Vector2:
 	return safe_house.global_position if is_instance_valid(safe_house) else Vector2.ZERO
 
 
-# ---- Input Handling ----
+# ---- 输入处理 ----
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_level_active:
@@ -87,36 +85,36 @@ func _unhandled_input(event: InputEvent) -> void:
 		_try_place_anchor(click_pos)
 
 
-# ---- Anchor Placement ----
+# ---- 锚点放置 ----
 
 func _try_place_anchor(pos: Vector2) -> void:
 	if not _can_place_anchor(pos):
 		return
 
 	if not GameManager.try_place_anchor():
-		return  # Out of anchors
+		return  # 锚点数量已用完
 
 	var anchor: Anchor = ANCHOR_SCENE.instantiate()
 	anchor.global_position = pos
 	anchor.attraction_radius = _level_data.anchor_attraction_radius
-	anchor.lifetime = 15.0  # Can be made configurable in LevelData later
+	anchor.lifetime = 15.0  # 后续可在 LevelData 中配置
 	anchor.lifetime_expired.connect(_on_anchor_expired)
 	anchors_container.add_child(anchor)
 
 
 func _can_place_anchor(pos: Vector2) -> bool:
-	# TODO: Validate position is within navigation mesh
-	# For now, just ensure it's not too close to the safe house
+	# TODO: 验证位置是否在导航网格内
+	# 目前仅确保不紧贴安全屋
 	if safe_house.global_position.distance_to(pos) < safe_house.rescue_radius + 20.0:
 		return false
 	return true
 
 
 func _on_anchor_expired(_anchor: Anchor) -> void:
-	pass  # Anchor handles its own queue_free; GameManager.remove_anchor() called in anchor.gd
+	pass  # 锚点自行 queue_free，GameManager.remove_anchor() 在 anchor.gd 中调用
 
 
-# ---- Refugee Spawning ----
+# ---- 难民生成 ----
 
 func _spawn_refugee(spawn_pos: Vector2, level_data: LevelData) -> void:
 	var refugee: Refugee = REFUGEE_SCENE.instantiate()
@@ -128,11 +126,11 @@ func _spawn_refugee(spawn_pos: Vector2, level_data: LevelData) -> void:
 	refugees_container.add_child(refugee)
 
 
-# ---- Navigation Setup ----
+# ---- 导航设置 ----
 
 func _setup_navigation() -> void:
 	var nav_poly := NavigationPolygon.new()
-	# Cover the full 1280x720 play area with a simple rectangle
+	# 覆盖 1280x720 完整游戏区域
 	var outline := PackedVector2Array([
 		Vector2(0, 0),
 		Vector2(1280, 0),
@@ -144,7 +142,7 @@ func _setup_navigation() -> void:
 	navigation_region.navigation_polygon = nav_poly
 
 
-# ---- Cleanup ----
+# ---- 清理 ----
 
 func _clear_containers() -> void:
 	for child in refugees_container.get_children():

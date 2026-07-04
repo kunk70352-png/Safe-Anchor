@@ -1,16 +1,13 @@
-## Main — Root entry point for the game.
-## Follows the Main > World + GUI pattern (Godot best practice, gdd_0045).
-## Loads levels, orchestrates the World and GUI, and handles game flow.
+## Main — 游戏根入口。
+## 遵循 Main > World + GUI 架构模式（Godot 最佳实践）。
+## 加载关卡、编排 World 和 GUI、处理游戏流程。
 extends Node
 
-# ---- Preloaded Scenes ----
-# (All scenes are instanced directly in main.tscn)
-
-# ---- Level Resources ----
+# ---- 关卡资源 ----
 var _levels: Array[LevelData] = []
 var _current_level_index: int = 0
 
-# ---- Nodes ----
+# ---- 节点引用 ----
 @onready var world = $World
 @onready var gui: CanvasLayer = $GUI
 @onready var hud: Control = $GUI/HUD
@@ -27,8 +24,8 @@ func _ready() -> void:
 
 func _load_levels() -> void:
 	_levels.clear()
-	# Load level resources in order
-	for i in range(1, 4):  # levels 1-3
+	# 按顺序加载关卡资源
+	for i in range(1, 4):  # 关卡 1-3
 		var path := "res://resources/levels/level_%d.tres" % i
 		if ResourceLoader.exists(path):
 			var level_data := load(path) as LevelData
@@ -51,7 +48,7 @@ func _start_current_level() -> void:
 	world.setup_level(level_data)
 
 
-# ---- UI Management ----
+# ---- UI 管理 ----
 
 func _show_hud_only() -> void:
 	hud.visible = true
@@ -71,7 +68,7 @@ func _show_defeat(stats: Dictionary) -> void:
 	defeat_screen.display_stats(stats)
 
 
-# ---- Game Event Handlers ----
+# ---- 游戏事件处理 ----
 
 func _on_level_completed(stats: Dictionary) -> void:
 	_show_victory(stats)
@@ -82,12 +79,12 @@ func _on_level_failed(stats: Dictionary) -> void:
 
 
 func _on_all_levels_complete() -> void:
-	# All levels finished — quit for now (avoids infinite recursion)
-	printerr("All levels completed, no more levels to load.")
+	# 全部关卡完成 — 暂时退出（避免无限递归）
+	printerr("所有关卡已完成，没有更多可加载的关卡。")
 	get_tree().quit()
 
 
-# ---- Button Callbacks (connected via signals in scene) ----
+# ---- 按钮回调（在场景中通过信号连接） ----
 
 func on_next_level_pressed() -> void:
 	_current_level_index += 1

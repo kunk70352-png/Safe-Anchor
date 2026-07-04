@@ -1,8 +1,8 @@
-## DefeatScreen — Shown when time runs out without enough rescues.
-## Displays level stats and provides retry option.
+## DefeatScreen — 时间耗尽且救援不足时显示。
+## 展示关卡统计并提供重试选项。
 extends Control
 
-# ---- Nodes ----
+# ---- 节点引用 ----
 @onready var title_label: Label = %TitleLabel
 @onready var stats_label: Label = %StatsLabel
 @onready var retry_button: Button = %RetryButton
@@ -17,7 +17,7 @@ func _ready() -> void:
 
 func display_stats(stats: Dictionary) -> void:
 	visible = true
-	title_label.text = "TIME'S UP!"
+	title_label.text = "时间到！"
 	title_label.modulate = Color.RED
 
 	var elapsed: float = stats.get("time_elapsed", 0.0)
@@ -28,10 +28,10 @@ func display_stats(stats: Dictionary) -> void:
 	var missing := target - rescued
 
 	stats_label.text = (
-		"Level: %s\n" % stats.get("level_name", "?") +
-		"Time: %02d:%02d\n" % [minutes, seconds] +
-		"Rescued: %d / %d\n" % [rescued, target] +
-		"Only %d more needed!" % missing
+		"关卡: %s\n" % stats.get("level_name", "?") +
+		"用时: %02d:%02d\n" % [minutes, seconds] +
+		"救出: %d / %d\n" % [rescued, target] +
+		"还差 %d 人！" % missing
 	)
 
 

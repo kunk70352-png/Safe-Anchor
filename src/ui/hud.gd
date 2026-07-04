@@ -1,7 +1,7 @@
-## HUD — In-game heads-up display showing level info, rescue progress, timer, and anchor count.
+## HUD — 游戏内抬头显示，展示关卡信息、救援进度、倒计时和锚点数量。
 extends Control
 
-# ---- Nodes ----
+# ---- 节点引用 ----
 @onready var level_label: Label = %LevelLabel
 @onready var rescued_label: Label = %RescuedLabel
 @onready var timer_label: Label = %TimerLabel
@@ -15,21 +15,21 @@ func _ready() -> void:
 	GameManager.time_updated.connect(_on_time_updated)
 
 
-# ---- Signal Handlers ----
+# ---- 信号处理 ----
 
 func _on_level_started(level_data: LevelData) -> void:
-	level_label.text = "Level %d: %s" % [level_data.level_number, level_data.level_name]
-	rescued_label.text = "Rescued: 0 / %d" % level_data.target_rescued
-	anchors_label.text = "Anchors: 0 / %d" % level_data.anchor_limit
+	level_label.text = "第%d关: %s" % [level_data.level_number, level_data.level_name]
+	rescued_label.text = "已救出: 0 / %d" % level_data.target_rescued
+	anchors_label.text = "锚点: 0 / %d" % level_data.anchor_limit
 	timer_label.modulate = Color.WHITE
 
 
 func _on_refugee_rescued(total: int, target: int) -> void:
-	rescued_label.text = "Rescued: %d / %d" % [total, target]
+	rescued_label.text = "已救出: %d / %d" % [total, target]
 
 
 func _on_anchor_placed(used: int, max_count: int) -> void:
-	anchors_label.text = "Anchors: %d / %d" % [used, max_count]
+	anchors_label.text = "锚点: %d / %d" % [used, max_count]
 	if used >= max_count:
 		anchors_label.modulate = Color.RED
 
@@ -37,8 +37,8 @@ func _on_anchor_placed(used: int, max_count: int) -> void:
 func _on_time_updated(remaining: float, _limit: float) -> void:
 	var minutes := int(remaining) / 60
 	var seconds := int(remaining) % 60
-	timer_label.text = "Time: %02d:%02d" % [minutes, seconds]
-	# Urgency coloring
+	timer_label.text = "时间: %02d:%02d" % [minutes, seconds]
+	# 紧急着色
 	if remaining <= 10.0:
 		timer_label.modulate = Color.RED
 	elif remaining <= 20.0:

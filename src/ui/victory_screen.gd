@@ -1,15 +1,15 @@
-## VictoryScreen — Shown when the player rescues enough refugees before time runs out.
-## Displays level stats and provides navigation to next level or retry.
+## VictoryScreen — 玩家在时间耗尽前救出足够难民时显示。
+## 展示关卡统计并提供下一关/重试导航。
 extends Control
 
-# ---- Nodes ----
+# ---- 节点引用 ----
 @onready var title_label: Label = %TitleLabel
 @onready var stats_label: Label = %StatsLabel
 @onready var next_button: Button = %NextButton
 @onready var retry_button: Button = %RetryButton
 @onready var quit_button: Button = %QuitButton
 
-# ---- References to Main (set via signal or direct path) ----
+# ---- Main 引用 ----
 var _main_ref: Node = null
 
 
@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func display_stats(stats: Dictionary) -> void:
 	visible = true
-	title_label.text = "VICTORY!"
+	title_label.text = "胜利！"
 	title_label.modulate = Color.GREEN
 
 	var elapsed: float = stats.get("time_elapsed", 0.0)
@@ -33,10 +33,10 @@ func display_stats(stats: Dictionary) -> void:
 	var target: int = stats.get("target", 0)
 
 	stats_label.text = (
-		"Level: %s\n" % stats.get("level_name", "?") +
-		"Time: %02d:%02d\n" % [minutes, seconds] +
-		"Rescued: %d / %d\n" % [rescued, target] +
-		"Success!"
+		"关卡: %s\n" % stats.get("level_name", "?") +
+		"用时: %02d:%02d\n" % [minutes, seconds] +
+		"救出: %d / %d\n" % [rescued, target] +
+		"任务成功！"
 	)
 
 
