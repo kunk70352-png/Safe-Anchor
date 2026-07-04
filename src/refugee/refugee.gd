@@ -115,6 +115,8 @@ func _find_best_target() -> Node2D:
 		var radius: float = float(source.get("attraction_radius")) + _range_boost
 		if dist_to_me > radius:
 			continue
+		if source.get("repel") == true:
+			continue
 		if source is SafeHouse:
 			return source
 		var dist_to_sh := source.global_position.distance_to(sh_pos)
@@ -173,7 +175,12 @@ func _get_safe_house_node() -> Node2D:
 func _process_movement() -> void:
 	if state == State.SEEKING and _repel_timer > 0.0:
 		_repel_timer -= get_physics_process_delta_time()
-		velocity = _repel_dir * seek_speed * 1.5
+		var sh_pos := _get_safe_house_pos()
+		var flee_target := global_position + _repel_dir * 300.0
+		if sh_pos.distance_to(flee_target) > sh_pos.distance_to(global_position):
+			navigation_agent.target_position = flee_target
+		var next_pos := navigation_agent.get_next_path_position()
+		velocity = global_position.direction_to(next_pos) * seek_speed * 1.3
 		move_and_slide()
 		return
 	if navigation_agent.is_navigation_finished():
