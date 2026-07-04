@@ -72,9 +72,17 @@ func _update_state() -> void:
 			_pick_new_wander_target()
 		return
 
-	if best is SafeHouse:
-		_navigate_to(best)
-		return
+	# 锚点超出徘徊范围则不跟随
+	if best is SafeHouse == false:
+		if best.global_position.distance_to(wander_origin) > wander_range:
+			if state == State.SEEKING and not navigation_agent.is_navigation_finished():
+				return
+			state = State.WANDERING
+			_current_attractor = null
+			_pick_new_wander_target()
+			return
+
+				return
 
 	var sh := _get_safe_house_node()
 	if sh:
