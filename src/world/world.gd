@@ -4,11 +4,13 @@ extends Node2D
 
 # ---- 预加载场景 ----
 const REFUGEE_SCENE := preload("res://src/refugee/refugee.tscn")
-const SPEED_ANCHOR_SCENE := preload("res://src/anchor/speed_anchor.tscn")
-const RANGE_ANCHOR_SCENE := preload("res://src/anchor/range_anchor.tscn")
+const TYPE1_ANCHOR := preload("res://src/anchor/anchor_type1.tscn")
+const TYPE2_ANCHOR := preload("res://src/anchor/anchor_type2.tscn")
+const TYPE3_ANCHOR := preload("res://src/anchor/anchor_type3.tscn")
 
-@export var speed_anchor_count: int = 2
-@export var range_anchor_count: int = 1
+@export var type1_count: int = 2
+@export var type2_count: int = 1
+@export var type3_count: int = 1
 
 # ---- 节点引用 ----
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion2D
@@ -43,7 +45,7 @@ func setup_level(level_data: LevelData) -> void:
 
 	# 玩家初始位置在安全屋旁边
 	player.global_position = level_data.safe_house_position + Vector2(60, 0)
-	player._held_anchor = preload("res://src/anchor/anchor.tscn")
+	player._held_anchor = TYPE1_ANCHOR
 	if player.anchor_data:
 		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 
@@ -113,14 +115,18 @@ func _setup_navigation() -> void:
 # ---- 随机锚点 ----
 
 func _spawn_random_anchors() -> void:
-	for i in range(speed_anchor_count):
-		var anchor := SPEED_ANCHOR_SCENE.instantiate()
-		anchor.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
-		anchors_container.add_child(anchor)
-	for i in range(range_anchor_count):
-		var anchor := RANGE_ANCHOR_SCENE.instantiate()
-		anchor.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
-		anchors_container.add_child(anchor)
+	for i in range(type1_count):
+		var a := TYPE1_ANCHOR.instantiate()
+		a.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		anchors_container.add_child(a)
+	for i in range(type2_count):
+		var a := TYPE2_ANCHOR.instantiate()
+		a.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		anchors_container.add_child(a)
+	for i in range(type3_count):
+		var a := TYPE3_ANCHOR.instantiate()
+		a.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		anchors_container.add_child(a)
 
 
 # ---- 清理 ----

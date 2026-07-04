@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 enum PlayerState { IDLE, CHARGING }
 var state: PlayerState = PlayerState.IDLE
-var _held_anchor: PackedScene = preload("res://src/anchor/anchor.tscn")
+var _held_anchor: PackedScene = preload("res://src/anchor/anchor_type1.tscn")
 var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT

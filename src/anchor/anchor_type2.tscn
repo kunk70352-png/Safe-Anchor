@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://catype2"]
+
+[ext_resource type="Script" path="res://src/anchor/anchor.gd" id="1_script"]
+
+[node name="Type2Anchor" type="Node2D" groups=["attraction_sources"]]
+script = ExtResource("1_script")
+attraction_radius = 350.0
+shrink_speed = 3.0
+min_radius = 30.0
+speed_modifier = 0.0
+repel = false
+anchor_color = Color(0.2, 0.8, 0.2, 1.0)

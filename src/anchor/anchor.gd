@@ -1,31 +1,34 @@
-## 锚点 — 玩家投掷的永久吸引点。可被玩家拾取回收。
+## 锚点基类 — 吸引/驱赶难民。可被玩家拾取回收。子类可自定义效果。
 class_name Anchor
 extends Node2D
 
-# ---- 信号 ----
 signal picked_up()
 
-# ---- 属性 ----
 @export var attraction_radius: float = 150.0:
-	set(value):
-		attraction_radius = value
+	set(v):
+		attraction_radius = v
 		queue_redraw()
 @export var anchor_color: Color = Color(0.2, 0.5, 1.0, 1.0)
+@export var shrink_speed: float = 0.0      # 每秒缩小像素，0=不缩小
+@export var min_radius: float = 20.0       # 缩小下限
+@export var speed_modifier: float = 0.0    # 难民速度加成（正加速负减速）
+@export var repel: bool = false            # 驱赶模式
 
 var _pulse_time: float = 0.0
 
 
 func _ready() -> void:
 	add_to_group("attraction_sources")
-	_pulse_time = randf() * TAU  # 随机初始相位，多个锚点不同步
+	_pulse_time = randf() * TAU
 
 
 func _process(delta: float) -> void:
 	_pulse_time += delta
+	if shrink_speed > 0 and attraction_radius > min_radius:
+		attraction_radius = maxf(attraction_radius - shrink_speed * delta, min_radius)
 	queue_redraw()
 
 
-## 被玩家拾取
 func pick_up() -> void:
 	picked_up.emit()
 	queue_free()

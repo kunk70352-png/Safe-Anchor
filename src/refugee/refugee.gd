@@ -20,6 +20,7 @@ var _current_attractor: Node2D = null
 var _speed_mult: float = 1.0
 var _speed_boost: float = 1.0
 var _range_boost: float = 0.0
+var _repel_dir: Vector2 = Vector2.ZERO
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -124,8 +125,9 @@ func _find_best_target() -> Node2D:
 
 
 func _apply_anchor_effects() -> void:
-	_speed_boost = 1.0
+	var total_speed_mod: float = 0.0
 	_range_boost = 0.0
+	_repel_dir = Vector2.ZERO
 	var world := get_tree().get_first_node_in_group("world") as Node2D
 	if world == null or not world.has_method("get_attraction_sources"):
 		return
@@ -135,10 +137,12 @@ func _apply_anchor_effects() -> void:
 		var dist := global_position.distance_to(source.global_position)
 		var radius: float = float(source.get("attraction_radius"))
 		if dist <= radius:
-			if source is SpeedAnchor:
-				_speed_boost = maxf(_speed_boost, 1.5)
+			total_speed_mod += float(source.get("speed_modifier"))
+			if bool(source.get("repel")):
+				_repel_dir += (global_position - source.global_position).normalized()
 			if source is RangeAnchor:
 				_range_boost = maxf(_range_boost, 60.0)
+	_speed_boost = maxf(1.0 + total_speed_mod, 0.1)
 
 
 func _get_safe_house_pos() -> Vector2:
@@ -163,6 +167,12 @@ func _get_safe_house_node() -> Node2D:
 
 
 func _process_movement() -> void:
+	if state == State.SEEKING and _repel_dir != Vector2.ZERO:
+		# 驱赶优先：朝远离锚点方向移动
+		var speed := seek_speed * _speed_boost
+		velocity = _repel_dir * speed
+		move_and_slide()
+		return
 	if navigation_agent.is_navigation_finished():
 		return
 	var next_pos := navigation_agent.get_next_path_position()
