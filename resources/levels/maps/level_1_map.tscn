@@ -27,5 +27,14 @@ tile_set = SubResource("TileSet_ts")
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=851786700]
 collision_layer = 16
 
-[node name="LavaZone" parent="." unique_id=1861782277 instance=ExtResource("3_21ren")]
-position = Vector2(107, 97)
+[node name="LavaZone" parent="." unique_id=161400160 instance=ExtResource("3_21ren")]
+position = Vector2(-11, 102)
+
+[node name="LavaZone" parent="LavaZone" unique_id=1672638936 instance=ExtResource("3_21ren")]
+position = Vector2(-5, 196)
+
+[node name="LavaZone" parent="LavaZone/LavaZone" unique_id=19941585 instance=ExtResource("3_21ren")]
+position = Vector2(5, 202)
+
+[node name="LavaZone" parent="LavaZone/LavaZone/LavaZone" unique_id=217089566 instance=ExtResource("3_21ren")]
+position = Vector2(0, 190)

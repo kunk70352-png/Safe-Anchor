@@ -12,6 +12,10 @@ atlas = ExtResource("2_dnpk4")
 [node name="Anchor" type="Node2D" unique_id=92345738 groups=["attraction_sources"]]
 script = ExtResource("1_script")
 
+[node name="RangeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_dnpk4")
+modulate = Color(1, 1, 1, 1.0)
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1440852553]
 position = Vector2(1.0000038, 3.8146973e-06)
 scale = Vector2(0.4921875, 0.4921875)

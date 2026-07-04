@@ -1,10 +1,7 @@
 [gd_scene format=3 uid="uid://csh1"]
 
 [ext_resource type="Script" uid="uid://cuk637syyuwa8" path="res://src/safe_house/safe_house.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dpqcc64m280rp" path="res://assets/sprites/safe_2.png" id="2_amkok"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cyqww"]
-atlas = ExtResource("2_amkok")
+[ext_resource type="Texture2D" uid="uid://bvdk4ldsq4dwa" path="res://assets/sprites/safe_3.png" id="2_amkok"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rescue"]
 radius = 30.0
@@ -15,7 +12,7 @@ script = ExtResource("1_script")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1456938847]
 position = Vector2(1.1920929e-07, 0)
 scale = Vector2(0.18194446, 0.16874999)
-texture = SubResource("AtlasTexture_cyqww")
+texture = ExtResource("2_amkok")
 
 [node name="RescueArea" type="Area2D" parent="." unique_id=1946746722]
 collision_layer = 4
