@@ -23,9 +23,15 @@ var _current_attractor: Node2D = null
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+# Visual color (randomized per refugee for visual variety)
+var _color: Color = Color.WHITE
+
 
 func _ready() -> void:
 	add_to_group("refugees")
+
+	# Random color for visual identification
+	_color = Color.from_hsv(randf(), 0.7, 0.9)
 
 	# Configure navigation agent for top-down movement
 	navigation_agent.path_desired_distance = 8.0
@@ -156,3 +162,16 @@ func rescue() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN)
 	tween.tween_callback(queue_free)
+
+
+func _draw() -> void:
+	# Placeholder visual: colored circle with direction indicator
+	var radius := 8.0
+	# Body
+	draw_circle(Vector2.ZERO, radius, _color)
+	# Direction dot
+	if velocity.length() > 10.0:
+		var forward := velocity.normalized() * (radius - 2.0)
+		draw_circle(forward, 2.5, Color.WHITE)
+	# Outline
+	draw_arc(Vector2.ZERO, radius, 0, TAU, 16, _color.darkened(0.3), 1.0)

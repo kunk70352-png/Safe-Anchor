@@ -17,8 +17,8 @@ rescue_radius = 30.0
 visible = true
 
 [node name="RescueArea" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4
+collision_layer = 4
+collision_mask = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RescueArea"]
 shape = SubResource("CircleShape2D_rescue")
