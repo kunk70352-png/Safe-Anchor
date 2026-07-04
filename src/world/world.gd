@@ -8,8 +8,11 @@ const TYPE1_ANCHOR := preload("res://src/anchor/anchor_type1.tscn")
 const TYPE2_ANCHOR := preload("res://src/anchor/anchor_type2.tscn")
 const TYPE3_ANCHOR := preload("res://src/anchor/anchor_type3.tscn")
 
+## 地图随机生成初始锚点数量
 @export var type1_count: int = 2
+## 地图随机生成大型锚点数量
 @export var type2_count: int = 1
+## 地图随机生成驱赶锚点数量
 @export var type3_count: int = 1
 
 # ---- 节点引用 ----

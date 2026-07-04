@@ -4,13 +4,21 @@ extends CharacterBody2D
 
 enum State { WANDERING, SEEKING, RESCUED }
 
+## 随机徘徊移动速度（像素/秒）
 @export var wander_speed: float = 60.0
+## 被吸引时移动速度（像素/秒）
 @export var seek_speed: float = 100.0
+## 改变徘徊方向的间隔（秒）
 @export var wander_interval: float = 2.0
+## 初始徘徊中心点（由 World 设置）
 @export var wander_origin: Vector2
+## 锚点范围内减速倍率（0~1）
 @export var anchor_slow_mult: float = 0.4
+## 锚点范围内徘徊角度范围（0~1，1=180°）
 @export var anchor_wander_angle: float = 0.4
+## 锚点范围内徘徊最近距离（占半径比例）
 @export var anchor_wander_min: float = 0.1
+## 锚点范围内徘徊最远距离（占半径比例）
 @export var anchor_wander_max: float = 0.4
 
 var state: State = State.WANDERING

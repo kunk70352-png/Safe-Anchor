@@ -1,18 +1,24 @@
-## 锚点基类 — 吸引/驱赶难民。可被玩家拾取回收。子类可自定义效果。
+## 锚点基类 — 吸引/驱赶难民。可被玩家拾取回收。
 class_name Anchor
 extends Node2D
 
 signal picked_up()
 
+## 吸引半径（像素）
 @export var attraction_radius: float = 150.0:
 	set(v):
 		attraction_radius = v
 		queue_redraw()
+## 显示颜色
 @export var anchor_color: Color = Color(0.2, 0.5, 1.0, 1.0)
-@export var shrink_speed: float = 0.0      # 每秒缩小像素，0=不缩小
-@export var min_radius: float = 20.0       # 缩小下限
-@export var speed_modifier: float = 0.0    # 难民速度加成（正加速负减速）
-@export var repel: bool = false            # 驱赶模式
+## 每秒缩小像素（0=不缩小）
+@export var shrink_speed: float = 0.0
+## 缩小下限（不小于此值）
+@export var min_radius: float = 20.0
+## 难民速度加成（正=加速，负=减速）
+@export var speed_modifier: float = 0.0
+## 驱赶模式（推走难民而非吸引）
+@export var repel: bool = false
 
 var _pulse_time: float = 0.0
 

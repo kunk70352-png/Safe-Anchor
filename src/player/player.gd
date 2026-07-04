@@ -10,12 +10,19 @@ var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT
 
+## 移动速度（像素/秒）
 @export var move_speed: float = 200.0
+## 默认锚点数据资源
 @export var anchor_data: AnchorData
+## 投掷最近距离（像素）
 @export var min_throw: float = 80.0
+## 投掷最远距离（像素）
 @export var max_throw: float = 350.0
+## 蓄力条摆动速度（次/秒）
 @export var charge_speed: float = 0.8
+## 抛物线预览高度（像素）
 @export var curve_height: float = 40.0
+## 拾取锚点距离（像素）
 @export var pickup_dist: float = 30.0
 
 
@@ -74,7 +81,7 @@ func _check_pickup() -> void:
 		if global_position.distance_to(a.global_position) < pickup_dist:
 			if not a.picked_up.is_connected(_on_anchor_picked_up):
 				a.picked_up.connect(_on_anchor_picked_up)
-			_held_anchor = load(a.scene_file_path)
+		_held_anchor = load(a.scene_file_path)
 			_held_anchor_radius = float(a.get("attraction_radius"))
 			a.pick_up()
 			break
