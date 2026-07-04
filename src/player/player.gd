@@ -35,8 +35,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# 拾取检测
-	if not has_anchor:
-		_check_pickup()
+	_check_pickup()
 
 	# 蓄力
 	match state:
