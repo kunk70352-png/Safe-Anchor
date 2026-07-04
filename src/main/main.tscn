@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmain1"]
+
+[ext_resource type="Script" path="res://src/main/main.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cwrld1" path="res://src/world/world.tscn" id="2_world"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_script")
+
+[node name="World" parent="." instance=ExtResource("2_world")]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+layer = 1
+
+[node name="HUD" type="Control" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+
+[node name="VictoryScreen" type="Control" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+visible = false
+
+[node name="DefeatScreen" type="Control" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+visible = false
