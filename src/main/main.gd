@@ -4,17 +4,14 @@
 extends Node
 
 # ---- Preloaded Scenes ----
-const WORLD_SCENE := preload("res://src/world/world.tscn")
-const HUD_SCENE := preload("res://src/ui/hud.tscn")
-const VICTORY_SCENE := preload("res://src/ui/victory_screen.tscn")
-const DEFEAT_SCENE := preload("res://src/ui/defeat_screen.tscn")
+# (All scenes are instanced directly in main.tscn)
 
 # ---- Level Resources ----
 var _levels: Array[LevelData] = []
 var _current_level_index: int = 0
 
 # ---- Nodes ----
-@onready var world: Node2D = $World
+@onready var world = $World
 @onready var gui: CanvasLayer = $GUI
 @onready var hud: Control = $GUI/HUD
 @onready var victory_screen: Control = $GUI/VictoryScreen
@@ -85,10 +82,9 @@ func _on_level_failed(stats: Dictionary) -> void:
 
 
 func _on_all_levels_complete() -> void:
-	# TODO: Show a "Congratulations! All levels complete!" screen
-	# For now, cycle back to level 1
-	_current_level_index = 0
-	_start_current_level()
+	# All levels finished — quit for now (avoids infinite recursion)
+	printerr("All levels completed, no more levels to load.")
+	get_tree().quit()
 
 
 # ---- Button Callbacks (connected via signals in scene) ----

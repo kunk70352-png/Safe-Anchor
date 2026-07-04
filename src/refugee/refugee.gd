@@ -41,9 +41,7 @@ func _ready() -> void:
 	# Defer first path query until nav map is synchronized
 	_setup_navigation.call_deferred()
 
-	# Bobbing animation for idle/movement
-	if animation_player and animation_player.has_animation("bob"):
-		animation_player.play("bob")
+	# Bobbing animation auto-plays from scene
 
 
 func _setup_navigation() -> void:
@@ -70,8 +68,10 @@ func _update_state() -> void:
 		_current_attractor = nearest
 		navigation_agent.target_position = nearest.global_position
 	else:
-		state = State.WANDERING
-		_current_attractor = null
+		if state != State.WANDERING:
+			state = State.WANDERING
+			_current_attractor = null
+			_pick_new_wander_target()
 
 
 func _find_nearest_attractor() -> Node2D:
@@ -161,7 +161,7 @@ func rescue() -> void:
 	# Visual feedback: shrink and fade
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN)
-	tween.tween_callback(queue_free)
+	tween.tween_callback(self.queue_free)
 
 
 func _draw() -> void:

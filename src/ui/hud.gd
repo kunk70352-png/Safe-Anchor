@@ -15,12 +15,6 @@ func _ready() -> void:
 	GameManager.time_updated.connect(_on_time_updated)
 
 
-func _process(_delta: float) -> void:
-	if not GameManager.is_level_active:
-		return
-	_update_timer_display()
-
-
 # ---- Signal Handlers ----
 
 func _on_level_started(level_data: LevelData) -> void:
@@ -40,19 +34,11 @@ func _on_anchor_placed(used: int, max_count: int) -> void:
 		anchors_label.modulate = Color.RED
 
 
-func _on_time_updated(remaining: float, limit: float) -> void:
-	pass  # Handled in _process for smooth display
-
-
-# ---- Display ----
-
-func _update_timer_display() -> void:
-	var remaining := GameManager.time_remaining
+func _on_time_updated(remaining: float, _limit: float) -> void:
 	var minutes := int(remaining) / 60
 	var seconds := int(remaining) % 60
 	timer_label.text = "Time: %02d:%02d" % [minutes, seconds]
-
-	# Urgency: turn red when under 10 seconds
+	# Urgency coloring
 	if remaining <= 10.0:
 		timer_label.modulate = Color.RED
 	elif remaining <= 20.0:

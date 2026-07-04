@@ -15,6 +15,7 @@ var _main_ref: Node = null
 
 func _ready() -> void:
 	visible = false
+	_main_ref = get_tree().get_first_node_in_group("main")
 	next_button.pressed.connect(_on_next_pressed)
 	retry_button.pressed.connect(_on_retry_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)

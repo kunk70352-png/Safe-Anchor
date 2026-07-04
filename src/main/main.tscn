@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cmain1"]
+[gd_scene load_steps=6 format=3 uid="uid://cmain1"]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cwrld1" path="res://src/world/world.tscn" id="2_world"]

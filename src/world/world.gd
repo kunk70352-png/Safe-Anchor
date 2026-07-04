@@ -4,7 +4,7 @@
 extends Node2D
 
 # ---- Signals ----
-signal timer_updated(time_remaining: float, time_limit: float)
+# (Timer updates flow through GameManager.time_updated)
 
 # ---- Preloaded Scenes ----
 const REFUGEE_SCENE := preload("res://src/refugee/refugee.tscn")
@@ -124,10 +124,10 @@ func _setup_navigation() -> void:
 	var nav_poly := NavigationPolygon.new()
 	# Cover the full 1280x720 play area with a simple rectangle
 	var outline := PackedVector2Array([
-		Vector2(40, 40),
-		Vector2(1240, 40),
-		Vector2(1240, 680),
-		Vector2(40, 680),
+		Vector2(0, 0),
+		Vector2(1280, 0),
+		Vector2(1280, 720),
+		Vector2(0, 720),
 	])
 	nav_poly.add_outline(outline)
 	nav_poly.make_polygons_from_outlines()
