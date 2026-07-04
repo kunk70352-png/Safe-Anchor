@@ -21,6 +21,7 @@ var _speed_mult: float = 1.0
 var _speed_boost: float = 1.0
 var _range_boost: float = 0.0
 var _repel_dir: Vector2 = Vector2.ZERO
+var _repel_timer: float = 0.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -139,6 +140,7 @@ func _apply_anchor_effects() -> void:
 		if dist <= radius:
 			if source.get("repel") == true:
 				_repel_dir += (global_position - source.global_position).normalized()
+				_repel_timer = 0.6
 			else:
 				var sm: float = source.get("speed_modifier") if source.get("speed_modifier") != null else 0.0
 				total_speed_mod += sm
@@ -169,8 +171,8 @@ func _get_safe_house_node() -> Node2D:
 
 
 func _process_movement() -> void:
-	if state == State.SEEKING and _repel_dir != Vector2.ZERO:
-		# 驱赶优先：快速逃离锚点
+	if state == State.SEEKING and _repel_timer > 0.0:
+		_repel_timer -= get_physics_process_delta_time()
 		velocity = _repel_dir * seek_speed * 1.5
 		move_and_slide()
 		return
