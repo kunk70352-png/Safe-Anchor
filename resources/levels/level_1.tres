@@ -19,4 +19,4 @@ safe_house_position = Vector2(640, 360)
 safe_house_attraction_radius = 200.0
 anchor_type = "default"
 difficulty_modifier = 1.0
-tile_map_scene = PackedStringArray([])
+tile_map_scene = PackedStringArray()
