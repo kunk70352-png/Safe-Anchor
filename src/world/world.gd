@@ -82,6 +82,57 @@ func get_safe_house_node() -> Node2D:
 	return safe_house if is_instance_valid(safe_house) else null
 
 
+## BFS 寻路：从 from_anchor 出发，沿重叠锚点链找到安全屋，返回下一步锚点
+func find_next_anchor_to_safehouse(from_anchor: Node2D) -> Node2D:
+	var sources := get_attraction_sources()
+	if sources.size() < 2:
+		return null
+
+	var sh_idx := sources.find(safe_house) if is_instance_valid(safe_house) else -1
+	var cur_idx := sources.find(from_anchor)
+	if sh_idx < 0 or cur_idx < 0:
+		return null
+
+	# 构建邻接表
+	var n := sources.size()
+	var adj: Array = []
+	for i in n:
+		adj.append([] as Array[int])
+	for i in n:
+		var ri := float(sources[i].get("attraction_radius"))
+		for j in i + 1:
+			var rj := float(sources[j].get("attraction_radius"))
+			if sources[i].global_position.distance_to(sources[j].global_position) <= ri + rj:
+				adj[i].append(j)
+				adj[j].append(i)
+
+	# BFS
+	var queue: Array[int] = [cur_idx]
+	var visited: Array[bool] = []
+	visited.resize(n)
+	visited[cur_idx] = true
+	var parent: Array[int] = []
+	parent.resize(n)
+	for i in n:
+		parent[i] = -1
+
+	while not queue.is_empty():
+		var v := queue.pop_front()
+		if v == sh_idx:
+			# 回溯路径，返回第一步
+			var step := sh_idx
+			while parent[step] != cur_idx and parent[step] >= 0:
+				step = parent[step]
+			return sources[step] if step != cur_idx else sources[sh_idx]
+		for nb in adj[v]:
+			if not visited[nb]:
+				visited[nb] = true
+				parent[nb] = v
+				queue.append(nb)
+
+	return null
+
+
 # ---- 难民生成 ----
 
 func _spawn_refugee(spawn_pos: Vector2, level_data: LevelData) -> void:
