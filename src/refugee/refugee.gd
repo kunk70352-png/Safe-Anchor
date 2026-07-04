@@ -97,7 +97,7 @@ func _advance_to_next_anchor(current: Node2D) -> void:
 	if world == null or not world.has_method("find_next_anchor_to_safehouse"):
 		return
 
-	var next_anchor := world.find_next_anchor_to_safehouse(current)
+	var next_anchor: Node2D = world.find_next_anchor_to_safehouse(current)
 	if next_anchor != null and next_anchor != current:
 		_navigate_to(next_anchor)
 		return

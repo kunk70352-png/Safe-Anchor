@@ -83,7 +83,7 @@ func get_safe_house_node() -> Node2D:
 
 
 ## BFS 寻路：从 from_anchor 出发，沿重叠锚点链找到安全屋，返回下一步锚点
-func find_next_anchor_to_safehouse(from_anchor: Node2D) -> Node2D:
+func find_next_anchor_to_safehouse(from_anchor: Node2D) -> Variant:
 	var sources := get_attraction_sources()
 	if sources.size() < 2:
 		return null
