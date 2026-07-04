@@ -24,7 +24,7 @@ extends Resource
 @export var anchor_attraction_radius: float = 150.0
 
 # ---- 安全屋配置 ----
-@export var safe_house_position: Vector2 = Vector2(640, 360)  # 1280x720 画面中心
+@export var safe_house_position: Vector2 = Vector2(960, 540)  # 1920x1080 画面中心
 @export var safe_house_attraction_radius: float = 200.0
 
 # ---- 扩展预留（后续使用） ----

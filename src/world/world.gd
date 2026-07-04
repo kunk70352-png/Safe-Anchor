@@ -95,9 +95,9 @@ func _setup_navigation() -> void:
 	var nav_poly := NavigationPolygon.new()
 	var outline := PackedVector2Array([
 		Vector2(0, 0),
-		Vector2(1280, 0),
-		Vector2(1280, 720),
-		Vector2(0, 720),
+		Vector2(1920, 0),
+		Vector2(1920, 1080),
+		Vector2(0, 1080),
 	])
 	nav_poly.add_outline(outline)
 	nav_poly.make_polygons_from_outlines()

@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 func _throw_anchor() -> void:
 	var dist := min_throw + charge_power * (max_throw - min_throw)
 	var landing_pos := global_position + last_move_dir * dist
-	landing_pos = landing_pos.clamp(Vector2(40, 40), Vector2(1240, 680))
+	landing_pos = landing_pos.clamp(Vector2(40, 40), Vector2(1880, 1040))
 
 	var anchor_scene := preload("res://src/anchor/anchor.tscn")
 	var anchor: Anchor = anchor_scene.instantiate()

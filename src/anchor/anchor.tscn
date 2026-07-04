@@ -1,14 +1,10 @@
 [gd_scene format=3 uid="uid://can1"]
 
 [ext_resource type="Script" uid="uid://bncb6svstlsvf" path="res://src/anchor/anchor.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://c55hkc1u1seih" path="res://assets/sprites/IMG_8959.jpg" id="2_dnpk4"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dnpk4"]
-atlas = ExtResource("2_dnpk4")
 
 [node name="Anchor" type="Node2D" unique_id=92345738 groups=["attraction_sources"]]
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1440852553]
-visible = false
-texture = SubResource("AtlasTexture_dnpk4")
+position = Vector2(1.0000038, 3.8146973e-06)
+scale = Vector2(0.4921875, 0.4921875)

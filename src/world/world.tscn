@@ -15,10 +15,10 @@ texture = ExtResource("2_bsf3i")
 sources/0 = SubResource("TileSetAtlasSource_43c6p")
 
 [sub_resource type="RectangleShape2D" id="wall_h"]
-size = Vector2(1280, 20)
+size = Vector2(1920, 20)
 
 [sub_resource type="RectangleShape2D" id="wall_v"]
-size = Vector2(20, 720)
+size = Vector2(20, 1080)
 
 [node name="World" type="Node2D" unique_id=1142537129 groups=["world"]]
 script = ExtResource("1_script")
@@ -31,10 +31,10 @@ tile_set = SubResource("TileSet_jyync")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=82103239]
 
 [node name="SafeHouse" parent="." unique_id=873699303 instance=ExtResource("2_safehouse")]
-position = Vector2(640, 360)
+position = Vector2(960, 540)
 
 [node name="Player" parent="." unique_id=780877215 instance=ExtResource("3_player")]
-position = Vector2(700, 360)
+position = Vector2(1020, 540)
 
 [node name="Refugees" type="Node2D" parent="." unique_id=1430374849]
 
@@ -45,23 +45,23 @@ position = Vector2(700, 360)
 [node name="WallTop" type="StaticBody2D" parent="Walls" unique_id=677388064]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallTop" unique_id=551288410]
-position = Vector2(640, -10)
+position = Vector2(960, -10)
 shape = SubResource("wall_h")
 
 [node name="WallBottom" type="StaticBody2D" parent="Walls" unique_id=306919850]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallBottom" unique_id=375657433]
-position = Vector2(640, 730)
+position = Vector2(960, 1090)
 shape = SubResource("wall_h")
 
 [node name="WallLeft" type="StaticBody2D" parent="Walls" unique_id=2104095106]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft" unique_id=934126665]
-position = Vector2(-10, 360)
+position = Vector2(-10, 540)
 shape = SubResource("wall_v")
 
 [node name="WallRight" type="StaticBody2D" parent="Walls" unique_id=842667763]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight" unique_id=470608127]
-position = Vector2(1290, 360)
+position = Vector2(1930, 540)
 shape = SubResource("wall_v")
