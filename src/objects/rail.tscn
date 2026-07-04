@@ -1,7 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dn8t1n00r1hla"]
 
 [sub_resource type="Curve2D" id="curve"]
-_data = PackedVector2Array(0, 0, 0, 1, 0, 0, 0, 0, 800, 0, 0, 0, 0, 0, 800, 300, 0, 0, 0, 0, 0, 0, 500, 300, 0, 0, 0, 0, 0, 0, 500, 500, 0, 0, 0, 0, 0, 0, 300, 500, 0, 0, 1, 0, 0, 0, 300, 200, 0, 0, 0, 0, 0, 0, 100, 200)
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -213, -85, 0, 0, 0, 0, -399, 36, 0, 0, 0, 0, 89, 327, 0, 0, 0, 0, 374, -213, 0, 0, 0, 0, -320, -288, 0, 0, 0, 0, -212, -88)
+}
+point_count = 6
 
-[node name="Rail" type="Path2D"]
+[node name="Rail" type="Path2D" unique_id=1317074193]
 curve = SubResource("curve")
