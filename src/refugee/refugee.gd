@@ -20,8 +20,7 @@ var _current_attractor: Node2D = null
 var _speed_mult: float = 1.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var _color: Color = Color.WHITE
 
@@ -157,15 +156,15 @@ func _process_movement() -> void:
 
 
 func _update_animation() -> void:
-	if not animation_player or not sprite:
+	if not sprite:
 		return
 	var moving := velocity.length() > 10.0
 	if not moving:
-		animation_player.play("idle")
+		sprite.play("idle") if sprite.sprite_frames.has_animation("idle") else sprite.stop()
 	elif state == State.SEEKING:
-		animation_player.play("run")
+		sprite.play("run") if sprite.sprite_frames.has_animation("run") else sprite.play("default")
 	else:
-		animation_player.play("walk")
+		sprite.play("walk") if sprite.sprite_frames.has_animation("walk") else sprite.play("default")
 	if absf(velocity.x) > 10.0:
 		sprite.flip_h = velocity.x < 0
 
