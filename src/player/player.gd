@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 enum PlayerState { IDLE, CHARGING }
 var state: PlayerState = PlayerState.IDLE
-var has_anchor: bool = true
+var _held_anchor: PackedScene = preload("res://src/anchor/anchor.tscn")
 var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT
@@ -31,12 +31,12 @@ func _physics_process(delta: float) -> void:
 	velocity = input_dir * move_speed
 	move_and_slide()
 
-	if not has_anchor:
+	if _held_anchor == null:
 		_check_pickup()
 
 	match state:
 		PlayerState.IDLE:
-			if has_anchor and Input.is_action_just_pressed("charge_throw"):
+			if _held_anchor != null and Input.is_action_just_pressed("charge_throw"):
 				state = PlayerState.CHARGING
 				charge_time = 0.0
 		PlayerState.CHARGING:
@@ -45,7 +45,7 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_just_released("charge_throw"):
 				_throw_anchor()
 				state = PlayerState.IDLE
-			elif not has_anchor:
+			elif _held_anchor == null:
 				state = PlayerState.IDLE
 
 	queue_redraw()
@@ -56,13 +56,12 @@ func _throw_anchor() -> void:
 	var landing_pos := global_position + last_move_dir * dist
 	landing_pos = landing_pos.clamp(Vector2(40, 40), Vector2(1880, 1040))
 
-	var anchor_scene := preload("res://src/anchor/anchor.tscn")
-	var anchor: Anchor = anchor_scene.instantiate()
+	var anchor: Anchor = _held_anchor.instantiate()
 	anchor.global_position = landing_pos
 	anchor.attraction_radius = anchor_data.attraction_radius
 	anchor.picked_up.connect(_on_anchor_picked_up)
 	get_tree().get_first_node_in_group("world").get_node("Anchors").add_child(anchor)
-	has_anchor = false
+	_held_anchor = null
 
 
 func _check_pickup() -> void:
@@ -74,21 +73,22 @@ func _check_pickup() -> void:
 		if global_position.distance_to(a.global_position) < pickup_dist:
 			if not a.picked_up.is_connected(_on_anchor_picked_up):
 				a.picked_up.connect(_on_anchor_picked_up)
+			_held_anchor = load(a.scene_file_path)
 			a.pick_up()
 			break
 
 
 func _on_anchor_picked_up() -> void:
-	has_anchor = true
+	pass
 
 
 func _draw() -> void:
 	var half := 10.0
 	draw_rect(Rect2(-half, -half, half * 2, half * 2), Color.ORANGE, true)
-	if has_anchor:
+	if _held_anchor != null:
 		draw_circle(Vector2(0, -half - 4), 3.0, Color.DODGER_BLUE)
 
-	if state != PlayerState.CHARGING or not has_anchor:
+	if state != PlayerState.CHARGING or _held_anchor == null:
 		return
 
 	var dist := min_throw + charge_power * (max_throw - min_throw)
