@@ -8,8 +8,8 @@ var _caught_anchor: Anchor = null
 
 
 func _ready() -> void:
-	if has_node("CatchZone"):
-		$CatchZone.body_entered.connect(_on_body_entered)
+	if has_node("CatchZone") and not $CatchZone.area_entered.is_connected(_on_area_entered):
+		$CatchZone.area_entered.connect(_on_area_entered)
 
 
 func _physics_process(delta: float) -> void:
@@ -18,11 +18,12 @@ func _physics_process(delta: float) -> void:
 		_caught_anchor.global_position = $CatchZone.global_position
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_area_entered(area: Area2D) -> void:
 	if _caught_anchor != null:
 		return
-	if body is Anchor:
-		_caught_anchor = body
+	var parent := area.get_parent()
+	if parent is Anchor:
+		_caught_anchor = parent
 		_caught_anchor.get_parent().remove_child(_caught_anchor)
 		add_child(_caught_anchor)
 		_caught_anchor.position = Vector2.ZERO

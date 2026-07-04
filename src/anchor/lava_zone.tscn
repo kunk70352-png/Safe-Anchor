@@ -1,15 +1,21 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bmhfc3a76ba32"]
 
-[ext_resource type="Script" path="res://src/anchor/lava_zone.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cp086my7cojec" path="res://src/anchor/lava_zone.gd" id="1_script"]
 
-[node name="LavaZone" type="StaticBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hhyop"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyqww"]
+
+[node name="LavaZone" type="StaticBody2D" unique_id=80107849]
 collision_layer = 32
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=994573732]
+shape = SubResource("RectangleShape2D_hhyop")
 
-[node name="AnchorDetector" type="Area2D" parent="."]
+[node name="AnchorDetector" type="Area2D" parent="." unique_id=1571913656]
 collision_layer = 16
-collision_mask = 0
+collision_mask = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnchorDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnchorDetector" unique_id=979970191]
+shape = SubResource("RectangleShape2D_cyqww")

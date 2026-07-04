@@ -22,6 +22,7 @@ var charge_power: float = 0.0
 @export var pickup_dist: float = 30.0
 
 var sprite: AnimatedSprite2D
+var _last_pickup_pos: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -72,6 +73,9 @@ func _throw_anchor() -> void:
 	anchor.attraction_radius = _held_anchor_radius
 	anchor.picked_up.connect(_on_anchor_picked_up)
 	get_tree().get_first_node_in_group("world").get_node("Anchors").add_child(anchor)
+	# 覆盖 _ready() 中设置的 _spawn_pos，使锚点重生时回到捡起位置
+	if _last_pickup_pos != Vector2.ZERO:
+		anchor._spawn_pos = _last_pickup_pos
 	_held_anchor = null
 	_held_anchor_radius = 0.0
 	_held_anchor_icon_tex = null
@@ -88,6 +92,7 @@ func _check_pickup() -> void:
 			if not a.picked_up.is_connected(_on_anchor_picked_up):
 				a.picked_up.connect(_on_anchor_picked_up)
 			_held_anchor = load(a.scene_file_path)
+			_last_pickup_pos = a.global_position
 			_held_anchor_radius = float(a.get("initial_radius")) if a.get("initial_radius") != null else float(a.get("attraction_radius"))
 			_held_anchor_color = a.get("anchor_color") if a.get("anchor_color") != null else Color(0.2, 0.5, 1.0, 1.0)
 
