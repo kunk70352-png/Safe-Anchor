@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctitle"]
+
+[ext_resource type="Script" path="res://src/ui/title_screen.gd" id="1_script"]
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_script")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.05, 0.12, 1)
+
+[node name="CenterBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="CenterBox"]
+layout_mode = 2
+text = "Safe Anchor"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+theme_override_colors/font_color = Color(0.3, 0.7, 1.0, 1)
+
+[node name="SubtitleLabel" type="Label" parent="CenterBox"]
+layout_mode = 2
+text = "安全锚点"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.5, 0.8, 1.0, 1)
+
+[node name="Spacer1" type="Control" parent="CenterBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="LoreLabel" type="Label" parent="CenterBox"]
+layout_mode = 2
+text = "世界崩坏之后，幸存者在废墟中流浪。\n你是最后的引路人，投下光锚，\n为迷途的灵魂照亮归家之路。\n\n在混乱中放置安全锚点，\n引导迷途幸存者回到安全屋。"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.7, 0.7, 0.8, 1)
+
+[node name="Spacer2" type="Control" parent="CenterBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Panel" type="Panel" parent="CenterBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(250, 100)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterBox/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/separation = 10
+
+[node name="StartButton" type="Button" parent="CenterBox/Panel/VBoxContainer"]
+layout_mode = 2
+text = "开始游戏"
+theme_override_font_sizes/font_size = 18
+
+[node name="QuitButton" type="Button" parent="CenterBox/Panel/VBoxContainer"]
+layout_mode = 2
+text = "退出游戏"
+theme_override_font_sizes/font_size = 18

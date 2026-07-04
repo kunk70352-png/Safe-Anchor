@@ -1,13 +1,12 @@
-## Main — 游戏根入口。启动时显示关卡选择，选关后进入游戏。
+## Main — 游戏根入口。标题→选关→游戏。
 extends Node
 
-# ---- 关卡资源 ----
 var _levels: Array[LevelData] = []
 var _current_level_index: int = 0
 
-# ---- 节点引用 ----
 @onready var world = $World
 @onready var gui: CanvasLayer = $GUI
+@onready var title_screen: Control = $GUI/TitleScreen
 @onready var level_select: Control = $GUI/LevelSelect
 @onready var hud: Control = $GUI/HUD
 @onready var victory_screen: Control = $GUI/VictoryScreen
@@ -17,6 +16,18 @@ var _current_level_index: int = 0
 func _ready() -> void:
 	_load_levels()
 	_connect_signals()
+	_show_title()
+
+
+func _show_title() -> void:
+	title_screen.visible = true
+	level_select.visible = false
+	hud.visible = false
+	victory_screen.visible = false
+	defeat_screen.visible = false
+
+
+func on_start_game() -> void:
 	_show_level_select()
 
 
