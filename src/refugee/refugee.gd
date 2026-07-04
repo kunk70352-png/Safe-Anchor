@@ -82,7 +82,6 @@ func _update_state() -> void:
 			_pick_new_wander_target()
 			return
 
-				return
 
 	var sh := _get_safe_house_node()
 	if sh:
