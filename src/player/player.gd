@@ -10,6 +10,8 @@ var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT
 
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 ## 移动速度（像素/秒）
 @export var move_speed: float = 200.0
 ## 默认锚点数据资源
@@ -56,6 +58,7 @@ func _physics_process(delta: float) -> void:
 			elif _held_anchor == null:
 				state = PlayerState.IDLE
 
+		_update_animation()
 	queue_redraw()
 
 
@@ -91,12 +94,24 @@ func _on_anchor_picked_up() -> void:
 	pass
 
 
-func _draw() -> void:
-	var half := 10.0
-	draw_rect(Rect2(-half, -half, half * 2, half * 2), Color.ORANGE, true)
-	if _held_anchor != null:
-		draw_circle(Vector2(0, -half - 4), 3.0, Color.DODGER_BLUE)
+func _update_animation() -> void:
+	if not sprite:
+		return
+	var moving := velocity.length() > 10.0
+	if state == PlayerState.CHARGING:
+		if sprite.sprite_frames and sprite.sprite_frames.has_animation("charge"):
+			sprite.play("charge")
+	elif moving:
+		if sprite.sprite_frames and sprite.sprite_frames.has_animation("walk"):
+			sprite.play("walk")
+	else:
+		if sprite.sprite_frames and sprite.sprite_frames.has_animation("idle"):
+			sprite.play("idle")
+	if absf(velocity.x) > 10.0:
+		sprite.flip_h = velocity.x < 0
 
+
+func _draw() -> void:
 	if state != PlayerState.CHARGING or _held_anchor == null:
 		return
 

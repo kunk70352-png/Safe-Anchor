@@ -1,10 +1,99 @@
-[gd_scene load_steps=2 format=3 uid="uid://cplyr1"]
+[gd_scene format=3 uid="uid://cplyr1"]
 
-[ext_resource type="Script" path="res://src/player/player.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dvfu31usei4vf" path="res://src/player/player.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ca1hxk8uj2nu2" path="res://assets/sprites/ss_character_walking.png" id="2_rxibo"]
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mf2ua"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_244u8"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5f2sf"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jiejy"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o822w"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x42xx"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l271a"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ydov"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylhto"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwolq"]
+atlas = ExtResource("2_rxibo")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cyqww"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mf2ua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_244u8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5f2sf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jiejy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o822w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x42xx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l271a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ydov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylhto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwolq")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Player" type="CharacterBody2D" unique_id=1499940106 groups=["player"]]
 collision_layer = 8
-collision_mask = 1
 script = ExtResource("1_script")
+move_speed = null
+min_throw = null
+max_throw = null
+charge_speed = null
+curve_height = null
+pickup_dist = null
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=382338018]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=187867651]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_cyqww")
+frame_progress = 0.25803506
