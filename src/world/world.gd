@@ -37,6 +37,9 @@ func setup_level(level_data: LevelData) -> void:
 	safe_house.position = level_data.safe_house_position
 	safe_house.attraction_radius = level_data.safe_house_attraction_radius
 
+	# 加载关卡地图
+	_load_tile_map(level_data)
+
 	# 玩家初始位置在安全屋旁边
 	player.global_position = level_data.safe_house_position + Vector2(60, 0)
 	player._held_anchor = null
@@ -174,6 +177,20 @@ func _spawn_level_anchors(ld: LevelData) -> void:
 		var a := TYPE3_ANCHOR.instantiate()
 		a.global_position = pos
 		anchors_container.add_child(a)
+
+
+# ---- 地图 ----
+
+func _load_tile_map(level_data: LevelData) -> void:
+	for child in get_children():
+		if child is TileMapLayer:
+			child.queue_free()
+	if not level_data.tile_map_path.is_empty():
+		var scene := load(level_data.tile_map_path) as PackedScene
+		if scene:
+			var map := scene.instantiate()
+			add_child(map)
+			move_child(map, 0)  # 放到最底层
 
 
 # ---- 清理 ----

@@ -28,6 +28,8 @@ extends Resource
 @export var safe_house_position: Vector2 = Vector2(960, 540)
 ## 安全屋吸引半径
 @export var safe_house_attraction_radius: float = 200.0
+## 关卡地图场景路径
+@export var tile_map_path: String = ""
 ## 预置初始锚点位置
 @export var type1_positions: Array[Vector2] = []
 ## 预置大型锚点位置

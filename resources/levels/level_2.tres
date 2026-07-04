@@ -19,4 +19,5 @@ safe_house_position = Vector2(960, 540)
 safe_house_attraction_radius = 200.0
 type1_positions = Array[Vector2]([Vector2(350, 400), Vector2(600, 540)])
 type2_positions = Array[Vector2]([Vector2(400, 700)])
+tile_map_path = "res://resources/levels/maps/level_2_map.tscn"
 type3_positions = Array[Vector2]([Vector2(1500, 540), Vector2(1500, 200)])
