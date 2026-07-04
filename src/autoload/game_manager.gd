@@ -94,7 +94,6 @@ func reset_for_new_level() -> void:
 	current_level_data = null
 	rescued_count = 0
 	time_remaining = 0.0
-	anchors_placed = 0
 	is_level_active = false
 
 
