@@ -137,10 +137,11 @@ func _apply_anchor_effects() -> void:
 		var dist := global_position.distance_to(source.global_position)
 		var radius: float = float(source.get("attraction_radius"))
 		if dist <= radius:
-			total_speed_mod += float(source.get("speed_modifier"))
-			if bool(source.get("repel")):
+			var sm: float = source.get("speed_modifier") if source.get("speed_modifier") != null else 0.0
+			total_speed_mod += sm
+			if source.get("repel") == true:
 				_repel_dir += (global_position - source.global_position).normalized()
-			if bool(source.get("repel")) == false and float(source.get("attraction_radius")) > 200:
+			if source.get("repel") != true and float(source.get("attraction_radius")) > 200:
 				_range_boost = maxf(_range_boost, 60.0)
 	_speed_boost = maxf(1.0 + total_speed_mod, 0.1)
 
