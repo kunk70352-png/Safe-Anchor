@@ -61,6 +61,9 @@ func _update_state() -> void:
 	var best := _find_best_target()
 
 	if best == null:
+		# 正在导航中途，不中断（锚点间隙保护）
+		if state == State.SEEKING and not navigation_agent.is_navigation_finished():
+			return
 		state = State.WANDERING
 		_current_attractor = null
 		if navigation_agent.is_navigation_finished():
@@ -79,7 +82,14 @@ func _update_state() -> void:
 			_navigate_to(sh)
 			return
 
-	if best != _current_attractor:
+	# 防止多锚点间抖动：新锚点必须明显更近才切换
+	var should_switch := best != _current_attractor
+	if should_switch and _current_attractor != null:
+		var cur_d := _current_attractor.global_position.distance_to(sh)
+		var new_d := best.global_position.distance_to(sh)
+		should_switch = new_d < cur_d - 20.0
+
+	if should_switch:
 		_navigate_to(best)
 	elif navigation_agent.is_navigation_finished():
 		_advance_to_next_anchor(best)
