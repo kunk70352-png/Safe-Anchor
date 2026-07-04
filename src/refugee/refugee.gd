@@ -99,6 +99,11 @@ func _find_nearest_attractor() -> Node2D:
 		else:
 			continue
 
+		# Skip if we're at this source already (prevents getting stuck)
+		# Always allow SafeHouse so rescue still triggers
+		if dist < 8.0 and not (source is SafeHouse):
+			continue
+
 		if dist <= radius and dist < nearest_dist:
 			nearest = source
 			nearest_dist = dist
