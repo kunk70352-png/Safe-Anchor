@@ -10,6 +10,7 @@ signal picked_up()
 	set(value):
 		attraction_radius = value
 		queue_redraw()
+@export var anchor_color: Color = Color(0.2, 0.5, 1.0, 1.0)
 
 var _pulse_time: float = 0.0
 
@@ -31,20 +32,15 @@ func pick_up() -> void:
 
 
 func _draw() -> void:
-	# 实际范围（与检测半径一致，不随脉冲变化）
-	draw_circle(Vector2.ZERO, attraction_radius, Color(0.0, 0.4, 1.0, 0.10))
-	draw_arc(Vector2.ZERO, attraction_radius, 0, TAU, 64, Color(0.3, 0.6, 1.0, 0.25), 1.5)
+	var c := anchor_color
+	draw_circle(Vector2.ZERO, attraction_radius, Color(c.r, c.g, c.b, 0.10))
+	draw_arc(Vector2.ZERO, attraction_radius, 0, TAU, 64, Color(c.r, c.g, c.b, 0.25), 1.5)
 
-	# 脉冲效果（纯装饰，不影响实际范围）
 	var pulse := 1.0 + sin(_pulse_time * 3.0) * 0.05
 	var glow_r := attraction_radius * pulse
-	draw_arc(Vector2.ZERO, glow_r, _pulse_time * 2.0, _pulse_time * 2.0 + PI, 32, Color(0.5, 0.7, 1.0, 0.15), 2.0)
+	draw_arc(Vector2.ZERO, glow_r, _pulse_time * 2.0, _pulse_time * 2.0 + PI, 32, Color(c.r, c.g, c.b, 0.15), 2.0)
 
-	# 十字标识
 	var cross_size := 10.0
-	var blue := Color(0.2, 0.5, 1.0, 1.0)
-	draw_line(Vector2(-cross_size, 0), Vector2(cross_size, 0), blue, 3.0)
-	draw_line(Vector2(0, -cross_size), Vector2(0, cross_size), blue, 3.0)
-
-	# 中心点
+	draw_line(Vector2(-cross_size, 0), Vector2(cross_size, 0), c, 3.0)
+	draw_line(Vector2(0, -cross_size), Vector2(0, cross_size), c, 3.0)
 	draw_circle(Vector2.ZERO, 4.0, Color.WHITE)

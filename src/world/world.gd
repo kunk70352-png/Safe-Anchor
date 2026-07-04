@@ -4,6 +4,11 @@ extends Node2D
 
 # ---- 预加载场景 ----
 const REFUGEE_SCENE := preload("res://src/refugee/refugee.tscn")
+const SPEED_ANCHOR_SCENE := preload("res://src/anchor/speed_anchor.tscn")
+const RANGE_ANCHOR_SCENE := preload("res://src/anchor/range_anchor.tscn")
+
+@export var speed_anchor_count: int = 2
+@export var range_anchor_count: int = 1
 
 # ---- 节点引用 ----
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion2D
@@ -43,6 +48,7 @@ func setup_level(level_data: LevelData) -> void:
 		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 
 	_setup_navigation()
+	_spawn_random_anchors()
 	_spawn_refugees_deferred.call_deferred(level_data)
 
 	GameManager.start_level(level_data)
@@ -102,6 +108,19 @@ func _setup_navigation() -> void:
 	nav_poly.add_outline(outline)
 	nav_poly.make_polygons_from_outlines()
 	navigation_region.navigation_polygon = nav_poly
+
+
+# ---- 随机锚点 ----
+
+func _spawn_random_anchors() -> void:
+	for i in range(speed_anchor_count):
+		var anchor := SPEED_ANCHOR_SCENE.instantiate()
+		anchor.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		anchors_container.add_child(anchor)
+	for i in range(range_anchor_count):
+		var anchor := RANGE_ANCHOR_SCENE.instantiate()
+		anchor.global_position = Vector2(randf_range(150, 1770), randf_range(150, 930))
+		anchors_container.add_child(anchor)
 
 
 # ---- 清理 ----

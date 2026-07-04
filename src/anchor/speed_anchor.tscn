@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cspeed1"]
+
+[ext_resource type="Script" path="res://src/anchor/speed_anchor.gd" id="1_script"]
+
+[node name="SpeedAnchor" type="Node2D" groups=["attraction_sources"]]
+script = ExtResource("1_script")
+attraction_radius = 150.0

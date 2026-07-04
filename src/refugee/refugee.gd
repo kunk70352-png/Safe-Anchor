@@ -18,16 +18,15 @@ var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer: float = 0.0
 var _current_attractor: Node2D = null
 var _speed_mult: float = 1.0
+var _speed_boost: float = 1.0
+var _range_boost: float = 0.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-var _color: Color = Color.WHITE
-
 
 func _ready() -> void:
 	add_to_group("refugees")
-	_color = Color.from_hsv(randf(), 0.7, 0.9)
 	navigation_agent.path_desired_distance = 8.0
 	navigation_agent.target_desired_distance = 8.0
 	navigation_agent.avoidance_enabled = false
@@ -45,6 +44,7 @@ func _physics_process(_delta: float) -> void:
 	_update_state()
 	_process_movement()
 	_update_animation()
+	_apply_anchor_effects()
 
 
 func _update_state() -> void:
@@ -61,13 +61,11 @@ func _update_state() -> void:
 		_navigate_to(best)
 		return
 
-	# 是锚点 — 检查是否与安全屋范围重叠
 	var sh := _get_safe_house_node()
 	if sh:
 		var anchor_r: float = float(best.get("attraction_radius"))
 		var sh_r := _get_safe_house_radius()
 		if best.global_position.distance_to(sh.global_position) <= anchor_r + sh_r:
-			# 锚点范围与安全屋重叠 → 直接去安全屋
 			_navigate_to(sh)
 			return
 
@@ -112,7 +110,7 @@ func _find_best_target() -> Node2D:
 		if not is_instance_valid(source):
 			continue
 		var dist_to_me := global_position.distance_to(source.global_position)
-		var radius: float = float(source.get("attraction_radius"))
+		var radius: float = float(source.get("attraction_radius")) + _range_boost
 		if dist_to_me > radius:
 			continue
 		if source is SafeHouse:
@@ -123,6 +121,24 @@ func _find_best_target() -> Node2D:
 			best = source
 
 	return best
+
+
+func _apply_anchor_effects() -> void:
+	_speed_boost = 1.0
+	_range_boost = 0.0
+	var world := get_tree().get_first_node_in_group("world") as Node2D
+	if world == null or not world.has_method("get_attraction_sources"):
+		return
+	for source in world.get_attraction_sources():
+		if not is_instance_valid(source):
+			continue
+		var dist := global_position.distance_to(source.global_position)
+		var radius: float = float(source.get("attraction_radius"))
+		if dist <= radius:
+			if source is SpeedAnchor:
+				_speed_boost = maxf(_speed_boost, 1.5)
+			if source is RangeAnchor:
+				_range_boost = maxf(_range_boost, 60.0)
 
 
 func _get_safe_house_pos() -> Vector2:
@@ -151,7 +167,7 @@ func _process_movement() -> void:
 		return
 	var next_pos := navigation_agent.get_next_path_position()
 	var speed := seek_speed if state == State.SEEKING else wander_speed
-	velocity = global_position.direction_to(next_pos) * speed * _speed_mult
+	velocity = global_position.direction_to(next_pos) * speed * _speed_mult * _speed_boost
 	move_and_slide()
 
 
@@ -160,11 +176,16 @@ func _update_animation() -> void:
 		return
 	var moving := velocity.length() > 10.0
 	if not moving:
-		sprite.play("idle") if sprite.sprite_frames.has_animation("idle") else sprite.stop()
+		if sprite.sprite_frames and sprite.sprite_frames.has_animation("idle"):
+			sprite.play("idle")
+		else:
+			sprite.stop()
 	elif state == State.SEEKING:
-		sprite.play("run") if sprite.sprite_frames.has_animation("run") else sprite.play("default")
-	else:
-		sprite.play("walk") if sprite.sprite_frames.has_animation("walk") else sprite.play("default")
+		if sprite.sprite_frames and sprite.sprite_frames.has_animation("run"):
+			sprite.play("run")
+	elif sprite.sprite_frames:
+		if sprite.sprite_frames.has_animation("walk"):
+			sprite.play("walk")
 	if absf(velocity.x) > 10.0:
 		sprite.flip_h = velocity.x < 0
 

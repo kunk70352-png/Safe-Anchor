@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://crange1"]
+
+[ext_resource type="Script" path="res://src/anchor/range_anchor.gd" id="1_script"]
+
+[node name="RangeAnchor" type="Node2D" groups=["attraction_sources"]]
+script = ExtResource("1_script")
+attraction_radius = 200.0
