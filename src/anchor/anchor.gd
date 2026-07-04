@@ -21,10 +21,12 @@ signal picked_up()
 @export var repel: bool = false
 
 var _pulse_time: float = 0.0
+var initial_radius: float = 0.0
 
 
 func _ready() -> void:
 	add_to_group("attraction_sources")
+	initial_radius = attraction_radius
 	_pulse_time = randf() * TAU
 
 

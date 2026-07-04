@@ -86,7 +86,7 @@ func _check_pickup() -> void:
 			if not a.picked_up.is_connected(_on_anchor_picked_up):
 				a.picked_up.connect(_on_anchor_picked_up)
 			_held_anchor = load(a.scene_file_path)
-			_held_anchor_radius = float(a.get("attraction_radius"))
+			_held_anchor_radius = float(a.get("initial_radius")) if a.get("initial_radius") != null else float(a.get("attraction_radius"))
 			a.pick_up()
 			break
 
