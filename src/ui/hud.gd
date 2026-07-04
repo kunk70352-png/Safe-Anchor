@@ -6,12 +6,20 @@ extends Control
 @onready var rescued_label: Label = %RescuedLabel
 @onready var timer_label: Label = %TimerLabel
 @onready var anchors_label: Label = %AnchorsLabel
+@onready var give_up_button: Button = %GiveUpButton
 
 
 func _ready() -> void:
 	GameManager.level_started.connect(_on_level_started)
 	GameManager.refugee_rescued.connect(_on_refugee_rescued)
 	GameManager.time_updated.connect(_on_time_updated)
+	give_up_button.pressed.connect(_on_give_up)
+
+
+func _on_give_up() -> void:
+	var main := get_tree().get_first_node_in_group("main")
+	if main and main.has_method("on_return_to_select"):
+		main.on_return_to_select()
 
 
 func _process(_delta: float) -> void:

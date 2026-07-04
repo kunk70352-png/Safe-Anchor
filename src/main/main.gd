@@ -94,3 +94,8 @@ func on_retry_pressed() -> void:
 
 func on_quit_pressed() -> void:
 	_show_level_select()
+
+
+func on_return_to_select() -> void:
+	GameManager.reset_for_new_level()
+	_show_level_select()
