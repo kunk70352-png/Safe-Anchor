@@ -15,7 +15,7 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 @export var anchor_radius: float = 160.0
 const MIN_THROW: float = 80.0
 const MAX_THROW: float = 350.0
-const CHARGE_SPEED: float = 2.5
+const CHARGE_SPEED: float = 0.8
 const CURVE_HEIGHT: float = 40.0
 const PICKUP_DIST: float = 30.0
 
@@ -89,6 +89,14 @@ func _on_anchor_picked_up() -> void:
 # ---- 绘制预览 ----
 
 func _draw() -> void:
+	# 玩家身体（橙色方块）
+	var half := 10.0
+	draw_rect(Rect2(-half, -half, half * 2, half * 2), Color.ORANGE, true)
+	# 持有锚点时显示小蓝点
+	if has_anchor:
+		draw_circle(Vector2(0, -half - 4), 3.0, Color.DODGER_BLUE)
+
+	# 蓄力预览
 	if state != PlayerState.CHARGING or not has_anchor:
 		return
 
@@ -97,23 +105,23 @@ func _draw() -> void:
 	var mid := target * 0.5 + Vector2.UP * CURVE_HEIGHT
 
 	# 抛物线
-	var color := Color(1.0, 0.8, 0.2, 0.7)
+	var line_color := Color(1.0, 0.8, 0.2, 0.7)
 	var steps := 20
 	for i in range(steps):
 		var t0 := float(i) / steps
 		var t1 := float(i + 1) / steps
-		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), color, 2.0)
+		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), line_color, 2.0)
 
 	# 落点范围圈
 	draw_circle(target, anchor_radius, Color(0.2, 0.5, 1.0, 0.12))
 	draw_arc(target, anchor_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
 
 	# 蓄力条
-	var bar_width := 40.0
+	var bar_w := 40.0
 	var bar_h := 4.0
-	var bar_y := 20.0
-	draw_rect(Rect2(-bar_width / 2, bar_y, bar_width, bar_h), Color(0.2, 0.2, 0.2, 0.8))
-	draw_rect(Rect2(-bar_width / 2, bar_y, bar_width * charge_power, bar_h), Color(1.0, 0.8, 0.2, 1.0))
+	var bar_y := 22.0
+	draw_rect(Rect2(-bar_w / 2, bar_y, bar_w, bar_h), Color(0.2, 0.2, 0.2, 0.8))
+	draw_rect(Rect2(-bar_w / 2, bar_y, bar_w * charge_power, bar_h), Color(1.0, 0.8, 0.2, 1.0))
 
 
 func _bezier(a: Vector2, b: Vector2, c: Vector2, t: float) -> Vector2:
