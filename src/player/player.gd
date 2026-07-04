@@ -81,7 +81,7 @@ func _check_pickup() -> void:
 		if global_position.distance_to(a.global_position) < pickup_dist:
 			if not a.picked_up.is_connected(_on_anchor_picked_up):
 				a.picked_up.connect(_on_anchor_picked_up)
-		_held_anchor = load(a.scene_file_path)
+			_held_anchor = load(a.scene_file_path)
 			_held_anchor_radius = float(a.get("attraction_radius"))
 			a.pick_up()
 			break
