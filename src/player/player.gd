@@ -2,7 +2,6 @@
 class_name Player
 extends CharacterBody2D
 
-# ---- 状态 ----
 enum PlayerState { IDLE, CHARGING }
 var state: PlayerState = PlayerState.IDLE
 var has_anchor: bool = true
@@ -10,7 +9,6 @@ var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT
 
-# ---- 参数 ----
 @export var move_speed: float = 200.0
 @export var anchor_data: AnchorData
 @export var min_throw: float = 80.0
@@ -27,18 +25,15 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# 移动
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	if input_dir != Vector2.ZERO:
 		last_move_dir = input_dir
 	velocity = input_dir * move_speed
 	move_and_slide()
 
-	# 拾取检测
 	if not has_anchor:
 		_check_pickup()
 
-	# 蓄力
 	match state:
 		PlayerState.IDLE:
 			if has_anchor and Input.is_action_just_pressed("charge_throw"):
@@ -56,8 +51,6 @@ func _physics_process(delta: float) -> void:
 	queue_redraw()
 
 
-# ---- 投掷 ----
-
 func _throw_anchor() -> void:
 	var dist := min_throw + charge_power * (max_throw - min_throw)
 	var landing_pos := global_position + last_move_dir * dist
@@ -72,16 +65,16 @@ func _throw_anchor() -> void:
 	has_anchor = false
 
 
-# ---- 拾取 ----
-
 func _check_pickup() -> void:
 	var world := get_tree().get_first_node_in_group("world")
 	if not world:
 		return
 	var anchors := world.get_node("Anchors")
-	for anchor in anchors.get_children():
-		if global_position.distance_to(anchor.global_position) < pickup_dist:
-			anchor.pick_up()
+	for a in anchors.get_children():
+		if global_position.distance_to(a.global_position) < pickup_dist:
+			if not a.picked_up.is_connected(_on_anchor_picked_up):
+				a.picked_up.connect(_on_anchor_picked_up)
+			a.pick_up()
 			break
 
 
@@ -89,17 +82,12 @@ func _on_anchor_picked_up() -> void:
 	has_anchor = true
 
 
-# ---- 绘制预览 ----
-
 func _draw() -> void:
-	# 玩家身体（橙色方块）
 	var half := 10.0
 	draw_rect(Rect2(-half, -half, half * 2, half * 2), Color.ORANGE, true)
-	# 持有锚点时显示小蓝点
 	if has_anchor:
 		draw_circle(Vector2(0, -half - 4), 3.0, Color.DODGER_BLUE)
 
-	# 蓄力预览
 	if state != PlayerState.CHARGING or not has_anchor:
 		return
 
@@ -107,7 +95,6 @@ func _draw() -> void:
 	var target := last_move_dir * dist
 	var mid := target * 0.5 + Vector2.UP * curve_height
 
-	# 抛物线
 	var line_color := Color(1.0, 0.8, 0.2, 0.7)
 	var steps := 20
 	for i in range(steps):
@@ -115,11 +102,9 @@ func _draw() -> void:
 		var t1 := float(i + 1) / steps
 		draw_line(_bezier(Vector2.ZERO, mid, target, t0), _bezier(Vector2.ZERO, mid, target, t1), line_color, 2.0)
 
-	# 落点范围圈
 	draw_circle(target, anchor_data.attraction_radius, Color(0.2, 0.5, 1.0, 0.12))
 	draw_arc(target, anchor_data.attraction_radius, 0, TAU, 32, Color(0.2, 0.5, 1.0, 0.4), 1.5)
 
-	# 蓄力条
 	var bar_w := 40.0
 	var bar_h := 4.0
 	var bar_y := 22.0
