@@ -1,15 +1,16 @@
-## 关卡选择界面 — 游戏启动时显示，列出所有关卡供玩家选择。
+## 关卡选择界面 — 列出所有关卡供玩家选择。
 extends Control
 
 signal level_selected(level_index: int)
+signal back_pressed()
 
 var _levels: Array[LevelData] = []
-var _buttons: Array[Button] = []
 
 
 func _ready() -> void:
 	_load_levels()
 	_create_buttons()
+	$Panel/BackButton.pressed.connect(_on_back)
 
 
 func _load_levels() -> void:
@@ -27,11 +28,14 @@ func _create_buttons() -> void:
 		var ld := _levels[i]
 		var btn := Button.new()
 		btn.text = "第%d关: %s\n目标: %d人 | 时间: %ds" % [ld.level_number, ld.level_name, ld.target_rescued, int(ld.time_limit)]
-		btn.custom_minimum_size = Vector2(300, 60)
+		btn.custom_minimum_size = Vector2(300, 55)
 		btn.pressed.connect(_on_level_pressed.bind(i))
 		list.add_child(btn)
-		_buttons.append(btn)
 
 
 func _on_level_pressed(index: int) -> void:
 	level_selected.emit(index)
+
+
+func _on_back() -> void:
+	back_pressed.emit()

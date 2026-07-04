@@ -45,6 +45,7 @@ func _connect_signals() -> void:
 	GameManager.level_completed.connect(_on_level_completed)
 	GameManager.level_failed.connect(_on_level_failed)
 	level_select.level_selected.connect(_on_level_selected)
+	level_select.back_pressed.connect(_show_title)
 
 
 func _show_level_select() -> void:
