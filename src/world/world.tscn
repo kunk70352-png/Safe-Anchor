@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cwrld1"]
+[gd_scene load_steps=6 format=3 uid="uid://cwrld1"]
 
 [ext_resource type="Script" path="res://src/world/world.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://csh1" path="res://src/safe_house/safe_house.tscn" id="2_safehouse"]
@@ -9,8 +9,6 @@ size = Vector2(1280, 20)
 
 [sub_resource type="RectangleShape2D" id="wall_v"]
 size = Vector2(20, 720)
-
-[sub_resource type="WorldBoundaryShape2D" id=""]  (unused, placeholder)
 
 [node name="World" type="Node2D" groups=["world"]]
 script = ExtResource("1_script")
