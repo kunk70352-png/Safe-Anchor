@@ -40,7 +40,7 @@ func _ready() -> void:
 		detector = Area2D.new()
 		detector.name = "DangerDetector"
 		detector.collision_layer = 1
-		detector.collision_mask = 16  # 检测 danger 层
+		detector.collision_mask = 18  # 检测 danger(16) + attraction(2) 层
 		detector.monitoring = true
 		detector.monitorable = true
 		var collision_shape := CollisionShape2D.new()
