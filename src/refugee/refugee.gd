@@ -45,6 +45,7 @@ func _physics_process(_delta: float) -> void:
 		return
 	_update_state()
 	_process_movement()
+	_update_animation()
 
 
 func _update_state() -> void:
@@ -155,6 +156,20 @@ func _process_movement() -> void:
 	move_and_slide()
 
 
+func _update_animation() -> void:
+	if not animation_player or not sprite:
+		return
+	var moving := velocity.length() > 10.0
+	if not moving:
+		animation_player.play("idle")
+	elif state == State.SEEKING:
+		animation_player.play("run")
+	else:
+		animation_player.play("walk")
+	if absf(velocity.x) > 10.0:
+		sprite.flip_h = velocity.x < 0
+
+
 func _pick_new_wander_target() -> void:
 	var angle := randf() * TAU
 	var dist := randf() * 120.0 + 40.0
@@ -169,11 +184,3 @@ func rescue() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN)
 	tween.tween_callback(self.queue_free)
-
-
-func _draw() -> void:
-	var r := 8.0
-	draw_circle(Vector2.ZERO, r, _color)
-	if velocity.length() > 10.0:
-		draw_circle(velocity.normalized() * (r - 2.0), 2.5, Color.WHITE)
-	draw_arc(Vector2.ZERO, r, 0, TAU, 16, _color.darkened(0.3), 1.0)

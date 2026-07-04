@@ -13,6 +13,8 @@ radius = 30.0
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1456938847]
+position = Vector2(1.1920929e-07, 0)
+scale = Vector2(0.18194446, 0.16874999)
 texture = SubResource("AtlasTexture_cyqww")
 
 [node name="RescueArea" type="Area2D" parent="." unique_id=1946746722]

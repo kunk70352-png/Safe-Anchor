@@ -5,14 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://csh1" path="res://src/safe_house/safe_house.tscn" id="2_safehouse"]
 [ext_resource type="PackedScene" uid="uid://cplyr1" path="res://src/player/player.tscn" id="3_player"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_43c6p"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bsf3i"]
 texture = ExtResource("2_bsf3i")
-47:52/0 = 0
-0:0/size_in_atlas = Vector2i(88, 52)
+0:0/size_in_atlas = Vector2i(120, 67)
 0:0/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_jyync"]
-sources/0 = SubResource("TileSetAtlasSource_43c6p")
+[sub_resource type="TileSet" id="TileSet_cyqww"]
+sources/0 = SubResource("TileSetAtlasSource_bsf3i")
 
 [sub_resource type="RectangleShape2D" id="wall_h"]
 size = Vector2(1920, 20)
@@ -23,10 +22,9 @@ size = Vector2(20, 1080)
 [node name="World" type="Node2D" unique_id=1142537129 groups=["world"]]
 script = ExtResource("1_script")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=909878844]
-position = Vector2(-1, 0)
-tile_map_data = PackedByteArray(0, 0, 38, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-tile_set = SubResource("TileSet_jyync")
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=2078247503]
+tile_map_data = PackedByteArray(0, 0, 59, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_cyqww")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=82103239]
 
