@@ -1,8 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwrld1"]
+[gd_scene format=3 uid="uid://cwrld1"]
 
-[ext_resource type="Script" path="res://src/world/world.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dcnyowkdge5s1" path="res://src/world/world.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="2_bsf3i"]
 [ext_resource type="PackedScene" uid="uid://csh1" path="res://src/safe_house/safe_house.tscn" id="2_safehouse"]
 [ext_resource type="PackedScene" uid="uid://cplyr1" path="res://src/player/player.tscn" id="3_player"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_43c6p"]
+texture = ExtResource("2_bsf3i")
+47:52/0 = 0
+0:0/size_in_atlas = Vector2i(88, 52)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jyync"]
+sources/0 = SubResource("TileSetAtlasSource_43c6p")
 
 [sub_resource type="RectangleShape2D" id="wall_h"]
 size = Vector2(1280, 20)
@@ -10,49 +20,48 @@ size = Vector2(1280, 20)
 [sub_resource type="RectangleShape2D" id="wall_v"]
 size = Vector2(20, 720)
 
-[node name="World" type="Node2D" groups=["world"]]
+[node name="World" type="Node2D" unique_id=1142537129 groups=["world"]]
 script = ExtResource("1_script")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=909878844]
+position = Vector2(-1, 0)
+tile_map_data = PackedByteArray(0, 0, 38, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_jyync")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=82103239]
 
-[node name="SafeHouse" parent="." instance=ExtResource("2_safehouse")]
+[node name="SafeHouse" parent="." unique_id=873699303 instance=ExtResource("2_safehouse")]
 position = Vector2(640, 360)
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="Player" parent="." unique_id=780877215 instance=ExtResource("3_player")]
 position = Vector2(700, 360)
 
-[node name="Refugees" type="Node2D" parent="."]
+[node name="Refugees" type="Node2D" parent="." unique_id=1430374849]
 
-[node name="Anchors" type="Node2D" parent="."]
+[node name="Anchors" type="Node2D" parent="." unique_id=397784437]
 
-[node name="Walls" type="Node2D" parent="."]
+[node name="Walls" type="Node2D" parent="." unique_id=1693867733]
 
-[node name="WallTop" type="StaticBody2D" parent="Walls"]
-collision_layer = 1
+[node name="WallTop" type="StaticBody2D" parent="Walls" unique_id=677388064]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallTop"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallTop" unique_id=551288410]
 position = Vector2(640, -10)
 shape = SubResource("wall_h")
 
-[node name="WallBottom" type="StaticBody2D" parent="Walls"]
-collision_layer = 1
+[node name="WallBottom" type="StaticBody2D" parent="Walls" unique_id=306919850]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallBottom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallBottom" unique_id=375657433]
 position = Vector2(640, 730)
 shape = SubResource("wall_h")
 
-[node name="WallLeft" type="StaticBody2D" parent="Walls"]
-collision_layer = 1
+[node name="WallLeft" type="StaticBody2D" parent="Walls" unique_id=2104095106]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallLeft" unique_id=934126665]
 position = Vector2(-10, 360)
 shape = SubResource("wall_v")
 
-[node name="WallRight" type="StaticBody2D" parent="Walls"]
-collision_layer = 1
+[node name="WallRight" type="StaticBody2D" parent="Walls" unique_id=842667763]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/WallRight" unique_id=470608127]
 position = Vector2(1290, 360)
 shape = SubResource("wall_v")

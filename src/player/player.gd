@@ -13,11 +13,11 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 # ---- 参数 ----
 @export var move_speed: float = 200.0
 @export var anchor_radius: float = 160.0
-const MIN_THROW: float = 80.0
-const MAX_THROW: float = 350.0
-const CHARGE_SPEED: float = 0.8
-const CURVE_HEIGHT: float = 40.0
-const PICKUP_DIST: float = 30.0
+@export var min_throw: float = 80.0
+@export var max_throw: float = 350.0
+@export var charge_speed: float = 0.8
+@export var curve_height: float = 40.0
+@export var pickup_dist: float = 30.0
 
 
 func _ready() -> void:
@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 				charge_time = 0.0
 		PlayerState.CHARGING:
 			charge_time += delta
-			charge_power = (sin(charge_time * CHARGE_SPEED * TAU) + 1.0) / 2.0
+			charge_power = (sin(charge_time * charge_speed * TAU) + 1.0) / 2.0
 			if Input.is_action_just_released("charge_throw"):
 				_throw_anchor()
 				state = PlayerState.IDLE
@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 # ---- 投掷 ----
 
 func _throw_anchor() -> void:
-	var dist := MIN_THROW + charge_power * (MAX_THROW - MIN_THROW)
+	var dist := min_throw + charge_power * (max_throw - min_throw)
 	var landing_pos := global_position + last_move_dir * dist
 	landing_pos = landing_pos.clamp(Vector2(40, 40), Vector2(1240, 680))
 
@@ -78,7 +78,7 @@ func _check_pickup() -> void:
 		return
 	var anchors := world.get_node("Anchors")
 	for anchor in anchors.get_children():
-		if global_position.distance_to(anchor.global_position) < PICKUP_DIST:
+		if global_position.distance_to(anchor.global_position) < pickup_dist:
 			anchor.pick_up()
 			break
 
@@ -101,9 +101,9 @@ func _draw() -> void:
 	if state != PlayerState.CHARGING or not has_anchor:
 		return
 
-	var dist := MIN_THROW + charge_power * (MAX_THROW - MIN_THROW)
+	var dist := min_throw + charge_power * (max_throw - min_throw)
 	var target := last_move_dir * dist
-	var mid := target * 0.5 + Vector2.UP * CURVE_HEIGHT
+	var mid := target * 0.5 + Vector2.UP * curve_height
 
 	# 抛物线
 	var line_color := Color(1.0, 0.8, 0.2, 0.7)

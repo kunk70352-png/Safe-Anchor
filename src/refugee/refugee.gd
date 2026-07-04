@@ -8,6 +8,10 @@ enum State { WANDERING, SEEKING, RESCUED }
 @export var seek_speed: float = 100.0
 @export var wander_interval: float = 2.0
 @export var wander_origin: Vector2
+@export var anchor_slow_mult: float = 0.4
+@export var anchor_wander_angle: float = 0.4
+@export var anchor_wander_min: float = 0.1
+@export var anchor_wander_max: float = 0.4
 
 var state: State = State.WANDERING
 var _wander_target: Vector2 = Vector2.ZERO
@@ -85,9 +89,9 @@ func _wander_near_anchor(anchor: Node2D) -> void:
 	var radius: float = float(anchor.get("attraction_radius"))
 	var sh_pos := _get_safe_house_pos()
 	var base_dir := (anchor.global_position - sh_pos).normalized()
-	var angle := randf_range(-PI * 0.4, PI * 0.4)
-	var dist := randf_range(radius * 0.1, radius * 0.4)
-	_speed_mult = 0.4
+	var angle := randf_range(-PI * anchor_wander_angle, PI * anchor_wander_angle)
+	var dist := randf_range(radius * anchor_wander_min, radius * anchor_wander_max)
+	_speed_mult = anchor_slow_mult
 	navigation_agent.target_position = anchor.global_position + base_dir.rotated(angle) * dist
 
 
