@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmain1"]
+[gd_scene load_steps=9 format=3 uid="uid://cmain1"]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cwrld1" path="res://src/world/world.tscn" id="2_world"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cdef1" path="res://src/ui/defeat_screen.tscn" id="5_defeat"]
 [ext_resource type="PackedScene" uid="uid://clvsel" path="res://src/ui/level_select.tscn" id="6_levelsel"]
 [ext_resource type="PackedScene" uid="uid://ctitle" path="res://src/ui/title_screen.tscn" id="7_title"]
+[ext_resource type="PackedScene" uid="uid://ccomp" path="res://src/ui/completion_screen.tscn" id="8_comp"]
 
 [node name="Main" type="Node" groups=["main"]]
 script = ExtResource("1_script")
@@ -27,3 +28,5 @@ visible = false
 [node name="VictoryScreen" parent="GUI" instance=ExtResource("4_victory")]
 
 [node name="DefeatScreen" parent="GUI" instance=ExtResource("5_defeat")]
+
+[node name="CompletionScreen" parent="GUI" instance=ExtResource("8_comp")]

@@ -11,6 +11,7 @@ var _current_level_index: int = 0
 @onready var hud: Control = $GUI/HUD
 @onready var victory_screen: Control = $GUI/VictoryScreen
 @onready var defeat_screen: Control = $GUI/DefeatScreen
+@onready var completion_screen: Control = $GUI/CompletionScreen
 
 
 func _ready() -> void:
@@ -25,6 +26,7 @@ func _show_title() -> void:
 	hud.visible = false
 	victory_screen.visible = false
 	defeat_screen.visible = false
+	completion_screen.visible = false
 
 
 func on_start_game() -> void:
@@ -96,7 +98,7 @@ func _on_level_failed(stats: Dictionary) -> void:
 func on_next_level_pressed() -> void:
 	_current_level_index += 1
 	if _current_level_index >= _levels.size():
-		_show_level_select()
+		_show_completion()
 		return
 	_start_current_level()
 
@@ -113,3 +115,18 @@ func on_quit_pressed() -> void:
 func on_return_to_select() -> void:
 	GameManager.reset_for_new_level()
 	_show_level_select()
+
+
+func on_return_to_title() -> void:
+	GameManager.reset_for_new_level()
+	_show_title()
+
+
+func _show_completion() -> void:
+	completion_screen.visible = true
+	completion_screen.show_screen()
+	hud.visible = false
+	title_screen.visible = false
+	level_select.visible = false
+	victory_screen.visible = false
+	defeat_screen.visible = false
