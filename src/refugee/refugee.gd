@@ -13,6 +13,7 @@ var state: State = State.WANDERING
 var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer: float = 0.0
 var _current_attractor: Node2D = null
+var _speed_mult: float = 1.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: Sprite2D = $Sprite2D
@@ -75,6 +76,7 @@ func _update_state() -> void:
 func _navigate_to(target: Node2D) -> void:
 	state = State.SEEKING
 	_current_attractor = target
+	_speed_mult = 1.0
 	navigation_agent.target_position = target.global_position
 
 
@@ -83,8 +85,9 @@ func _wander_near_anchor(anchor: Node2D) -> void:
 	var radius: float = float(anchor.get("attraction_radius"))
 	var sh_pos := _get_safe_house_pos()
 	var base_dir := (anchor.global_position - sh_pos).normalized()
-	var angle := randf_range(-PI * 0.5, PI * 0.5)
-	var dist := randf_range(radius * 0.3, radius * 0.8)
+	var angle := randf_range(-PI * 0.4, PI * 0.4)
+	var dist := randf_range(radius * 0.1, radius * 0.4)
+	_speed_mult = 0.4
 	navigation_agent.target_position = anchor.global_position + base_dir.rotated(angle) * dist
 
 
@@ -144,7 +147,7 @@ func _process_movement() -> void:
 		return
 	var next_pos := navigation_agent.get_next_path_position()
 	var speed := seek_speed if state == State.SEEKING else wander_speed
-	velocity = global_position.direction_to(next_pos) * speed
+	velocity = global_position.direction_to(next_pos) * speed * _speed_mult
 	move_and_slide()
 
 
