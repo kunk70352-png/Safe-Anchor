@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmain1"]
+[gd_scene load_steps=5 format=3 uid="uid://cmain1"]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cwrld1" path="res://src/world/world.tscn" id="2_world"]
+[ext_resource type="PackedScene" uid="uid://chud1" path="res://src/ui/hud.tscn" id="3_hud"]
+[ext_resource type="PackedScene" uid="uid://cvic1" path="res://src/ui/victory_screen.tscn" id="4_victory"]
+[ext_resource type="PackedScene" uid="uid://cdef1" path="res://src/ui/defeat_screen.tscn" id="5_defeat"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" groups=["main"]]
 script = ExtResource("1_script")
 
 [node name="World" parent="." instance=ExtResource("2_world")]
@@ -11,16 +14,8 @@ script = ExtResource("1_script")
 [node name="GUI" type="CanvasLayer" parent="."]
 layer = 1
 
-[node name="HUD" type="Control" parent="GUI"]
-layout_mode = 1
-anchors_preset = 15
+[node name="HUD" parent="GUI" instance=ExtResource("3_hud")]
 
-[node name="VictoryScreen" type="Control" parent="GUI"]
-layout_mode = 1
-anchors_preset = 15
-visible = false
+[node name="VictoryScreen" parent="GUI" instance=ExtResource("4_victory")]
 
-[node name="DefeatScreen" type="Control" parent="GUI"]
-layout_mode = 1
-anchors_preset = 15
-visible = false
+[node name="DefeatScreen" parent="GUI" instance=ExtResource("5_defeat")]
