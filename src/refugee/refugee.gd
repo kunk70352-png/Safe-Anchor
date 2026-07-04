@@ -173,7 +173,7 @@ func _get_safe_house_node() -> Node2D:
 
 
 func _process_movement() -> void:
-	if state == State.SEEKING and _repel_timer > 0.0:
+	if _repel_timer > 0.0:
 		_repel_timer -= get_physics_process_delta_time()
 		var sh_pos := _get_safe_house_pos()
 		var flee_target := global_position + _repel_dir * 300.0
