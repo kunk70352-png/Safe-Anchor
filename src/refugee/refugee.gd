@@ -24,7 +24,6 @@ enum State { WANDERING, SEEKING, RESCUED }
 @export var anchor_wander_max: float = 0.4
 
 var state: State = State.WANDERING
-var on_ice: bool = false
 var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer: float = 0.0
 var _current_attractor: Node2D = null
@@ -219,11 +218,6 @@ func _process_movement() -> void:
 	var speed := seek_speed if state == State.SEEKING else wander_speed
 	velocity = global_position.direction_to(next_pos) * speed * _speed_mult * _speed_boost
 	move_and_slide()
-	if on_ice:
-		for i in get_slide_collision_count():
-			var c := get_slide_collision(i)
-			if c:
-				velocity = velocity.bounce(c.get_normal())
 
 
 	# 卡墙检测：漫游3秒/寻路5秒未到达则重选目标
@@ -263,8 +257,6 @@ func _update_animation() -> void:
 
 
 func _pick_new_wander_target() -> void:
-	if on_ice:
-		return  # 冰面上不主动徘徊
 	var angle := randf() * TAU
 	var dist := randf() * wander_range * 0.8
 	navigation_agent.target_position = wander_origin + Vector2.RIGHT.rotated(angle) * dist

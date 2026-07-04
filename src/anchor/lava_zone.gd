@@ -17,7 +17,8 @@ func _ready() -> void:
 
 
 func contains_point(point: Vector2) -> bool:
-	var rect := Rect2(global_position, zone_size)
+	var half := zone_size * 0.5
+	var rect := Rect2(global_position - half, zone_size)
 	return rect.has_point(point)
 
 
