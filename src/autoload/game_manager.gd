@@ -39,9 +39,6 @@ var rescued_count: int = 0:
 		if current_level_data:
 			refugee_rescued.emit(rescued_count, current_level_data.target_rescued)
 
-## 倒计时剩余秒数
-var time_remaining: float = 0.0
-
 ## 关卡是否正在进行中
 var is_level_active: bool = false
 
@@ -53,7 +50,6 @@ var is_level_active: bool = false
 func start_level(level_data: LevelData) -> void:
 	current_level_data = level_data
 	rescued_count = 0
-	time_remaining = level_data.time_limit
 	is_level_active = true
 	level_started.emit(level_data)
 
@@ -74,26 +70,10 @@ func check_win_condition() -> bool:
 	return rescued_count >= current_level_data.target_rescued
 
 
-## 检查是否满足失败条件
-func check_lose_condition() -> bool:
-	return time_remaining <= 0.0 and not check_win_condition()
-
-
-## World 每物理帧调用此方法推进倒计时
-func tick_timer(delta: float) -> void:
-	if not is_level_active:
-		return
-	time_remaining = maxf(time_remaining - delta, 0.0)
-	time_updated.emit(time_remaining, current_level_data.time_limit)
-	if check_lose_condition():
-		_fail_level()
-
-
 ## 重置所有状态，准备新关卡
 func reset_for_new_level() -> void:
 	current_level_data = null
 	rescued_count = 0
-	time_remaining = 0.0
 	is_level_active = false
 
 
@@ -103,26 +83,10 @@ func reset_for_new_level() -> void:
 
 func _complete_level() -> void:
 	is_level_active = false
-	var elapsed := current_level_data.time_limit - time_remaining
 	var stats := {
 		"level": current_level_data.level_number,
 		"level_name": current_level_data.level_name,
-		"time_elapsed": snapped(elapsed, 0.1),
-		"time_limit": current_level_data.time_limit,
 		"rescued": rescued_count,
 		"target": current_level_data.target_rescued,
 	}
 	level_completed.emit(stats)
-
-
-func _fail_level() -> void:
-	is_level_active = false
-	var stats := {
-		"level": current_level_data.level_number,
-		"level_name": current_level_data.level_name,
-		"time_elapsed": current_level_data.time_limit,
-		"time_limit": current_level_data.time_limit,
-		"rescued": rescued_count,
-		"target": current_level_data.target_rescued,
-	}
-	level_failed.emit(stats)

@@ -20,16 +20,12 @@ func display_stats(stats: Dictionary) -> void:
 	title_label.text = "时间到！"
 	title_label.modulate = Color.RED
 
-	var elapsed: float = stats.get("time_elapsed", 0.0)
-	var minutes := int(elapsed) / 60
-	var seconds := int(elapsed) % 60
 	var rescued: int = stats.get("rescued", 0)
 	var target: int = stats.get("target", 0)
 	var missing := target - rescued
 
 	stats_label.text = (
 		"关卡: %s\n" % stats.get("level_name", "?") +
-		"用时: %02d:%02d\n" % [minutes, seconds] +
 		"救出: %d / %d\n" % [rescued, target] +
 		"还差 %d 人！" % missing
 	)

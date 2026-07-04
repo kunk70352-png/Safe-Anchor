@@ -8,8 +8,8 @@ extends Resource
 @export var level_name: String = "Level 1"
 ## 需要救出的难民目标数
 @export var target_rescued: int = 5
-## 时间限制（秒）
-@export var time_limit: float = 60.0
+## 难民徘徊范围（像素）
+@export var wander_range: float = 300.0
 ## 生成的难民数量
 @export var refugee_count: int = 8
 ## 难民徘徊速度

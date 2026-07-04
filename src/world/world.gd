@@ -23,10 +23,8 @@ func _ready() -> void:
 	add_to_group("world")
 
 
-func _physics_process(delta: float) -> void:
-	if not GameManager.is_level_active:
-		return
-	GameManager.tick_timer(delta)
+func _physics_process(_delta: float) -> void:
+	pass
 
 
 # ---- 公开 API ----
@@ -41,8 +39,8 @@ func setup_level(level_data: LevelData) -> void:
 
 	# 玩家初始位置在安全屋旁边
 	player.global_position = level_data.safe_house_position + Vector2(60, 0)
-	player._held_anchor = TYPE1_ANCHOR
-	player._held_anchor_radius = 180.0
+	player._held_anchor = null
+	player._held_anchor_radius = 0.0
 	if player.anchor_data:
 		player.anchor_data.attraction_radius = level_data.anchor_attraction_radius
 
@@ -142,6 +140,7 @@ func _spawn_refugee(spawn_pos: Vector2, level_data: LevelData) -> void:
 	refugee.wander_speed = level_data.refugee_wander_speed
 	refugee.seek_speed = level_data.refugee_seek_speed
 	refugee.wander_interval = level_data.refugee_wander_interval
+	refugee.wander_range = level_data.wander_range
 	refugees_container.add_child(refugee)
 
 

@@ -1,32 +1,24 @@
-## 玩家 — 可操控角色，WASD移动，空格蓄力投掷锚点。
+## 玩家 — WASD移动，鼠标左键蓄力投掷锚点。
 class_name Player
 extends CharacterBody2D
 
 enum PlayerState { IDLE, CHARGING }
 var state: PlayerState = PlayerState.IDLE
-var _held_anchor: PackedScene = preload("res://src/anchor/anchor_type1.tscn")
-var _held_anchor_radius: float = 180.0
-var _held_anchor_color: Color = Color(0.2, 0.5, 1.0, 1.0)
+var _held_anchor: PackedScene = null
+var _held_anchor_radius: float = 0.0
+var _held_anchor_color: Color = Color.WHITE
 var charge_time: float = 0.0
 var charge_power: float = 0.0
-var last_move_dir: Vector2 = Vector2.RIGHT
+
+@export var move_speed: float = 200.0
+@export var anchor_data: AnchorData
+@export var min_throw: float = 80.0
+@export var max_throw: float = 350.0
+@export var charge_speed: float = 0.8
+@export var curve_height: float = 40.0
+@export var pickup_dist: float = 30.0
 
 var sprite: AnimatedSprite2D
-
-## 移动速度（像素/秒）
-@export var move_speed: float = 200.0
-## 默认锚点数据资源
-@export var anchor_data: AnchorData
-## 投掷最近距离（像素）
-@export var min_throw: float = 80.0
-## 投掷最远距离（像素）
-@export var max_throw: float = 350.0
-## 蓄力条摆动速度（次/秒）
-@export var charge_speed: float = 0.8
-## 抛物线预览高度（像素）
-@export var curve_height: float = 40.0
-## 拾取锚点距离（像素）
-@export var pickup_dist: float = 30.0
 
 
 func _ready() -> void:
@@ -38,8 +30,6 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if input_dir != Vector2.ZERO:
-		last_move_dir = input_dir
 	velocity = input_dir * move_speed
 	move_and_slide()
 
@@ -60,17 +50,19 @@ func _physics_process(delta: float) -> void:
 			elif _held_anchor == null:
 				state = PlayerState.IDLE
 
-	_update_animation()
 	queue_redraw()
 
 
 func _throw_anchor() -> void:
+	var mouse_pos := get_global_mouse_position()
+	var throw_dir := (mouse_pos - global_position).normalized()
 	var dist := min_throw + charge_power * (max_throw - min_throw)
-	var landing_pos := global_position + last_move_dir * dist
+	var landing_pos := global_position + throw_dir * dist
 	landing_pos = landing_pos.clamp(Vector2(40, 40), Vector2(1880, 1040))
 
 	var anchor: Anchor = _held_anchor.instantiate()
 	anchor.global_position = landing_pos
+	anchor.attraction_radius = _held_anchor_radius
 	anchor.picked_up.connect(_on_anchor_picked_up)
 	get_tree().get_first_node_in_group("world").get_node("Anchors").add_child(anchor)
 	_held_anchor = null
@@ -118,8 +110,10 @@ func _draw() -> void:
 	if state != PlayerState.CHARGING or _held_anchor == null:
 		return
 
+	var mouse_pos := get_global_mouse_position()
+	var throw_dir := (mouse_pos - global_position).normalized()
 	var dist := min_throw + charge_power * (max_throw - min_throw)
-	var target := last_move_dir * dist
+	var target := throw_dir * dist
 	var mid := target * 0.5 + Vector2.UP * curve_height
 
 	var line_color := Color(1.0, 0.8, 0.2, 0.7)

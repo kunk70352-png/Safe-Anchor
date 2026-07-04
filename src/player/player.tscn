@@ -86,7 +86,7 @@ collision_layer = 8
 script = ExtResource("1_script")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=187867651]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.99218756, 0.99218756)
 sprite_frames = SubResource("SpriteFrames_cyqww")
 autoplay = "default"
-frame_progress = 0.7723557
+frame_progress = 0.025008392

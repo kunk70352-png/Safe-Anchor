@@ -12,6 +12,8 @@ enum State { WANDERING, SEEKING, RESCUED }
 @export var wander_interval: float = 2.0
 ## 初始徘徊中心点（由 World 设置）
 @export var wander_origin: Vector2
+## 徘徊范围限制（像素）
+@export var wander_range: float = 300.0
 ## 锚点范围内减速倍率（0~1）
 @export var anchor_slow_mult: float = 0.4
 ## 锚点范围内徘徊角度范围（0~1，1=180°）
@@ -238,7 +240,7 @@ func _update_animation() -> void:
 
 func _pick_new_wander_target() -> void:
 	var angle := randf() * TAU
-	var dist := randf() * 120.0 + 40.0
+	var dist := randf() * wander_range * 0.8
 	navigation_agent.target_position = wander_origin + Vector2.RIGHT.rotated(angle) * dist
 
 
