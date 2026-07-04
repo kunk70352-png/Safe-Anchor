@@ -84,14 +84,6 @@ animations = [{
 [node name="Player" type="CharacterBody2D" unique_id=1499940106 groups=["player"]]
 collision_layer = 8
 script = ExtResource("1_script")
-move_speed = null
-min_throw = null
-max_throw = null
-charge_speed = null
-curve_height = null
-pickup_dist = null
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=382338018]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=187867651]
 scale = Vector2(0.5, 0.5)

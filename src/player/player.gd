@@ -10,7 +10,7 @@ var charge_time: float = 0.0
 var charge_power: float = 0.0
 var last_move_dir: Vector2 = Vector2.RIGHT
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+var sprite: AnimatedSprite2D
 
 ## 移动速度（像素/秒）
 @export var move_speed: float = 200.0
@@ -30,6 +30,7 @@ var last_move_dir: Vector2 = Vector2.RIGHT
 
 func _ready() -> void:
 	add_to_group("player")
+	sprite = $AnimatedSprite2D
 	if not anchor_data:
 		anchor_data = load("res://resources/default_anchor.tres")
 
