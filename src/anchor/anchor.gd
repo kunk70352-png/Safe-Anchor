@@ -12,7 +12,7 @@ signal lifetime_expired(anchor: Anchor)
 	set(value):
 		attraction_radius = value
 		queue_redraw()
-@export var lifetime: float = 30.0
+@export var lifetime: float = 300.0
 
 # ---- Internal State ----
 var _pulse_time: float = 0.0

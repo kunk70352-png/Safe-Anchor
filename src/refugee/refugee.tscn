@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cref1"]
+[gd_scene format=3 uid="uid://cref1"]
 
-[ext_resource type="Script" path="res://src/refugee/refugee.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cuyqd3j8lx1f4" path="res://src/refugee/refugee.gd" id="1_script"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_refugee"]
 radius = 8.0
@@ -15,29 +15,29 @@ tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 0.3, 0.6)
-tracks/0/values = [Vector2(0, 0), Vector2(0, -4), Vector2(0, 0)]
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_refugee"]
 _data = {
-"bob": SubResource("Animation_bob")
+&"bob": SubResource("Animation_bob")
 }
 
-[node name="Refugee" type="CharacterBody2D" groups=["refugees"]]
-collision_layer = 1
+[node name="Refugee" type="CharacterBody2D" unique_id=2046455397 groups=["refugees"]]
 collision_mask = 0
 script = ExtResource("1_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1722831669]
 shape = SubResource("CircleShape2D_refugee")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = null
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=904754058]
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=18848035]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_refugee")
-}
-autoplay = "bob"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1717365872]
+libraries/ = SubResource("AnimationLibrary_refugee")
+autoplay = &"bob"
