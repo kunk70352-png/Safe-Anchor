@@ -2,7 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="1_tex"]
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
-[ext_resource type="PackedScene" path="res://src/anchor/lava_zone.tscn" id="3_21ren"]
+[ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="4_lj4qh"]
+[ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
@@ -27,6 +28,57 @@ tile_set = SubResource("TileSet_ts")
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=851786700]
 collision_layer = 16
 
-[node name="LavaZone" parent="." unique_id=161400160 instance=ExtResource("3_21ren")]
-position = Vector2(44, 540)
-scale = Vector2(0.36, 0.4)
+[node name="LevelPlacer" type="Node2D" parent="." unique_id=1112285321]
+script = ExtResource("4_placer")
+
+[node name="_Node2D_181028" type="Node2D" parent="LevelPlacer" unique_id=1181930719]
+position = Vector2(1287, 725)
+script = ExtResource("4_lj4qh")
+
+[node name="_Node2D_181027" type="Node2D" parent="LevelPlacer" unique_id=1397006222]
+position = Vector2(941, 286)
+script = ExtResource("4_lj4qh")
+
+[node name="_Node2D_181026" type="Node2D" parent="LevelPlacer" unique_id=1118085219]
+position = Vector2(1226, 466)
+script = ExtResource("4_lj4qh")
+category = 4
+
+[node name="@Node2D@181027" type="Node2D" parent="LevelPlacer" unique_id=502023852]
+position = Vector2(705, 859)
+script = ExtResource("4_lj4qh")
+
+[node name="_Node2D_181029" type="Node2D" parent="LevelPlacer" unique_id=1116178691]
+position = Vector2(428, 443)
+script = ExtResource("4_lj4qh")
+category = 3
+
+[node name="_Node2D_181031" type="Node2D" parent="LevelPlacer" unique_id=1987902979]
+position = Vector2(280, 604)
+script = ExtResource("4_lj4qh")
+category = 3
+
+[node name="_Node2D_181033" type="Node2D" parent="LevelPlacer" unique_id=198661783]
+position = Vector2(680, 691)
+script = ExtResource("4_lj4qh")
+category = 3
+
+[node name="_Node2D_181034" type="Node2D" parent="LevelPlacer" unique_id=645854294]
+position = Vector2(1182, 890)
+script = ExtResource("4_lj4qh")
+category = 3
+
+[node name="_Node2D_181035" type="Node2D" parent="LevelPlacer" unique_id=2076862859]
+position = Vector2(1069, 655)
+script = ExtResource("4_lj4qh")
+category = 3
+
+[node name="_Node2D_181030" type="Node2D" parent="LevelPlacer" unique_id=497336469]
+position = Vector2(895, 245)
+script = ExtResource("4_lj4qh")
+category = 3
+
+[node name="_Node2D_181032" type="Node2D" parent="LevelPlacer" unique_id=1620104585]
+position = Vector2(1001, 253)
+script = ExtResource("4_lj4qh")
+category = 3

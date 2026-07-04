@@ -129,11 +129,11 @@ func _find_best_target() -> Node2D:
 	if sources.is_empty():
 		return null
 
-	var sh_pos := _get_safe_house_pos()
 	var best: Node2D = null
-	var best_sh_dist: float = INF
+	var best_order: int = -1  # 越大越新
 
-	for source in sources:
+	for i in range(sources.size()):
+		var source := sources[i]
 		if not is_instance_valid(source):
 			continue
 		var dist_to_me := global_position.distance_to(source.global_position)
@@ -144,9 +144,9 @@ func _find_best_target() -> Node2D:
 			continue
 		if source is SafeHouse:
 			return source
-		var dist_to_sh := source.global_position.distance_to(sh_pos)
-		if dist_to_sh < best_sh_dist:
-			best_sh_dist = dist_to_sh
+		# 优先选最新放置的锚点（索引最大）
+		if i > best_order:
+			best_order = i
 			best = source
 
 	return best

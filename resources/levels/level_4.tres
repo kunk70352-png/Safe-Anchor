@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="LevelData" format=3]
+
+[ext_resource type="Script" uid="uid://babj0pqdpryyv" path="res://resources/levels/level_data.gd" id="1_leveldata"]
+
+[resource]
+script = ExtResource("1_leveldata")
+level_number = 4
+level_name = "飞屋"
+target_rescued = 5
+wander_range = 350.0
+refugee_count = 6
+refugee_wander_speed = 55.0
+refugee_seek_speed = 100.0
+refugee_wander_interval = 2.0
+refugee_spawn_positions = Array[Vector2]([Vector2(150, 200), Vector2(150, 880), Vector2(400, 540), Vector2(700, 200), Vector2(700, 880), Vector2(800, 540)])
+anchor_limit = 2
+anchor_attraction_radius = 140.0
+safe_house_position = Vector2(1500, 540)
+safe_house_attraction_radius = 200.0
+type1_positions = Array[Vector2]([Vector2(600, 400), Vector2(900, 600)])
+type2_positions = Array[Vector2]([])
+tile_map_path = "res://resources/levels/maps/level_4_map.tscn"
+type3_positions = Array[Vector2]([])

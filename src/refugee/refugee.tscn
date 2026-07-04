@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://cuyqd3j8lx1f4" path="res://src/refugee/refugee.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cbgxaqp3y14nt" path="res://assets/sprites/ss_2_walking_new.png" id="2_mlmom"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_refugee"]
-radius = 8.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mlmom"]
+size = Vector2(20, 34)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hmtau"]
 atlas = ExtResource("2_mlmom")
@@ -71,14 +71,14 @@ animations = [{
 }]
 
 [node name="Refugee" type="CharacterBody2D" unique_id=2046455397 groups=["refugees"]]
-collision_layer = 1
 collision_mask = 33
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=904754058]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1722831669]
-shape = SubResource("CircleShape2D_refugee")
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_mlmom")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=18848035]
 
