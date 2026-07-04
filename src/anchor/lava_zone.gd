@@ -1,3 +1,4 @@
+@tool
 ## 岩浆区 — 阻挡NPC和玩家，锚点丢入则重生。
 extends StaticBody2D
 

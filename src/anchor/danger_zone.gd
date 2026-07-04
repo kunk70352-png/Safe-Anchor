@@ -1,3 +1,4 @@
+@tool
 ## 危险区 — NPC进入即死亡。对玩家无影响。
 extends Area2D
 
