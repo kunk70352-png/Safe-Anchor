@@ -72,16 +72,6 @@ func _update_state() -> void:
 			_pick_new_wander_target()
 		return
 
-	# 难民自身超出徘徊范围则强制返回
-	if global_position.distance_to(wander_origin) > wander_range * 1.5:
-		if state == State.SEEKING and not navigation_agent.is_navigation_finished():
-			return
-		state = State.WANDERING
-		_current_attractor = null
-		_pick_new_wander_target()
-		return
-
-
 	var sh := _get_safe_house_node()
 	if sh:
 		var anchor_r: float = float(best.get("attraction_radius"))
