@@ -73,7 +73,7 @@ func _update_state() -> void:
 		state = State.SEEKING
 		_current_attractor = best
 		navigation_agent.target_position = best.global_position
-	elif state == State.SEEKING and navigation_agent.is_navigation_finished():
+	elif navigation_agent.is_navigation_finished():
 		# Reached current anchor — wander freely within its range
 		_wander_near(best)
 
