@@ -1,62 +1,60 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvic1"]
+[gd_scene format=3 uid="uid://cvic1"]
 
-[ext_resource type="Script" path="res://src/ui/victory_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bhcuefy168rem" path="res://assets/sprites/complete_1.png" id="1_bg"]
+[ext_resource type="Script" uid="uid://br1k7oby1uq86" path="res://src/ui/victory_screen.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://cou3t6pqu5wpo" path="res://assets/sprites/complete_next.png" id="3_next_btn"]
 
-[node name="VictoryScreen" type="Control"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hndnq"]
+atlas = ExtResource("1_bg")
+region = Rect2(447, 202, 1022, 661)
+
+[sub_resource type="StyleBoxTexture" id="next_normal"]
+texture = ExtResource("3_next_btn")
+
+[sub_resource type="StyleBoxTexture" id="next_pressed"]
+texture = ExtResource("3_next_btn")
+modulate_color = Color(0.85, 0.85, 0.85, 1)
+
+[sub_resource type="StyleBoxTexture" id="next_hover"]
+texture = ExtResource("3_next_btn")
+modulate_color = Color(1.15, 1.15, 1.15, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2uka"]
+atlas = ExtResource("3_next_btn")
+region = Rect2(678, 505, 564, 179)
+
+[node name="VictoryScreen" type="Control" unique_id=1689765337]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource("1_script")
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_script")
 
-[node name="CenterPanel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = 150.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterPanel"]
+[node name="Background" type="TextureRect" parent="." unique_id=1640690567]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/separation = 12
+offset_left = 795.0
+offset_top = 408.0
+offset_right = -793.0
+offset_bottom = -466.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_hndnq")
+expand_mode = 1
 
-[node name="TitleLabel" type="Label" parent="CenterPanel/VBoxContainer"]
+[node name="NextButton" type="Button" parent="." unique_id=1444462748]
 unique_name_in_owner = true
-layout_mode = 2
-text = "VICTORY!"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
-theme_override_colors/font_color = Color(0, 1, 0, 1)
-
-[node name="StatsLabel" type="Label" parent="CenterPanel/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Level: ?\nTime: 00:00\nRescued: 0 / 0"
-horizontal_alignment = 1
-
-[node name="ButtonsHBox" type="HBoxContainer" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="NextButton" type="Button" parent="CenterPanel/VBoxContainer/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "下一关"
-
-[node name="RetryButton" type="Button" parent="CenterPanel/VBoxContainer/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "重试"
-
-[node name="BackButton" type="Button" parent="CenterPanel/VBoxContainer/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "返回选关"
+layout_mode = 0
+offset_left = 856.0
+offset_top = 502.0
+offset_right = 1084.0
+offset_bottom = 572.0
+theme_override_styles/normal = SubResource("next_normal")
+theme_override_styles/pressed = SubResource("next_pressed")
+theme_override_styles/hover = SubResource("next_hover")
+icon = SubResource("AtlasTexture_d2uka")
+expand_icon = true

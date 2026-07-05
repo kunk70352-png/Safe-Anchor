@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://coehn2ch71chj"]
 
 [ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="1_tex"]
+[ext_resource type="Texture2D" uid="uid://byv5bxvxdt7ti" path="res://assets/sprites/background_3.png" id="2_5bil4"]
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
 [ext_resource type="PackedScene" uid="uid://bmhfc3a76ba32" path="res://src/anchor/lava_zone.tscn" id="3_21ren"]
 [ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
@@ -8,6 +9,11 @@
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
+0:0/size_in_atlas = Vector2i(120, 67)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qt08f"]
+texture = ExtResource("2_5bil4")
 0:0/size_in_atlas = Vector2i(120, 67)
 0:0/0 = 0
 
@@ -19,17 +25,18 @@ texture = ExtResource("2_5pd57")
 [sub_resource type="TileSet" id="TileSet_ts"]
 sources/0 = SubResource("TileSetAtlasSource_src")
 sources/2 = SubResource("TileSetAtlasSource_21ren")
+sources/1 = SubResource("TileSetAtlasSource_qt08f")
 
-[node name="TileMapLayer" type="TileMapLayer" unique_id=145232816]
-tile_map_data = PackedByteArray(0, 0, 60, 0, 33, 0, 2, 0, 0, 0, 0, 0, 0, 0)
+[node name="TileMapLayer2" type="TileMapLayer" unique_id=145232816]
+tile_map_data = PackedByteArray(0, 0, 60, 0, 33, 0, 1, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ts")
 
 [node name="LavaZone2" parent="." unique_id=244581132 instance=ExtResource("3_21ren")]
-position = Vector2(901, 250)
+position = Vector2(917, 239)
 zone_size = Vector2(600, 350)
 
 [node name="LavaZone" parent="." unique_id=2043586499 instance=ExtResource("3_21ren")]
-position = Vector2(900, 800)
+position = Vector2(918, 837)
 zone_size = Vector2(600, 350)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=2008152905]

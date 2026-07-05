@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://catype1"]
 
 [ext_resource type="Script" uid="uid://bncb6svstlsvf" path="res://src/anchor/anchor.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://wdn08ajxk30" path="res://assets/sprites/anchor_1.png" id="2_hmraq"]
 [ext_resource type="Texture2D" uid="uid://dyoxlcofc28bl" path="res://assets/sprites/anchor_blue.png" id="2_opvvo"]
-[ext_resource type="Texture2D" uid="uid://c0wcfm2kbaah" path="res://assets/sprites/anchor.png" id="3_range_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hndnq"]
+atlas = ExtResource("2_hmraq")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cyqww"]
 atlas = ExtResource("2_opvvo")
@@ -12,7 +15,7 @@ script = ExtResource("1_script")
 min_radius = 30.0
 
 [node name="RangeSprite" type="Sprite2D" parent="." unique_id=1426463301]
-texture = ExtResource("3_range_tex")
+texture = SubResource("AtlasTexture_hndnq")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1616396272]
 texture = SubResource("AtlasTexture_cyqww")

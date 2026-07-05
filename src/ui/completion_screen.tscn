@@ -1,48 +1,42 @@
 [gd_scene format=3 uid="uid://ccomp"]
 
-[ext_resource type="Script" path="res://src/ui/completion_screen.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://mrt12xm4nu7a" path="res://src/ui/completion_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://vgbf553rlmjv" path="res://assets/sprites/clear.png" id="2_58rnq"]
+[ext_resource type="Texture2D" uid="uid://ccx60n6glrn56" path="res://assets/sprites/gameover_exit.png" id="3_5pofi"]
+[ext_resource type="AudioStream" uid="uid://bx7lssvaj4lc2" path="res://assets/audio/game_completed.mp3" id="4_5pofi"]
 
-[node name="CompletionScreen" type="Control"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyqww"]
+atlas = ExtResource("2_58rnq")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04are"]
+atlas = ExtResource("3_5pofi")
+region = Rect2(719, 647, 495, 157)
+
+[node name="CompletionScreen" type="Control" unique_id=1321638963]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -180.0
-offset_right = 250.0
-offset_bottom = 180.0
+[node name="TextureRect" type="TextureRect" parent="." unique_id=317945116]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_cyqww")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_constants/separation = 20
-
-[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer"]
-layout_mode = 2
-text = "恭喜通关！"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
-theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
-
-[node name="MessageLabel" type="Label" parent="Panel/VBoxContainer"]
-layout_mode = 2
-text = "感谢游玩！\n你成功引导所有幸存者回到了安全屋。\n\n世界因你而重获希望。"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 16
-theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
-
-[node name="BackButton" type="Button" parent="Panel/VBoxContainer"]
-layout_mode = 2
-text = "返回标题界面"
+[node name="BackButton" type="Button" parent="." unique_id=896394929]
+layout_mode = 0
+offset_left = 1115.0
+offset_top = 663.0
+offset_right = 1565.0
+offset_bottom = 814.0
 theme_override_font_sizes/font_size = 18
+icon = SubResource("AtlasTexture_04are")
+icon_alignment = 1
+expand_icon = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=634131856]
+stream = ExtResource("4_5pofi")

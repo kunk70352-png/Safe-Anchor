@@ -67,3 +67,12 @@ category = 3
 position = Vector2(1226, 466)
 script = ExtResource("3_marker")
 category = 4
+
+[node name="TextEdit" type="TextEdit" parent="." unique_id=59418055]
+offset_left = 535.0
+offset_top = 104.0
+offset_right = 1346.0
+offset_bottom = 223.0
+theme_override_font_sizes/font_size = 30
+text = "wasd移动，捡起光锚
+长按左键，甩出光锚，指引幸存者"

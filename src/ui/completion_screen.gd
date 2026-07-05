@@ -4,10 +4,11 @@ extends Control
 
 func _ready() -> void:
 	visible = false
-	$Panel/VBoxContainer/BackButton.pressed.connect(_on_back)
+	$BackButton.pressed.connect(_on_back)
 
 
 func show_screen() -> void:
+	AudioManager.play_bgm(load("res://assets/audio/game_completed.mp3"))
 	visible = true
 
 

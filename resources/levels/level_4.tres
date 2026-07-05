@@ -6,7 +6,7 @@
 script = ExtResource("1_leveldata")
 level_number = 3
 level_name = "反向锚2"
-target_rescued = 8
+target_rescued = 1
 refugee_count = 5
 refugee_wander_speed = 20.0
 refugee_seek_speed = 95.0

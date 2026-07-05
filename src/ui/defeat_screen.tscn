@@ -1,61 +1,89 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdef1"]
+[gd_scene format=3 uid="uid://cdef1"]
 
-[ext_resource type="Script" path="res://src/ui/defeat_screen.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://brnuoqygngh04" path="res://assets/sprites/gameover_1.png" id="1_bg"]
+[ext_resource type="Script" uid="uid://h7kch5jio156" path="res://src/ui/defeat_screen.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://brlxkfuxp2qos" path="res://assets/sprites/gameover_restart.png" id="3_retry_btn"]
+[ext_resource type="Texture2D" uid="uid://ccx60n6glrn56" path="res://assets/sprites/gameover_exit.png" id="4_exit_btn"]
 
-[node name="DefeatScreen" type="Control"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ye7av"]
+atlas = ExtResource("1_bg")
+region = Rect2(631, 180, 658, 719)
+
+[sub_resource type="StyleBoxTexture" id="exit_normal"]
+texture = ExtResource("4_exit_btn")
+
+[sub_resource type="StyleBoxTexture" id="exit_pressed"]
+texture = ExtResource("4_exit_btn")
+modulate_color = Color(0.85, 0.85, 0.85, 1)
+
+[sub_resource type="StyleBoxTexture" id="exit_hover"]
+texture = ExtResource("4_exit_btn")
+modulate_color = Color(1.15, 1.15, 1.15, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmhdo"]
+atlas = ExtResource("4_exit_btn")
+region = Rect2(719, 647, 495, 157)
+
+[sub_resource type="StyleBoxTexture" id="retry_normal"]
+texture = ExtResource("3_retry_btn")
+
+[sub_resource type="StyleBoxTexture" id="retry_pressed"]
+texture = ExtResource("3_retry_btn")
+modulate_color = Color(0.85, 0.85, 0.85, 1)
+
+[sub_resource type="StyleBoxTexture" id="retry_hover"]
+texture = ExtResource("3_retry_btn")
+modulate_color = Color(1.15, 1.15, 1.15, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5uhj"]
+atlas = ExtResource("3_retry_btn")
+region = Rect2(715, 407, 492, 158)
+
+[node name="DefeatScreen" type="Control" unique_id=1071200873]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_script")
+script = ExtResource("2_script")
 
-[node name="CenterPanel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -130.0
-offset_right = 200.0
-offset_bottom = 130.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterPanel"]
+[node name="Background" type="TextureRect" parent="." unique_id=1988021378]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/separation = 15
+offset_left = 739.0
+offset_top = 386.0
+offset_right = -881.0
+offset_bottom = -414.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_ye7av")
+expand_mode = 1
 
-[node name="TitleLabel" type="Label" parent="CenterPanel/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="." unique_id=2102555801]
 unique_name_in_owner = true
-layout_mode = 2
-text = "TIME'S UP!"
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 36
-theme_override_colors/font_color = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 787.0
+offset_top = 557.0
+offset_right = 994.0
+offset_bottom = 632.0
+theme_override_styles/normal = SubResource("exit_normal")
+theme_override_styles/pressed = SubResource("exit_pressed")
+theme_override_styles/hover = SubResource("exit_hover")
+icon = SubResource("AtlasTexture_nmhdo")
+expand_icon = true
 
-[node name="StatsLabel" type="Label" parent="CenterPanel/VBoxContainer"]
+[node name="RetryButton" type="Button" parent="." unique_id=1529433243]
 unique_name_in_owner = true
-layout_mode = 2
-text = "Level: ?\nTime: 00:00\nRescued: 0 / 0"
-horizontal_alignment = 1
-
-[node name="ButtonsHBox" type="HBoxContainer" parent="CenterPanel/VBoxContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="RetryButton" type="Button" parent="CenterPanel/VBoxContainer/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Retry"
-
-[node name="QuitButton" type="Button" parent="CenterPanel/VBoxContainer/ButtonsHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Quit"
+layout_mode = 0
+offset_left = 783.0
+offset_top = 475.0
+offset_right = 992.0
+offset_bottom = 543.0
+theme_override_styles/normal = SubResource("retry_normal")
+theme_override_styles/pressed = SubResource("retry_pressed")
+theme_override_styles/hover = SubResource("retry_hover")
+icon = SubResource("AtlasTexture_q5uhj")
+expand_icon = true
