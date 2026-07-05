@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="4_1rrin"]
 [ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
 [ext_resource type="PackedScene" uid="uid://d7byxnujkguh" path="res://src/anchor/danger_zone.tscn" id="5_dwv25"]
+[ext_resource type="PackedScene" uid="uid://dn8t1n00r1hla" path="res://src/objects/rail.tscn" id="6_foojn"]
+[ext_resource type="PackedScene" path="res://src/safe_house/moving_safe_house.tscn" id="7_oydp8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
@@ -80,3 +82,10 @@ position = Vector2(1023, 219)
 
 [node name="DangerZone2" parent="." unique_id=2018287111 instance=ExtResource("5_dwv25")]
 position = Vector2(1055, 758)
+
+[node name="Rail" parent="." unique_id=1317074193 instance=ExtResource("6_foojn")]
+position = Vector2(1112, 529.28296)
+scale = Vector2(1, 1.0763116)
+
+[node name="MovingSafeHouse" parent="Rail" unique_id=1978883642 instance=ExtResource("7_oydp8")]
+position = Vector2(64, 197.63518)
