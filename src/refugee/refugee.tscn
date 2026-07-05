@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://cref1"]
 
 [ext_resource type="Script" uid="uid://cuyqd3j8lx1f4" path="res://src/refugee/refugee.gd" id="1_script"]
+[ext_resource type="AudioStream" uid="uid://ddx7mtseikupw" path="res://assets/audio/refugee_idle_1.mp3" id="2_b8r6p"]
 [ext_resource type="Texture2D" uid="uid://cbgxaqp3y14nt" path="res://assets/sprites/ss_2_walking_new.png" id="2_mlmom"]
+[ext_resource type="AudioStream" uid="uid://clbecci37qpyy" path="res://assets/audio/refugee_idle_2.mp3" id="3_i1wtu"]
+[ext_resource type="AudioStream" uid="uid://bsmj0s8ub2x8y" path="res://assets/audio/refugee_idle_3.mp3" id="4_3dmng"]
+[ext_resource type="AudioStream" uid="uid://0xppbyk345bb" path="res://assets/audio/refugee_idle_4.mp3" id="5_omffh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mlmom"]
 size = Vector2(20, 34)
@@ -73,6 +77,7 @@ animations = [{
 [node name="Refugee" type="CharacterBody2D" unique_id=2046455397 groups=["refugees"]]
 collision_mask = 33
 script = ExtResource("1_script")
+voice_sounds = Array[AudioStream]([ExtResource("2_b8r6p"), ExtResource("3_i1wtu"), ExtResource("4_3dmng"), ExtResource("5_omffh")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=904754058]
 
@@ -88,3 +93,8 @@ scale = Vector2(0.8020833, 0.8645833)
 sprite_frames = SubResource("SpriteFrames_cyqww")
 autoplay = "default"
 frame_progress = 0.8805481
+
+[node name="VoicePlayer" type="AudioStreamPlayer2D" parent="." unique_id=755223911]
+volume_db = -8.0
+max_distance = 600.0
+attenuation = 0.5

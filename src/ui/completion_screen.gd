@@ -12,6 +12,7 @@ func show_screen() -> void:
 
 
 func _on_back() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	var main := get_tree().get_first_node_in_group("main")
 	if main and main.has_method("on_return_to_title"):
 		main.on_return_to_title()

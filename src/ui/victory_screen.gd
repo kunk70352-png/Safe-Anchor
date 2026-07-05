@@ -40,12 +40,15 @@ func _call_main(method: String) -> void:
 
 
 func _on_next_pressed() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	_call_main("on_next_level_pressed")
 
 
 func _on_retry_pressed() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	_call_main("on_retry_pressed")
 
 
 func _on_back_pressed() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	_call_main("on_return_to_select")

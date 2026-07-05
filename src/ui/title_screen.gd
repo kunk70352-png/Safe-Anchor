@@ -8,10 +8,12 @@ func _ready() -> void:
 
 
 func _on_start() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	var main := get_tree().get_first_node_in_group("main")
 	if main and main.has_method("on_start_game"):
 		main.on_start_game()
 
 
 func _on_quit() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	get_tree().quit()
