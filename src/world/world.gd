@@ -9,6 +9,7 @@ const TYPE2_ANCHOR := preload("res://src/anchor/anchor_type2.tscn")
 const TYPE3_ANCHOR := preload("res://src/anchor/anchor_type3.tscn")
 
 const LAVA_ZONE_SCENE := preload("res://src/anchor/lava_zone.tscn")
+const MOVING_SAFE_HOUSE_SCENE := preload("res://src/safe_house/moving_safe_house.tscn")
 const MAP_WIDTH := 1920.0
 const MAP_HEIGHT := 1080.0
 const LAVA_BORDER := 75.0
@@ -43,6 +44,19 @@ func setup_level(level_data: LevelData) -> void:
 	safe_house.position = level_data.safe_house_position
 	safe_house.attraction_radius = level_data.safe_house_attraction_radius
 
+	# 移动安全屋替换
+	if level_data.is_moving_safe_house:
+		var moving: MovingSafeHouse = MOVING_SAFE_HOUSE_SCENE.instantiate()
+		moving.name = "SafeHouse"
+		moving.position = safe_house.position
+		moving.attraction_radius = safe_house.attraction_radius
+		moving.speed = level_data.safe_house_speed
+		if not level_data.safe_house_path_path.is_empty():
+			moving.path_node = level_data.safe_house_path_path
+		safe_house.queue_free()
+		safe_house = moving
+		add_child(moving)
+
 	# 加载关卡地图
 	_load_tile_map(level_data)
 
@@ -74,6 +88,11 @@ func get_attraction_sources() -> Array[Node2D]:
 	for anchor in anchors_container.get_children():
 		if is_instance_valid(anchor):
 			sources.append(anchor as Node2D)
+	for cart in get_tree().get_nodes_in_group("minecarts"):
+		if cart.has_method("get_caught_anchor"):
+			var a: Anchor = cart.get_caught_anchor()
+			if a and is_instance_valid(a):
+				sources.append(a)
 	return sources
 
 

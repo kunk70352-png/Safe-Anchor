@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bw5ckv11allsr"]
 
 [ext_resource type="Script" uid="uid://dr3hjig5vrkwi" path="res://src/objects/minecart.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bpm8qu8lc7wby" path="res://icon.svg" id="2_qjxig"]
+[ext_resource type="Texture2D" uid="uid://dfmepptxrwmg3" path="res://assets/sprites/minecart_1.png" id="2_qjxig"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_21ren"]
 atlas = ExtResource("2_qjxig")

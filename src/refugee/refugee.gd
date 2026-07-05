@@ -27,6 +27,7 @@ var state: State = State.WANDERING
 var _wander_target: Vector2 = Vector2.ZERO
 var _wander_timer: float = 0.0
 var _current_attractor: Node2D = null
+var _minecart_follow_offset: Vector2 = Vector2.INF
 var _speed_mult: float = 1.0
 var _speed_boost: float = 1.0
 var _range_boost: float = 0.0
@@ -91,13 +92,17 @@ func _update_state() -> void:
 	if should_switch:
 		_navigate_to(best)
 	elif navigation_agent.is_navigation_finished():
-		_advance_to_next_anchor(best)
+		if _current_attractor and is_instance_valid(_current_attractor) and _current_attractor.get_parent() is Minecart:
+			pass
+		else:
+			_advance_to_next_anchor(best)
 
 
 func _navigate_to(target: Node2D) -> void:
 	state = State.SEEKING
 	_current_attractor = target
 	_speed_mult = 1.0
+	_minecart_follow_offset = Vector2.INF
 	navigation_agent.target_position = target.global_position
 
 
@@ -202,6 +207,7 @@ func _get_safe_house_node() -> Node2D:
 	return null
 
 
+
 func _process_movement() -> void:
 	if _repel_strength > 0.0:
 		var sh_pos := _get_safe_house_pos()
@@ -212,6 +218,24 @@ func _process_movement() -> void:
 		velocity = global_position.direction_to(next_pos) * seek_speed * 1.3 * _repel_strength
 		move_and_slide()
 		return
+
+	# 矿车上的锚点：弹簧追踪 + 个人偏移，不扎堆
+	if state == State.SEEKING and _current_attractor and is_instance_valid(_current_attractor):
+		if _current_attractor.get_parent() is Minecart:
+			# 首次跟随分配个人偏移
+			if _minecart_follow_offset == Vector2.INF:
+				var r: float = float(_current_attractor.get("attraction_radius"))
+				_minecart_follow_offset = Vector2.RIGHT.rotated(randf() * TAU) * r * randf_range(0.1, 0.35)
+			
+			var target := _current_attractor.global_position + _minecart_follow_offset
+			var to_target := target - global_position
+			var dist := to_target.length()
+			var speed := clampf(dist * 4.0, 0.0, seek_speed)
+			if dist > 3.0:
+				velocity = to_target.normalized() * speed * _speed_boost
+			move_and_slide()
+			return
+
 	if navigation_agent.is_navigation_finished():
 		return
 	var next_pos := navigation_agent.get_next_path_position()
