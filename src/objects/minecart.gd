@@ -19,6 +19,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not GameManager.is_level_active:
+		return
 	progress += speed * delta
 
 	# 根据帧间位移判断移动方向

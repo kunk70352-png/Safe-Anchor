@@ -55,6 +55,8 @@ func _setup_navigation() -> void:
 func _physics_process(_delta: float) -> void:
 	if state == State.RESCUED:
 		return
+	if not GameManager.is_level_active:
+		return
 	_apply_anchor_effects()
 	_update_state()
 	_process_movement()
@@ -303,6 +305,8 @@ func rescue() -> void:
 func die() -> void:
 	if state == State.RESCUED:
 		return
+	if not GameManager.is_level_active:
+		return
 	state = State.RESCUED
 	var death_list := [
 		"res://assets/audio/death1.mp3",
@@ -312,8 +316,10 @@ func die() -> void:
 	var stats := {
 		"level": GameManager.current_level_data.level_number if GameManager.current_level_data else 0,
 		"level_name": GameManager.current_level_data.level_name if GameManager.current_level_data else "",
+		"rescued": GameManager.rescued_count,
+		"target": GameManager.current_level_data.target_rescued if GameManager.current_level_data else 0,
 	}
-	GameManager.level_failed.emit(stats)
+	GameManager.fail_level(stats)
 	var tween := create_tween()
 	tween.tween_property(self, "modulate", Color.RED, 0.3)
 	tween.tween_callback(self.queue_free)

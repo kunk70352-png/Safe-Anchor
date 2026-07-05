@@ -35,6 +35,7 @@ func _create_buttons() -> void:
 
 func _on_level_pressed(index: int) -> void:
 	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
+	GameManager.is_level_active = false
 	level_selected.emit(index)
 
 

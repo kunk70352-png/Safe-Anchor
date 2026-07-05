@@ -1,4 +1,4 @@
-## Main — 游戏根入口。标题→选关→游戏。
+## Main — 游戏根入口。标题→直接游戏，J键调出选关调试面板。
 extends Node
 
 var _levels: Array[LevelData] = []
@@ -8,7 +8,6 @@ var _current_level_index: int = 0
 @onready var gui: CanvasLayer = $GUI
 @onready var title_screen: Control = $GUI/TitleScreen
 @onready var level_select: Control = $GUI/LevelSelect
-@onready var hud: Control = $GUI/HUD
 @onready var victory_screen: Control = $GUI/VictoryScreen
 @onready var defeat_screen: Control = $GUI/DefeatScreen
 @onready var completion_screen: Control = $GUI/CompletionScreen
@@ -23,6 +22,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_skip"):
 		_debug_complete_level()
+	if event.is_action_pressed("debug_toggle_level_select"):
+		_toggle_level_select()
 
 
 func _debug_complete_level() -> void:
@@ -39,17 +40,22 @@ func _debug_complete_level() -> void:
 	GameManager.level_completed.emit(stats)
 
 
+func _toggle_level_select() -> void:
+	if not GameManager.is_level_active:
+		return
+	level_select.visible = not level_select.visible
+
+
 func _show_title() -> void:
 	title_screen.visible = true
 	level_select.visible = false
-	hud.visible = false
 	victory_screen.visible = false
 	defeat_screen.visible = false
 	completion_screen.visible = false
 
 
 func on_start_game() -> void:
-	_show_level_select()
+	_start_current_level()
 
 
 func _load_levels() -> void:
@@ -72,13 +78,13 @@ func _connect_signals() -> void:
 func _show_level_select() -> void:
 	title_screen.visible = false
 	level_select.visible = true
-	hud.visible = false
 	victory_screen.visible = false
 	defeat_screen.visible = false
 
 
 func _on_level_selected(index: int) -> void:
 	_current_level_index = index
+	level_select.visible = false
 	_start_current_level()
 
 
@@ -87,7 +93,6 @@ func _start_current_level() -> void:
 		return
 	title_screen.visible = false
 	level_select.visible = false
-	hud.visible = true
 	victory_screen.visible = false
 	defeat_screen.visible = false
 	var level_data := _levels[_current_level_index]
@@ -101,13 +106,11 @@ func _start_current_level() -> void:
 
 
 func _show_victory(stats: Dictionary) -> void:
-	hud.visible = false
 	victory_screen.visible = true
 	victory_screen.display_stats(stats)
 
 
 func _show_defeat(stats: Dictionary) -> void:
-	hud.visible = false
 	defeat_screen.visible = true
 	defeat_screen.display_stats(stats)
 
@@ -150,7 +153,6 @@ func on_return_to_title() -> void:
 func _show_completion() -> void:
 	completion_screen.visible = true
 	completion_screen.show_screen()
-	hud.visible = false
 	title_screen.visible = false
 	level_select.visible = false
 	victory_screen.visible = false

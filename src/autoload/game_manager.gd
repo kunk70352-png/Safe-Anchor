@@ -77,6 +77,14 @@ func reset_for_new_level() -> void:
 	is_level_active = false
 
 
+## 关卡失败时调用，停止运算并发出信号。
+func fail_level(stats: Dictionary) -> void:
+	if not is_level_active:
+		return
+	is_level_active = false
+	level_failed.emit(stats)
+
+
 # ============================================================
 # 私有方法
 # ============================================================

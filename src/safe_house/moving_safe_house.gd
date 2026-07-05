@@ -21,6 +21,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if not GameManager.is_level_active:
+		return
 	progress += speed * delta
 
 	# 超出地图边界 → 失败
@@ -29,7 +31,7 @@ func _physics_process(delta: float) -> void:
 		var stats := {"level": 0, "level_name": "安全屋丢失"}
 		if GameManager.current_level_data:
 			stats = {"level": GameManager.current_level_data.level_number, "level_name": GameManager.current_level_data.level_name}
-		GameManager.level_failed.emit(stats)
+		GameManager.fail_level(stats)
 
 
 func _on_body_entered_rescue(body: Node2D) -> void:
