@@ -18,6 +18,7 @@ var _bgm_fade_tween: Tween
 func _ready() -> void:
 	_bgm_player = AudioStreamPlayer.new()
 	_bgm_player.bus = &"Music"
+	_bgm_player.finished.connect(_on_bgm_finished)
 	add_child(_bgm_player)
 
 	for i in SFX_POOL_SIZE:
@@ -51,6 +52,11 @@ func stop_bgm(fade_out: float = 0.5) -> void:
 	_bgm_fade_tween = create_tween()
 	_bgm_fade_tween.tween_property(_bgm_player, "volume_db", -40, fade_out)
 	_bgm_fade_tween.tween_callback(_bgm_player.stop)
+
+
+func _on_bgm_finished() -> void:
+	# 只循环播放，不重新 fade
+	_bgm_player.play()
 
 
 # ---- SFX ----
