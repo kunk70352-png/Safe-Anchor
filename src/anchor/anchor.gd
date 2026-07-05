@@ -52,7 +52,7 @@ func _ready() -> void:
 		detector = Area2D.new()
 		detector.name = "DangerDetector"
 		detector.collision_layer = 1
-		detector.collision_mask = 18
+		detector.collision_mask = 34
 		detector.monitoring = true
 		detector.monitorable = true
 		var collision_shape := CollisionShape2D.new()

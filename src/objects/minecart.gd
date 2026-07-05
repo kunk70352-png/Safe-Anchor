@@ -6,15 +6,31 @@ extends PathFollow2D
 
 var _caught_anchor: Anchor = null
 
+const TEX_HORIZONTAL := preload("res://assets/sprites/minecart_1.png")
+const TEX_VERTICAL := preload("res://assets/sprites/minecart_2.png")
+var _prev_pos := Vector2.INF
+
 
 func _ready() -> void:
 	add_to_group("minecarts")
+	rotates = true
 	if has_node("CatchZone") and not $CatchZone.area_entered.is_connected(_on_area_entered):
 		$CatchZone.area_entered.connect(_on_area_entered)
 
 
 func _physics_process(delta: float) -> void:
 	progress += speed * delta
+
+	# 根据帧间位移判断移动方向
+	if _prev_pos != Vector2.INF:
+		var move_dir := global_position - _prev_pos
+		if move_dir.length_squared() > 0.01:
+			if absf(move_dir.y) > absf(move_dir.x):
+				$Sprite2D.texture = TEX_VERTICAL
+			else:
+				$Sprite2D.texture = TEX_HORIZONTAL
+	_prev_pos = global_position
+
 	if _caught_anchor and is_instance_valid(_caught_anchor):
 		_caught_anchor.global_position = $CatchZone.global_position
 

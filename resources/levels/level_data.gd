@@ -26,6 +26,8 @@ extends Resource
 @export var anchor_attraction_radius: float = 150.0
 ## 安全屋位置
 @export var safe_house_position: Vector2 = Vector2(960, 540)
+## 玩家出生位置（为 Vector2.ZERO 时自动放在安全屋右边）
+@export var player_spawn_position: Vector2 = Vector2.ZERO
 ## 安全屋吸引半径
 @export var safe_house_attraction_radius: float = 200.0
 ## 移动安全屋（沿路径移动，碰到边界失败）

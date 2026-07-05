@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="3_marker"]
 [ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
 [ext_resource type="PackedScene" uid="uid://dn8t1n00r1hla" path="res://src/objects/rail.tscn" id="5_rail"]
-[ext_resource type="PackedScene" path="res://src/safe_house/moving_safe_house.tscn" id="6_jidq7"]
 [ext_resource type="PackedScene" uid="uid://bmhfc3a76ba32" path="res://src/anchor/lava_zone.tscn" id="6_lava"]
 [ext_resource type="PackedScene" uid="uid://bw5ckv11allsr" path="res://src/objects/minecart.tscn" id="7_cart"]
 
@@ -42,9 +41,6 @@ position = Vector2(701, 416)
 position = Vector2(-213, -85)
 rotation = 2.5648396
 speed = 40.0
-
-[node name="MovingSafeHouse" parent="Rail" unique_id=704235108 instance=ExtResource("6_jidq7")]
-position = Vector2(376, -211)
 
 [node name="LevelPlacer" type="Node2D" parent="." unique_id=1103573726]
 script = ExtResource("4_placer")

@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" uid="uid://dbvr0kwem2d14" path="res://src/anchor/danger_zone.gd" id="1_script"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcbyb"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_5prqa"]
+radius = 85.0
 
 [node name="DangerZone" type="Area2D" unique_id=1139052806]
 collision_layer = 16
 script = ExtResource("1_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1933588748]
-shape = SubResource("RectangleShape2D_qcbyb")
+shape = SubResource("CircleShape2D_5prqa")
