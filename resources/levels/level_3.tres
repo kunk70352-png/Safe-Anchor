@@ -4,16 +4,14 @@
 
 [resource]
 script = ExtResource("1_leveldata")
-level_number = 4
+level_number = 3
 level_name = "反向锚1"
-wander_range = 350.0
-refugee_count = 6
-refugee_wander_interval = 1.8
+target_rescued = 4
+refugee_count = 5
+refugee_wander_speed = 55.0
+refugee_seek_speed = 95.0
 refugee_spawn_positions = Array[Vector2]([Vector2(150, 250), Vector2(150, 830), Vector2(1467, 661), Vector2(904, 275), Vector2(972, 906), Vector2(1549, 386)])
-anchor_limit = 2
-anchor_attraction_radius = 140.0
 safe_house_position = Vector2(932, 556)
-safe_house_attraction_radius = 100.0
-tile_map_path = "res://resources/levels/maps/level_6_map.tscn"
+tile_map_path = "res://resources/levels/maps/level_3_map.tscn"
 type1_positions = Array[Vector2]([Vector2(843, 594)])
 type3_positions = Array[Vector2]([Vector2(645, 356), Vector2(639, 805), Vector2(1113, 744), Vector2(1196, 311)])
