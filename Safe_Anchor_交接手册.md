@@ -38,9 +38,9 @@
 
 ```powershell
 [System.IO.File]::WriteAllText(
-    "文件路径.gd",
-    $代码内容,
-    (New-Object System.Text.UTF8Encoding $false)
+	"文件路径.gd",
+	$代码内容,
+	(New-Object System.Text.UTF8Encoding $false)
 )
 ```
 
@@ -75,21 +75,21 @@ var alive: bool = true
 
 # ==== 生命周期 ====
 func _ready() -> void:
-    ...
+	...
 
 func _physics_process(delta: float) -> void:
-    ...
+	...
 
 # ==== 功能函数（按职责分块） ====
 # 用 # ==== xxx ==== 做分隔线
 
 # ==== 伤害 ====
 func take_damage(amount: int) -> void:
-    ...
+	...
 
 # ==== 攻击 ====
 func attack() -> void:
-    ...
+	...
 ```
 
 **规范要点：**
@@ -106,7 +106,7 @@ func attack() -> void:
 
 ```
 玩法逻辑（Main.gd）
-    ↑↓ 信号
+	↑↓ 信号
 玩家（Player.gd）    敌人（Enemy.gd）    金币（Coin.gd）
 ```
 
@@ -118,16 +118,16 @@ signal died(position: Vector2, exp_drop: int)
 
 # 2. 触发
 func die() -> void:
-    died.emit(global_position, 5)
+	died.emit(global_position, 5)
 
 # 3. 在 Main 中用代码连接（不在编辑器里连）
 func _spawn_enemy() -> void:
-    var enemy := ENEMY_SCENE.instantiate()
-    enemies.add_child(enemy)
-    enemy.died.connect(_on_enemy_died)
+	var enemy := ENEMY_SCENE.instantiate()
+	enemies.add_child(enemy)
+	enemy.died.connect(_on_enemy_died)
 
 func _on_enemy_died(pos: Vector2, exp: int) -> void:
-    _spawn_exp_orb(pos)
+	_spawn_exp_orb(pos)
 ```
 
 **要点：**

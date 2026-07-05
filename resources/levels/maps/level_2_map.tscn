@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="1_tex"]
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
-[ext_resource type="PackedScene" path="res://src/anchor/lava_zone.tscn" id="3_21ren"]
+[ext_resource type="PackedScene" uid="uid://bmhfc3a76ba32" path="res://src/anchor/lava_zone.tscn" id="3_21ren"]
 [ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
 [ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="5_xm3jf"]
 
@@ -25,7 +25,7 @@ tile_map_data = PackedByteArray(0, 0, 60, 0, 33, 0, 2, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ts")
 
 [node name="LavaZone2" parent="." unique_id=244581132 instance=ExtResource("3_21ren")]
-position = Vector2(900, 250)
+position = Vector2(901, 250)
 zone_size = Vector2(600, 350)
 
 [node name="LavaZone" parent="." unique_id=2043586499 instance=ExtResource("3_21ren")]
@@ -40,50 +40,39 @@ collision_layer = 16
 [node name="LevelPlacer" type="Node2D" parent="." unique_id=379418907]
 script = ExtResource("4_placer")
 
-[node name="@Node2D@180062" type="Node2D" parent="LevelPlacer" unique_id=1177580951]
-position = Vector2(350, 400)
+[node name="_Node2D_180062" type="Node2D" parent="LevelPlacer" unique_id=1177580951]
+position = Vector2(347, 818)
 script = ExtResource("5_xm3jf")
 
 [node name="@Node2D@180063" type="Node2D" parent="LevelPlacer" unique_id=82229400]
-position = Vector2(600, 540)
+position = Vector2(765, 518)
 script = ExtResource("5_xm3jf")
 
-[node name="@Node2D@180064" type="Node2D" parent="LevelPlacer" unique_id=2121924564]
-position = Vector2(400, 700)
+[node name="_Node2D_181030" type="Node2D" parent="LevelPlacer" unique_id=1008546367]
+position = Vector2(1075, 527)
 script = ExtResource("5_xm3jf")
-category = 1
 
-[node name="@Node2D@180065" type="Node2D" parent="LevelPlacer" unique_id=2110584205]
-position = Vector2(1500, 540)
+[node name="_Node2D_181031" type="Node2D" parent="LevelPlacer" unique_id=1015918877]
+position = Vector2(1550, 551)
 script = ExtResource("5_xm3jf")
-category = 2
-
-[node name="@Node2D@180066" type="Node2D" parent="LevelPlacer" unique_id=33704271]
-position = Vector2(1500, 200)
-script = ExtResource("5_xm3jf")
-category = 2
+category = 4
 
 [node name="@Node2D@180067" type="Node2D" parent="LevelPlacer" unique_id=1934686203]
-position = Vector2(200, 200)
+position = Vector2(174, 335)
 script = ExtResource("5_xm3jf")
 category = 3
 
 [node name="@Node2D@180068" type="Node2D" parent="LevelPlacer" unique_id=1909955380]
-position = Vector2(200, 880)
+position = Vector2(433, 277)
 script = ExtResource("5_xm3jf")
 category = 3
 
-[node name="@Node2D@180069" type="Node2D" parent="LevelPlacer" unique_id=270127391]
-position = Vector2(450, 650)
-script = ExtResource("5_xm3jf")
-category = 3
-
-[node name="@Node2D@180070" type="Node2D" parent="LevelPlacer" unique_id=754946272]
-position = Vector2(750, 200)
+[node name="_Node2D_181029" type="Node2D" parent="LevelPlacer" unique_id=712035331]
+position = Vector2(449, 845)
 script = ExtResource("5_xm3jf")
 category = 3
 
 [node name="@Node2D@180071" type="Node2D" parent="LevelPlacer" unique_id=1488914403]
-position = Vector2(800, 900)
+position = Vector2(257, 845)
 script = ExtResource("5_xm3jf")
 category = 3

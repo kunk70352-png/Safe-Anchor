@@ -29,12 +29,12 @@ src/
 │   ├── minecart.gd/tscn        # 矿车（沿Path2D循环，接住锚点）
 │   └── rail.tscn               # 铁轨（Path2D定义路线）
 └── ui/
-    ├── title_screen.gd/tscn    # 标题界面
-    ├── level_select.gd/tscn    # 关卡选择
-    ├── hud.gd/tscn             # HUD（关卡名、救援进度、锚点状态）
-    ├── victory_screen.gd/tscn  # 胜利界面
-    ├── defeat_screen.gd/tscn   # 失败界面
-    └── completion_screen.gd/tscn # 通关界面
+	├── title_screen.gd/tscn    # 标题界面
+	├── level_select.gd/tscn    # 关卡选择
+	├── hud.gd/tscn             # HUD（关卡名、救援进度、锚点状态）
+	├── victory_screen.gd/tscn  # 胜利界面
+	├── defeat_screen.gd/tscn   # 失败界面
+	└── completion_screen.gd/tscn # 通关界面
 
 resources/
 ├── levels/level_data.gd        # LevelData Resource（关卡参数）

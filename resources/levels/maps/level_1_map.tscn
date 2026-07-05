@@ -4,9 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
 [ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="3_marker"]
 [ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
-[ext_resource type="PackedScene" uid="uid://dn8t1n00r1hla" path="res://src/objects/rail.tscn" id="5_rail"]
-[ext_resource type="PackedScene" uid="uid://bmhfc3a76ba32" path="res://src/anchor/lava_zone.tscn" id="6_lava"]
-[ext_resource type="PackedScene" uid="uid://bw5ckv11allsr" path="res://src/objects/minecart.tscn" id="7_cart"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
@@ -22,25 +19,56 @@ texture = ExtResource("2_5pd57")
 sources/0 = SubResource("TileSetAtlasSource_src")
 sources/2 = SubResource("TileSetAtlasSource_21ren")
 
-[node name="TileMapLayer" type="TileMapLayer"]
+[node name="TileMapLayer" type="TileMapLayer" unique_id=1056513970]
 tile_map_data = PackedByteArray(0, 0, 60, 0, 33, 0, 2, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ts")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="Node2D" parent="." unique_id=1866510584]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Node2D"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=1985185190]
 collision_layer = 16
 
-[node name="LavaZone" parent="." instance=ExtResource("6_lava")]
-position = Vector2(81, 290)
-
-[node name="Rail" parent="." instance=ExtResource("5_rail")]
-position = Vector2(701, 416)
-
-[node name="Minecart" parent="Rail" instance=ExtResource("7_cart")]
-position = Vector2(-213, -85)
-rotation = 2.5648396
-speed = 50.0
-
-[node name="LevelPlacer" type="Node2D" parent="."]
+[node name="LevelPlacer" type="Node2D" parent="." unique_id=1221378979]
 script = ExtResource("4_placer")
+
+[node name="@Node2D@247076" type="Node2D" parent="LevelPlacer" unique_id=1600382627]
+position = Vector2(1117, 756)
+script = ExtResource("3_marker")
+
+[node name="@Node2D@247077" type="Node2D" parent="LevelPlacer" unique_id=1311362089]
+position = Vector2(776, 291)
+script = ExtResource("3_marker")
+
+[node name="@Node2D@247078" type="Node2D" parent="LevelPlacer" unique_id=1723753735]
+position = Vector2(441, 627)
+script = ExtResource("3_marker")
+
+[node name="@Node2D@247079" type="Node2D" parent="LevelPlacer" unique_id=212283268]
+position = Vector2(428, 443)
+script = ExtResource("3_marker")
+category = 3
+
+[node name="@Node2D@247080" type="Node2D" parent="LevelPlacer" unique_id=1918464732]
+position = Vector2(232, 807)
+script = ExtResource("3_marker")
+category = 3
+
+[node name="@Node2D@247081" type="Node2D" parent="LevelPlacer" unique_id=436337420]
+position = Vector2(668, 623)
+script = ExtResource("3_marker")
+category = 3
+
+[node name="@Node2D@247084" type="Node2D" parent="LevelPlacer" unique_id=1968011694]
+position = Vector2(728, 276)
+script = ExtResource("3_marker")
+category = 3
+
+[node name="@Node2D@247085" type="Node2D" parent="LevelPlacer" unique_id=683929956]
+position = Vector2(792, 234)
+script = ExtResource("3_marker")
+category = 3
+
+[node name="@Node2D@247086" type="Node2D" parent="LevelPlacer" unique_id=1683856903]
+position = Vector2(1226, 466)
+script = ExtResource("3_marker")
+category = 4

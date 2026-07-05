@@ -2,8 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://bt0uk0b13tgox" path="res://assets/sprites/IMG_8956.PNG" id="1_tex"]
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
-[ext_resource type="PackedScene" path="res://src/anchor/lava_zone.tscn" id="3_21ren"]
-[ext_resource type="Script" path="res://src/world/level_placer.gd" id="4_placer"]
+[ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="4_1rrin"]
+[ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
+[ext_resource type="PackedScene" uid="uid://c2l7qwl0egak8" path="res://src/anchor/danger_zone.tscn" id="5_dwv25"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
@@ -27,5 +28,83 @@ tile_set = SubResource("TileSet_ts")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Node2D" unique_id=1352626265]
 collision_layer = 16
-[node name="LevelPlacer" type="Node2D" parent="."]
+
+[node name="LevelPlacer" type="Node2D" parent="." unique_id=106945013]
 script = ExtResource("4_placer")
+
+[node name="@Node2D@247057" type="Node2D" parent="LevelPlacer" unique_id=2114403739]
+position = Vector2(1294, 317)
+script = ExtResource("4_1rrin")
+category = 2
+
+[node name="@Node2D@247058" type="Node2D" parent="LevelPlacer" unique_id=10591367]
+position = Vector2(788, 334)
+script = ExtResource("4_1rrin")
+category = 2
+
+[node name="@Node2D@247059" type="Node2D" parent="LevelPlacer" unique_id=2033275694]
+position = Vector2(309, 731)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="@Node2D@247060" type="Node2D" parent="LevelPlacer" unique_id=690487784]
+position = Vector2(509, 911)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="@Node2D@247061" type="Node2D" parent="LevelPlacer" unique_id=611557225]
+position = Vector2(1290, 720)
+script = ExtResource("4_1rrin")
+category = 2
+
+[node name="_Node2D_181029" type="Node2D" parent="LevelPlacer" unique_id=559400783]
+position = Vector2(1740, 334)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="_Node2D_181030" type="Node2D" parent="LevelPlacer" unique_id=1600075057]
+position = Vector2(1712, 889)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="_Node2D_181031" type="Node2D" parent="LevelPlacer" unique_id=67590606]
+position = Vector2(1351, 920)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="_Node2D_181032" type="Node2D" parent="LevelPlacer" unique_id=606939499]
+position = Vector2(1432, 156)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="@Node2D@247062" type="Node2D" parent="LevelPlacer" unique_id=1095648408]
+position = Vector2(512, 147)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="@Node2D@247063" type="Node2D" parent="LevelPlacer" unique_id=848721888]
+position = Vector2(265, 421)
+script = ExtResource("4_1rrin")
+category = 3
+
+[node name="@Node2D@247064" type="Node2D" parent="LevelPlacer" unique_id=327400420]
+position = Vector2(761, 756)
+script = ExtResource("4_1rrin")
+category = 2
+
+[node name="@Node2D@247065" type="Node2D" parent="LevelPlacer" unique_id=383171790]
+position = Vector2(1018, 545)
+script = ExtResource("4_1rrin")
+category = 4
+
+[node name="DangerZone" parent="." unique_id=1139052806 instance=ExtResource("5_dwv25")]
+position = Vector2(511, 344)
+
+[node name="DangerZone2" parent="." unique_id=1873812883 instance=ExtResource("5_dwv25")]
+position = Vector2(515, 729)
+
+[node name="DangerZone3" parent="." unique_id=1649401332 instance=ExtResource("5_dwv25")]
+position = Vector2(1550, 337)
+
+[node name="DangerZone4" parent="." unique_id=1021275487 instance=ExtResource("5_dwv25")]
+position = Vector2(1553, 724)
