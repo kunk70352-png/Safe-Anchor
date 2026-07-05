@@ -44,13 +44,16 @@ func _physics_process(delta: float) -> void:
 			if _held_anchor != null and Input.is_action_just_pressed("charge_throw"):
 				state = PlayerState.CHARGING
 				charge_time = 0.0
+				_play_charge_sfx()
 		PlayerState.CHARGING:
 			charge_time += delta
 			charge_power = (sin(charge_time * charge_speed * TAU) + 1.0) / 2.0
 			if Input.is_action_just_released("charge_throw"):
+				_stop_charge_sfx()
 				_throw_anchor()
 				state = PlayerState.IDLE
 			elif _held_anchor == null:
+				_stop_charge_sfx()
 				state = PlayerState.IDLE
 
 	queue_redraw()
@@ -80,6 +83,7 @@ func _throw_anchor() -> void:
 	_held_anchor_radius = 0.0
 	_held_anchor_icon_tex = null
 	_held_anchor_range_tex = null
+	AudioManager.play_sfx(load("res://assets/audio/throw.mp3"))
 
 
 func _check_pickup() -> void:
@@ -125,6 +129,7 @@ func _pickup_anchor(a: Anchor) -> void:
 		_held_anchor_range_tex_diameter = float(diameter)
 
 	a.pick_up()
+	AudioManager.play_sfx(load("res://assets/audio/pickup.mp3"))
 
 
 func _on_anchor_picked_up() -> void:
@@ -195,6 +200,25 @@ func _draw() -> void:
 				var draw_size := tex_size * scale
 				var c := _held_anchor_color
 				draw_texture_rect(_held_anchor_range_tex, Rect2(target - draw_size * 0.5, draw_size), false, Color(c.r, c.g, c.b, 0.4))
+
+
+# ---- 音效 ----
+
+var _charge_sfx_player: AudioStreamPlayer
+
+func _play_charge_sfx() -> void:
+	if not _charge_sfx_player:
+		_charge_sfx_player = AudioStreamPlayer.new()
+		add_child(_charge_sfx_player)
+	var s := load("res://assets/audio/charge.mp3")
+	if s:
+		_charge_sfx_player.stream = s
+		_charge_sfx_player.play()
+
+
+func _stop_charge_sfx() -> void:
+	if _charge_sfx_player and _charge_sfx_player.playing:
+		_charge_sfx_player.stop()
 
 
 func _bezier(a: Vector2, b: Vector2, c: Vector2, t: float) -> Vector2:
