@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_leveldata")
-level_number = 6
+level_number = 4
 level_name = "反向锚1"
 wander_range = 350.0
 refugee_count = 6

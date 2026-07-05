@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_leveldata")
-level_number = 4
+level_number = 3
 level_name = "反向锚2"
 target_rescued = 4
 refugee_count = 5
