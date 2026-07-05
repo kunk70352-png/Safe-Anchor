@@ -89,28 +89,42 @@ func _check_pickup() -> void:
 	var anchors := world.get_node("Anchors")
 	for a in anchors.get_children():
 		if global_position.distance_to(a.global_position) < pickup_dist:
-			if not a.picked_up.is_connected(_on_anchor_picked_up):
-				a.picked_up.connect(_on_anchor_picked_up)
-			_held_anchor = load(a.scene_file_path)
-			_last_pickup_pos = a.global_position
-			_held_anchor_radius = float(a.get("initial_radius")) if a.get("initial_radius") != null else float(a.get("attraction_radius"))
-			_held_anchor_color = a.get("anchor_color") if a.get("anchor_color") != null else Color(0.2, 0.5, 1.0, 1.0)
+			_pickup_anchor(a)
+			return
 
-			# 提取锚点本体贴图
-			var icon_sprite := a.get_node("Sprite2D")
-			if icon_sprite and icon_sprite.texture:
-				_held_anchor_icon_tex = icon_sprite.texture
+	# 也检查矿车上的锚点
+	for cart in get_tree().get_nodes_in_group("minecarts"):
+		if not cart.has_method("get_caught_anchor"):
+			continue
+		var a := cart.get_caught_anchor()
+		if a and is_instance_valid(a) and global_position.distance_to(a.global_position) < pickup_dist:
+			cart.release_anchor()
+			_pickup_anchor(a)
+			return
 
-			# 提取范围贴图及校准参数
-			var range_sprite := a.get_node("RangeSprite")
-			if range_sprite and range_sprite.texture:
-				_held_anchor_range_tex = range_sprite.texture
-			var diameter = a.get("range_tex_diameter")
-			if diameter != null:
-				_held_anchor_range_tex_diameter = float(diameter)
 
-			a.pick_up()
-			break
+func _pickup_anchor(a: Anchor) -> void:
+	if not a.picked_up.is_connected(_on_anchor_picked_up):
+		a.picked_up.connect(_on_anchor_picked_up)
+	_held_anchor = load(a.scene_file_path)
+	_last_pickup_pos = a.global_position
+	_held_anchor_radius = float(a.get("initial_radius")) if a.get("initial_radius") != null else float(a.get("attraction_radius"))
+	_held_anchor_color = a.get("anchor_color") if a.get("anchor_color") != null else Color(0.2, 0.5, 1.0, 1.0)
+
+	# 提取锚点本体贴图
+	var icon_sprite := a.get_node("Sprite2D")
+	if icon_sprite and icon_sprite.texture:
+		_held_anchor_icon_tex = icon_sprite.texture
+
+	# 提取范围贴图及校准参数
+	var range_sprite := a.get_node("RangeSprite")
+	if range_sprite and range_sprite.texture:
+		_held_anchor_range_tex = range_sprite.texture
+	var diameter = a.get("range_tex_diameter")
+	if diameter != null:
+		_held_anchor_range_tex_diameter = float(diameter)
+
+	a.pick_up()
 
 
 func _on_anchor_picked_up() -> void:

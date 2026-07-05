@@ -74,6 +74,11 @@ func get_attraction_sources() -> Array[Node2D]:
 	for anchor in anchors_container.get_children():
 		if is_instance_valid(anchor):
 			sources.append(anchor as Node2D)
+	for cart in get_tree().get_nodes_in_group("minecarts"):
+		if cart.has_method("get_caught_anchor"):
+			var a := cart.get_caught_anchor()
+			if a and is_instance_valid(a):
+				sources.append(a)
 	return sources
 
 
