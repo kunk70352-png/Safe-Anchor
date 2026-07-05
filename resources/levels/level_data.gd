@@ -8,6 +8,8 @@ extends Resource
 @export var level_name: String = "Level 1"
 ## 需要救出的难民目标数
 @export var target_rescued: int = 5
+## 关卡背景音乐路径
+@export var bgm_path: String = ""
 ## 难民徘徊范围（像素）
 @export var wander_range: float = 300.0
 ## 生成的难民数量

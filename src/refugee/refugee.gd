@@ -14,6 +14,12 @@ enum State { WANDERING, SEEKING, RESCUED }
 @export var wander_origin: Vector2
 ## 徘徊范围限制（像素）
 @export var wander_range: float = 300.0
+## 持续音效列表（4种村民声）
+@export var voice_sounds: Array[AudioStream] = []
+## 音效播放最小间隔（秒）
+@export var voice_min_interval: float = 3.0
+## 音效播放最大间隔（秒）
+@export var voice_max_interval: float = 8.0
 ## 锚点范围内减速倍率（0~1）
 @export var anchor_slow_mult: float = 0.4
 ## 锚点范围内徘徊角度范围（0~1，1=180°）
@@ -34,13 +40,16 @@ var _range_boost: float = 0.0
 var _repel_dir: Vector2 = Vector2.ZERO
 var _repel_linger: float = 0.0
 var _nav_stuck_timer: float = 0.0
+var _voice_timer: float = 0.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var voice_player: AudioStreamPlayer2D = $"VoicePlayer"
 
 
 func _ready() -> void:
 	add_to_group("refugees")
+	_voice_timer = randf_range(voice_min_interval, voice_max_interval)
 	navigation_agent.path_desired_distance = 8.0
 	navigation_agent.target_desired_distance = 8.0
 	navigation_agent.avoidance_enabled = false
@@ -61,6 +70,7 @@ func _physics_process(_delta: float) -> void:
 	_update_state()
 	_process_movement()
 	_update_animation()
+	_update_voice(_delta)
 
 
 func _update_state() -> void:
@@ -285,6 +295,18 @@ func _update_animation() -> void:
 		sprite.flip_h = velocity.x < 0
 
 
+func _update_voice(delta: float) -> void:
+	if voice_sounds.is_empty():
+		return
+	_voice_timer -= delta
+	if _voice_timer <= 0.0:
+		var s := voice_sounds[randi() % voice_sounds.size()]
+		voice_player.stream = s
+		voice_player.pitch_scale = randf_range(0.9, 1.1)
+		voice_player.play()
+		_voice_timer = randf_range(voice_min_interval, voice_max_interval)
+
+
 func _pick_new_wander_target() -> void:
 	var angle := randf() * TAU
 	var dist := randf() * wander_range * 0.8
@@ -295,6 +317,8 @@ func rescue() -> void:
 	if state == State.RESCUED:
 		return
 	state = State.RESCUED
+	if voice_player.playing:
+		voice_player.stop()
 	GameManager.register_rescue()
 	var tween := create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.3).set_ease(Tween.EASE_IN)
@@ -308,6 +332,8 @@ func die() -> void:
 	if not GameManager.is_level_active:
 		return
 	state = State.RESCUED
+	if voice_player.playing:
+		voice_player.stop()
 	var death_list := [
 		"res://assets/audio/death1.mp3",
 		"res://assets/audio/death2.mp3",

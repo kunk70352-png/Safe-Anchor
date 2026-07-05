@@ -13,7 +13,6 @@ func _ready() -> void:
 
 
 func display_stats(_stats: Dictionary) -> void:
-	AudioManager.play_bgm(load("res://assets/audio/bgm_victory.mp3"))
 	visible = true
 
 

@@ -52,6 +52,7 @@ func _show_title() -> void:
 	victory_screen.visible = false
 	defeat_screen.visible = false
 	completion_screen.visible = false
+	_play_level_bgm()
 
 
 func on_start_game() -> void:
@@ -96,13 +97,14 @@ func _start_current_level() -> void:
 	victory_screen.visible = false
 	defeat_screen.visible = false
 	var level_data := _levels[_current_level_index]
-	var bgm_list := [
-		"res://assets/audio/level_start1.mp3",
-		"res://assets/audio/level_start2.mp3",
-		"res://assets/audio/level_start3.mp3",
-	]
-	AudioManager.play_sfx(load(bgm_list[randi() % bgm_list.size()]))
 	world.setup_level(level_data)
+	_play_level_bgm()
+
+
+func _play_level_bgm() -> void:
+	var path := "res://assets/audio/bgm_gameplay.mp3"
+	if ResourceLoader.exists(path):
+		AudioManager.play_bgm(load(path))
 
 
 func _show_victory(stats: Dictionary) -> void:
@@ -111,6 +113,7 @@ func _show_victory(stats: Dictionary) -> void:
 
 
 func _show_defeat(stats: Dictionary) -> void:
+	AudioManager.stop_bgm()
 	defeat_screen.visible = true
 	defeat_screen.display_stats(stats)
 

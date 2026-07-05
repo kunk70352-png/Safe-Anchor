@@ -118,12 +118,16 @@ category = 4
 
 [node name="DangerZone" parent="." unique_id=1139052806 instance=ExtResource("5_dwv25")]
 position = Vector2(511, 344)
+zone_radius = 90.0
 
 [node name="DangerZone2" parent="." unique_id=1873812883 instance=ExtResource("5_dwv25")]
 position = Vector2(515, 729)
+zone_radius = 90.0
 
 [node name="DangerZone3" parent="." unique_id=1649401332 instance=ExtResource("5_dwv25")]
 position = Vector2(1550, 337)
+zone_radius = 90.0
 
 [node name="DangerZone4" parent="." unique_id=1021275487 instance=ExtResource("5_dwv25")]
 position = Vector2(1553, 724)
+zone_radius = 90.0

@@ -6,8 +6,8 @@
 script = ExtResource("1_leveldata")
 level_number = 3
 level_name = "反向锚2"
-target_rescued = 1
-refugee_count = 5
+target_rescued = 6
+refugee_count = 6
 refugee_wander_speed = 20.0
 refugee_seek_speed = 95.0
 refugee_spawn_positions = Array[Vector2]([Vector2(309, 731), Vector2(509, 911), Vector2(1740, 334), Vector2(1712, 889), Vector2(1351, 920), Vector2(1432, 156), Vector2(512, 147), Vector2(265, 421)])
