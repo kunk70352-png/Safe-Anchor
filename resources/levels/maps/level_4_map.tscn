@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bjwp3bfc1gb6d" path="res://assets/sprites/background_2.png" id="2_5pd57"]
 [ext_resource type="Script" uid="uid://co3hj512yhts1" path="res://src/world/placer_marker.gd" id="4_1rrin"]
 [ext_resource type="Script" uid="uid://dio4iowvbm6tt" path="res://src/world/level_placer.gd" id="4_placer"]
-[ext_resource type="PackedScene" uid="uid://c2l7qwl0egak8" path="res://src/anchor/danger_zone.tscn" id="5_dwv25"]
+[ext_resource type="PackedScene" uid="uid://d7byxnujkguh" path="res://src/anchor/danger_zone.tscn" id="5_dwv25"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_src"]
 texture = ExtResource("1_tex")
@@ -20,7 +20,7 @@ texture = ExtResource("2_5pd57")
 sources/0 = SubResource("TileSetAtlasSource_src")
 sources/2 = SubResource("TileSetAtlasSource_21ren")
 
-[node name="TileMapLayer" type="TileMapLayer" unique_id=145232816]
+[node name="TileMapLayer2" type="TileMapLayer" unique_id=145232816]
 tile_map_data = PackedByteArray(0, 0, 60, 0, 33, 0, 2, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ts")
 
@@ -81,6 +81,18 @@ category = 3
 position = Vector2(512, 147)
 script = ExtResource("4_1rrin")
 category = 3
+
+[node name="_Node2D_247062" type="Node2D" parent="LevelPlacer" unique_id=1211395558]
+position = Vector2(954, 453)
+script = ExtResource("4_1rrin")
+
+[node name="_Node2D_247063" type="Node2D" parent="LevelPlacer" unique_id=817014190]
+position = Vector2(1749, 135)
+script = ExtResource("4_1rrin")
+
+[node name="_Node2D_247064" type="Node2D" parent="LevelPlacer" unique_id=764486675]
+position = Vector2(193, 162)
+script = ExtResource("4_1rrin")
 
 [node name="@Node2D@247063" type="Node2D" parent="LevelPlacer" unique_id=848721888]
 position = Vector2(265, 421)
