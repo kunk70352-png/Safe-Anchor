@@ -7,20 +7,22 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_rescue"]
 radius = 30.0
 
-[node name="MovingSafeHouse" type="Node2D" groups=["attraction_sources"]]
+[node name="MovingSafeHouse" type="PathFollow2D" groups=["attraction_sources"]]
 script = ExtResource("1_script")
 
-[node name="RangeSprite" type="Sprite2D" parent="."]
+[node name="SafeHouseBody" type="Node2D" parent="."]
+
+[node name="RangeSprite" type="Sprite2D" parent="SafeHouseBody"]
 texture = ExtResource("3_range_tex")
 modulate = Color(1, 1, 1, 1.0)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="SafeHouseBody"]
 position = Vector2(1.1920929e-07, 0)
 scale = Vector2(0.182, 0.169)
 texture = ExtResource("2_amkok")
 
-[node name="RescueArea" type="Area2D" parent="."]
+[node name="RescueArea" type="Area2D" parent="SafeHouseBody"]
 collision_layer = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RescueArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SafeHouseBody/RescueArea"]
 shape = SubResource("CircleShape2D_rescue")

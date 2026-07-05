@@ -16,7 +16,7 @@ const LAVA_BORDER := 75.0
 
 # ---- 节点引用 ----
 @onready var navigation_region: NavigationRegion2D = $NavigationRegion2D
-@onready var safe_house: SafeHouse = $SafeHouse
+@onready var safe_house: Node2D = $SafeHouse
 @onready var player: Player = $Player
 @onready var refugees_container: Node2D = $Refugees
 @onready var anchors_container: Node2D = $Anchors
@@ -44,6 +44,9 @@ func setup_level(level_data: LevelData) -> void:
 	safe_house.position = level_data.safe_house_position
 	safe_house.attraction_radius = level_data.safe_house_attraction_radius
 
+
+	# 加载关卡地图
+	_load_tile_map(level_data)
 	# 移动安全屋替换
 	if level_data.is_moving_safe_house:
 		var moving: MovingSafeHouse = MOVING_SAFE_HOUSE_SCENE.instantiate()
@@ -51,14 +54,14 @@ func setup_level(level_data: LevelData) -> void:
 		moving.position = safe_house.position
 		moving.attraction_radius = safe_house.attraction_radius
 		moving.speed = level_data.safe_house_speed
-		if not level_data.safe_house_path_path.is_empty():
-			moving.path_node = level_data.safe_house_path_path
 		safe_house.queue_free()
 		safe_house = moving
-		add_child(moving)
-
-	# 加载关卡地图
-	_load_tile_map(level_data)
+		# 放到 Rail（Path2D）下，跟矿车一样自动跟随路径
+		var rail := get_node_or_null(level_data.safe_house_path_path) if not level_data.safe_house_path_path.is_empty() else null
+		if rail:
+			rail.add_child(moving)
+		else:
+			add_child(moving)
 
 	# 玩家初始位置
 	if level_data.player_spawn_position != Vector2.ZERO:
