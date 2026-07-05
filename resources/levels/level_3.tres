@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" format=3]
+[gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://cl3"]
 
 [ext_resource type="Script" uid="uid://babj0pqdpryyv" path="res://resources/levels/level_data.gd" id="1_leveldata"]
 
@@ -7,17 +7,10 @@ script = ExtResource("1_leveldata")
 level_number = 3
 level_name = "矿车"
 target_rescued = 4
-wander_range = 300.0
 refugee_count = 5
 refugee_wander_speed = 55.0
 refugee_seek_speed = 95.0
-refugee_wander_interval = 2.0
-refugee_spawn_positions = Array[Vector2]([Vector2(200, 200), Vector2(200, 880), Vector2(450, 540), Vector2(750, 300), Vector2(800, 800)])
-anchor_limit = 3
-anchor_attraction_radius = 150.0
-safe_house_position = Vector2(960, 540)
-safe_house_attraction_radius = 200.0
-type1_positions = Array[Vector2]([Vector2(500, 400), Vector2(700, 540)])
-type2_positions = Array[Vector2]([Vector2(400, 700)])
+refugee_spawn_positions = Array[Vector2]([Vector2(579, 219), Vector2(159, 884), Vector2(561, 902), Vector2(1494, 116), Vector2(452, 706), Vector2(452, 706), Vector2(1616, 770), Vector2(1001, 219), Vector2(122, 350), Vector2(1003, 908)])
+safe_house_position = Vector2(992, 570)
 tile_map_path = "res://resources/levels/maps/level_3_map.tscn"
-type3_positions = Array[Vector2]([])
+type2_positions = Array[Vector2]([Vector2(844, 614), Vector2(1164, 491), Vector2(837, 471), Vector2(1147, 617)])
