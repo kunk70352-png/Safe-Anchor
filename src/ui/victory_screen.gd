@@ -19,6 +19,7 @@ func _ready() -> void:
 
 
 func display_stats(stats: Dictionary) -> void:
+	AudioManager.play_bgm(load("res://assets/audio/bgm_victory.mp3"))
 	visible = true
 	title_label.text = "胜利！"
 	title_label.modulate = Color.GREEN
