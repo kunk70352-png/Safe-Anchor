@@ -10,6 +10,8 @@ var _path_follow: PathFollow2D
 
 func _ready() -> void:
 	super._ready()
+	if path_node.is_empty():
+		return
 	var path := get_node(path_node) as Path2D
 	if path:
 		_path_follow = PathFollow2D.new()

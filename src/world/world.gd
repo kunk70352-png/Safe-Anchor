@@ -60,8 +60,11 @@ func setup_level(level_data: LevelData) -> void:
 	# 加载关卡地图
 	_load_tile_map(level_data)
 
-	# 玩家初始位置在安全屋旁边
-	player.global_position = level_data.safe_house_position + Vector2(60, 0)
+	# 玩家初始位置
+	if level_data.player_spawn_position != Vector2.ZERO:
+		player.global_position = level_data.player_spawn_position
+	else:
+		player.global_position = level_data.safe_house_position + Vector2(60, 0)
 	player._held_anchor = null
 	player._held_anchor_radius = 0.0
 	if player.anchor_data:

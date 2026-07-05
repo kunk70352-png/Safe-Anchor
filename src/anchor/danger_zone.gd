@@ -1,10 +1,10 @@
 @tool
-## 危险区 — NPC进入即死亡。对玩家无影响。
+## 危险区 — NPC进入即死亡。对玩家和锚点无影响。
 extends Area2D
 
-@export var zone_size: Vector2 = Vector2(200, 200):
+@export var zone_radius: float = 100.0:
 	set(v):
-		zone_size = v
+		zone_radius = v
 		_update_shape()
 
 
@@ -16,9 +16,9 @@ func _ready() -> void:
 func _update_shape() -> void:
 	for child in get_children():
 		if child is CollisionShape2D:
-			var rect := RectangleShape2D.new()
-			rect.size = zone_size
-			child.shape = rect
+			var circle := CircleShape2D.new()
+			circle.radius = zone_radius
+			child.shape = circle
 
 
 func _on_body_entered(body: Node2D) -> void:
