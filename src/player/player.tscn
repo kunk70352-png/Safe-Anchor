@@ -89,6 +89,8 @@ collision_layer = 8
 collision_mask = 32
 script = ExtResource("1_script")
 
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1136712645]
 position = Vector2(-0.5, 8)
 shape = SubResource("RectangleShape2D_lj4qh")

@@ -304,6 +304,11 @@ func die() -> void:
 	if state == State.RESCUED:
 		return
 	state = State.RESCUED
+	var death_list := [
+		"res://assets/audio/death1.mp3",
+		"res://assets/audio/death2.mp3",
+	]
+	AudioManager.play_sfx(load(death_list[randi() % death_list.size()]))
 	var stats := {
 		"level": GameManager.current_level_data.level_number if GameManager.current_level_data else 0,
 		"level_name": GameManager.current_level_data.level_name if GameManager.current_level_data else "",

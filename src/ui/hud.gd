@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_level_started(level_data: LevelData) -> void:
-	level_label.text = "第%d关: %s" % [level_data.level_number, level_data.level_name]
+	level_label.text = "第%d关  %s" % [level_data.level_number, level_data.level_name]
 	rescued_label.text = "已救出: 0 / %d" % level_data.target_rescued
 
 
@@ -33,6 +33,7 @@ func _on_refugee_rescued(total: int, target: int) -> void:
 
 
 func _on_give_up() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	var main := get_tree().get_first_node_in_group("main")
 	if main and main.has_method("on_return_to_select"):
 		main.on_return_to_select()

@@ -70,7 +70,7 @@ func _throw_anchor() -> void:
 	for zone in get_tree().get_nodes_in_group("lava_zones"):
 		if zone.has_method("contains_point") and zone.contains_point(landing_pos):
 			return
-
+	
 	var anchor: Anchor = _held_anchor.instantiate()
 	anchor.global_position = landing_pos
 	anchor.attraction_radius = _held_anchor_radius

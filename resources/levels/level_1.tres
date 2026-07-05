@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_leveldata")
 level_name = "新手关"
-target_rescued = 9
+target_rescued = 4
 wander_range = 100.0
 refugee_count = 6
 refugee_wander_speed = 50.0

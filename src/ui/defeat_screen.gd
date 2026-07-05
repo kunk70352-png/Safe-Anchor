@@ -38,10 +38,12 @@ func display_stats(stats: Dictionary) -> void:
 
 
 func _on_retry_pressed() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	var main := get_tree().get_first_node_in_group("main")
 	if main and main.has_method("on_retry_pressed"):
 		main.on_retry_pressed()
 
 
 func _on_quit_pressed() -> void:
+	AudioManager.play_sfx(load("res://assets/audio/tap.mp3"))
 	get_tree().quit()

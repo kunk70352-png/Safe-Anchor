@@ -28,6 +28,7 @@ func _ready() -> void:
 
 func _on_body_entered_rescue(body: Node2D) -> void:
 	if body is Refugee:
+		AudioManager.play_sfx(load("res://assets/audio/rescue.mp3"))
 		body.rescue()
 
 
