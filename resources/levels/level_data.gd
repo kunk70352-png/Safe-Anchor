@@ -28,6 +28,10 @@ extends Resource
 @export var safe_house_position: Vector2 = Vector2(960, 540)
 ## 安全屋吸引半径
 @export var safe_house_attraction_radius: float = 200.0
+## 移动安全屋（沿路径移动，碰到边界失败）
+@export var is_moving_safe_house: bool = false
+@export var safe_house_speed: float = 60.0
+@export var safe_house_path_path: String = ""
 ## 关卡地图场景路径
 @export var tile_map_path: String = ""
 ## 冰面关卡（NPC不主动徘徊）

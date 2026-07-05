@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/safe_house/moving_safe_house.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://6t3q60wt4y28" path="res://assets/sprites/safe.png" id="2_amkok"]
+[ext_resource type="Texture2D" uid="uid://vxa7okrpe10g" path="res://assets/sprites/safe_range.png" id="3_range_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rescue"]
+radius = 30.0
+
+[node name="MovingSafeHouse" type="Node2D" groups=["attraction_sources"]]
+script = ExtResource("1_script")
+
+[node name="RangeSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_range_tex")
+modulate = Color(1, 1, 1, 1.0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.1920929e-07, 0)
+scale = Vector2(0.182, 0.169)
+texture = ExtResource("2_amkok")
+
+[node name="RescueArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RescueArea"]
+shape = SubResource("CircleShape2D_rescue")

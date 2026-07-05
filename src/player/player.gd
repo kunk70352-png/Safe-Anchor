@@ -96,7 +96,7 @@ func _check_pickup() -> void:
 	for cart in get_tree().get_nodes_in_group("minecarts"):
 		if not cart.has_method("get_caught_anchor"):
 			continue
-		var a := cart.get_caught_anchor()
+		var a: Anchor = cart.get_caught_anchor()
 		if a and is_instance_valid(a) and global_position.distance_to(a.global_position) < pickup_dist:
 			cart.release_anchor()
 			_pickup_anchor(a)
