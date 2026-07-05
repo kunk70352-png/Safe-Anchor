@@ -16,4 +16,4 @@ anchor_attraction_radius = 160.0
 safe_house_position = Vector2(1226, 466)
 safe_house_attraction_radius = 180.0
 tile_map_path = "res://resources/levels/maps/level_1_map.tscn"
-type1_positions = Array[Vector2]([Vector2(859, 727), Vector2(776, 291), Vector2(443, 700)])
+type1_positions = Array[Vector2]([Vector2(859, 727), Vector2(776, 291), Vector2(398, 700)])

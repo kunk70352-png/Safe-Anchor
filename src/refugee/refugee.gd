@@ -32,7 +32,7 @@ var _speed_mult: float = 1.0
 var _speed_boost: float = 1.0
 var _range_boost: float = 0.0
 var _repel_dir: Vector2 = Vector2.ZERO
-var _repel_strength: float = 0.0
+var _repel_linger: float = 0.0
 var _nav_stuck_timer: float = 0.0
 
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
@@ -55,13 +55,18 @@ func _setup_navigation() -> void:
 func _physics_process(_delta: float) -> void:
 	if state == State.RESCUED:
 		return
+	_apply_anchor_effects()
 	_update_state()
 	_process_movement()
 	_update_animation()
-	_apply_anchor_effects()
 
 
 func _update_state() -> void:
+	# 正在被驱赶时，不寻路，交给 _process_movement 驱离
+	if _repel_linger > 0.0:
+		state = State.WANDERING
+		_current_attractor = null
+		return
 	var best := _find_best_target()
 
 	if best == null:
@@ -161,7 +166,7 @@ func _apply_anchor_effects() -> void:
 	var total_speed_mod: float = 0.0
 	_range_boost = 0.0
 	var has_repel := false
-	_repel_dir = Vector2.ZERO
+	var new_repel_dir := Vector2.ZERO
 	var world := get_tree().get_first_node_in_group("world") as Node2D
 	if world == null or not world.has_method("get_attraction_sources"):
 		return
@@ -172,7 +177,7 @@ func _apply_anchor_effects() -> void:
 		var radius: float = float(source.get("attraction_radius"))
 		if dist <= radius:
 			if source.get("repel") == true:
-				_repel_dir += (global_position - source.global_position).normalized()
+				new_repel_dir += (global_position - source.global_position).normalized()
 				has_repel = true
 			else:
 				var sm: float = source.get("speed_modifier") if source.get("speed_modifier") != null else 0.0
@@ -180,10 +185,12 @@ func _apply_anchor_effects() -> void:
 			if source.get("repel") != true and float(source.get("attraction_radius")) > 200:
 				_range_boost = maxf(_range_boost, 60.0)
 	_speed_boost = maxf(1.0 + total_speed_mod, 0.1)
+	# 驱赶最高优先级：进入/持续/退出后 0.5s 都用保存的方向
 	if has_repel:
-		_repel_strength = 1.0
-	else:
-		_repel_strength = maxf(_repel_strength - get_physics_process_delta_time() * 0.5, 0.0)
+		_repel_dir = new_repel_dir
+		_repel_linger = 0.5
+	elif _repel_linger > 0.0:
+		_repel_linger -= get_physics_process_delta_time()
 
 
 func _get_safe_house_pos() -> Vector2:
@@ -209,13 +216,9 @@ func _get_safe_house_node() -> Node2D:
 
 
 func _process_movement() -> void:
-	if _repel_strength > 0.0:
-		var sh_pos := _get_safe_house_pos()
-		var flee_target := global_position + _repel_dir * 300.0
-		if sh_pos.distance_to(flee_target) > sh_pos.distance_to(global_position):
-			navigation_agent.target_position = flee_target
-		var next_pos := navigation_agent.get_next_path_position()
-		velocity = global_position.direction_to(next_pos) * seek_speed * 1.3 * _repel_strength
+	if _repel_linger > 0.0:
+		# 直接背向圆心移动，不用 NavigationAgent
+		velocity = _repel_dir * seek_speed * 1.3
 		move_and_slide()
 		return
 
