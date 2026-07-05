@@ -16,6 +16,12 @@ func _ready() -> void:
 
 
 func display_stats(stats: Dictionary) -> void:
+	var defeat_list := [
+		"res://assets/audio/bgm_defeat1.mp3",
+		"res://assets/audio/bgm_defeat2.mp3",
+		"res://assets/audio/bgm_defeat3.mp3",
+	]
+	AudioManager.play_bgm(load(defeat_list[randi() % defeat_list.size()]))
 	visible = true
 	title_label.text = "时间到！"
 	title_label.modulate = Color.RED

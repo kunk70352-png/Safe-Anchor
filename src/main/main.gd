@@ -91,6 +91,12 @@ func _start_current_level() -> void:
 	victory_screen.visible = false
 	defeat_screen.visible = false
 	var level_data := _levels[_current_level_index]
+	var bgm_list := [
+		"res://assets/audio/level_start1.mp3",
+		"res://assets/audio/level_start2.mp3",
+		"res://assets/audio/level_start3.mp3",
+	]
+	AudioManager.play_sfx(load(bgm_list[randi() % bgm_list.size()]))
 	world.setup_level(level_data)
 
 
